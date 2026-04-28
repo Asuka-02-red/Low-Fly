@@ -1,0 +1,9 @@
+﻿apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: low-altitude-rest-stop-server
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: low-altitude-rest-stop-server

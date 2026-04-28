@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_geometry"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/ui_grid_2"
+        android:paddingTop="@dimen/ui_grid_3"
+        android:paddingEnd="@dimen/ui_grid_2"
+        android:paddingBottom="@dimen/ui_grid_3">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_message_header"
+            style="@style/Widget.LowAltitudeRestStop.CardView.Hero"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/ui_card_padding">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消息中心"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title" />
+
+                <TextView
+                    android:id="@+id/tv_message_eyebrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                    android:text="MESSAGE HUB"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Eyebrow" />
+
+                <TextView
+                    android:id="@+id/tv_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:id="@+id/layout_message_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ui_card_spacing"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/card_message_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:id="@+id/layout_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.LowAltitudeRestStop.CardView.Metric"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/ui_card_padding">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="未读通知"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption" />
+
+                        <TextView
+                            android:id="@+id/tv_unread_notifications"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title"
+                            android:text="0" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.LowAltitudeRestStop.CardView.Metric"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/ui_card_padding">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="未读会话"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption" />
+
+                        <TextView
+                            android:id="@+id/tv_unread_chats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title"
+                            android:text="0" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/card_thread_one"
+                layout="@layout/item_message_thread_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ui_card_spacing" />
+
+            <include
+                android:id="@+id/card_thread_two"
+                layout="@layout/item_message_thread_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ui_card_spacing" />
+
+            <include
+                android:id="@+id/card_thread_three"
+                layout="@layout/item_message_thread_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ui_card_spacing" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/layout_message_state"
+            layout="@layout/include_page_state"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ui_card_spacing"
+            app:layout_constraintTop_toBottomOf="@id/card_message_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

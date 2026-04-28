@@ -1,0 +1,6 @@
+﻿server:
+  replicaCount: 2
+adminWeb:
+  replicaCount: 2
+ingress:
+  host: staging.low-altitude.example.com

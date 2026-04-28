@@ -1,0 +1,2699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 9.0.0" type="baseline" client="gradle" dependencies="false" name="AGP (9.0.0)" variant="all" version="9.0.0">
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.core:core-ktx than 1.16.0 is available: 1.17.0"
+        errorLine1="    implementation(&quot;androidx.core:core-ktx:1.16.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="99"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.appcompat:appcompat than 1.7.0 is available: 1.7.1"
+        errorLine1="    implementation(&quot;androidx.appcompat:appcompat:1.7.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="100"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.ext:junit than 1.1.5 is available: 1.2.1"
+        errorLine1="junitVersion = &quot;1.1.5&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="4"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-core than 3.5.1 is available: 3.6.1"
+        errorLine1="espressoCore = &quot;3.5.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="5"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.appcompat:appcompat than 1.6.1 is available: 1.7.1"
+        errorLine1="appcompat = &quot;1.6.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="6"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.material:material than 1.10.0 is available: 1.12.0"
+        errorLine1="material = &quot;1.10.0&quot;"
+        errorLine2="           ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.activity:activity than 1.8.0 is available: 1.10.1"
+        errorLine1="activity = &quot;1.8.0&quot;"
+        errorLine2="           ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="8"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.constraintlayout:constraintlayout than 2.1.4 is available: 2.2.1"
+        errorLine1="constraintlayout = &quot;2.1.4&quot;"
+        errorLine2="                   ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="9"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of com.amap.api:3dmap than 7.9.0.1 is available: 10.0.600"
+        errorLine1="    implementation(&quot;com.amap.api:3dmap:7.9.0.1&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="108"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of com.squareup.retrofit2:retrofit than 2.11.0 is available: 3.0.0"
+        errorLine1="    implementation(&quot;com.squareup.retrofit2:retrofit:2.11.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="109"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of com.squareup.retrofit2:converter-gson than 2.11.0 is available: 3.0.0"
+        errorLine1="    implementation(&quot;com.squareup.retrofit2:converter-gson:2.11.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="110"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of com.squareup.okhttp3:logging-interceptor than 4.12.0 is available: 5.3.2"
+        errorLine1="    implementation(&quot;com.squareup.okhttp3:logging-interceptor:4.12.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="111"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="            &lt;LinearLayout"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_list.xml"
+            line="46"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="DisableBaselineAlignment"
+        message="Set `android:baselineAligned=&quot;false&quot;` on this element for better performance"
+        errorLine1="        &lt;LinearLayout"
+        errorLine2="         ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="84"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_add_no_fly_zone.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="5"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_list.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_flight_application.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_full_screen_map.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="8"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_no_fly_zone_list.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_list.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_payment.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_map_full_screen.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_compliance.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_profile.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/ui_light_background` with a theme that also paints a background (inferred theme is `@style/Theme.LowaltitudeRestStop`)"
+        errorLine1="    android:background=&quot;@color/ui_light_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_task.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.bg_auth_demo_item` appears to be unused"
+        errorLine1="&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:shape=&quot;rectangle&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/bg_auth_demo_item.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.bg_glass_panel` appears to be unused"
+        errorLine1="&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:shape=&quot;rectangle&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/bg_glass_panel.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.black` appears to be unused"
+        errorLine1="    &lt;color name=&quot;black&quot;>#FF000000&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="3"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.white` appears to be unused"
+        errorLine1="    &lt;color name=&quot;white&quot;>#FFFFFFFF&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="4"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.no_fly_zone_map_service_title` appears to be unused"
+        errorLine1="    &lt;string name=&quot;no_fly_zone_map_service_title&quot;>高德地图接入&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="5"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.no_fly_zone_map_service_name` appears to be unused"
+        errorLine1="    &lt;string name=&quot;no_fly_zone_map_service_name&quot;>Key 名称：No-fly zone&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="6"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.no_fly_zone_map_service_hint` appears to be unused"
+        errorLine1="    &lt;string name=&quot;no_fly_zone_map_service_hint&quot;>已为禁飞区模块写入高德地图 Key，后续接入地图 SDK 时可直接复用。&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="7"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;androidx.core:core-ktx:1.16.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="99"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead (androidx.appcompat:appcompat is already available as `appcompat`, but using version 1.6.1 instead)"
+        errorLine1="    implementation(&quot;androidx.appcompat:appcompat:1.7.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="100"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead (com.google.android.material:material is already available as `material`, but using version 1.10.0 instead)"
+        errorLine1="    implementation(&quot;com.google.android.material:material:1.12.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="101"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead (androidx.activity:activity is already available as `activity`, but using version 1.8.0 instead)"
+        errorLine1="    implementation(&quot;androidx.activity:activity:1.10.1&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="102"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead (androidx.constraintlayout:constraintlayout is already available as `constraintlayout`, but using version 2.1.4 instead)"
+        errorLine1="    implementation(&quot;androidx.constraintlayout:constraintlayout:2.2.1&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="103"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;androidx.recyclerview:recyclerview:1.4.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="104"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;androidx.swiperefreshlayout:swiperefreshlayout:1.1.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="105"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;androidx.navigation:navigation-fragment:2.8.9&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="106"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;androidx.navigation:navigation-ui:2.8.9&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="107"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;com.amap.api:3dmap:7.9.0.1&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="108"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;com.squareup.retrofit2:retrofit:2.11.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="109"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;com.squareup.retrofit2:converter-gson:2.11.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="110"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;com.squareup.okhttp3:logging-interceptor:4.12.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="111"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use the existing version catalog reference (`libs.junit`) instead"
+        errorLine1="    testImplementation(&quot;junit:junit:4.13.2&quot;)"
+        errorLine2="                       ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="113"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead (androidx.test.ext:junit is already available as `ext-junit`, but using version 1.1.5 instead)"
+        errorLine1="    androidTestImplementation(&quot;androidx.test.ext:junit:1.2.1&quot;)"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="114"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead (androidx.test.espresso:espresso-core is already available as `espresso-core`, but using version 3.5.1 instead)"
+        errorLine1="    androidTestImplementation(&quot;androidx.test.espresso:espresso-core:3.6.1&quot;)"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="115"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        holder.tvMetaSecondary.setText(&quot;主办方：&quot; + safe(c.institutionName));"
+        errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/CourseAdapter.java"
+            line="51"
+            column="40"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        holder.tvMetrics.setText(&quot;剩余名额 &quot; + c.seatAvailable"
+        errorLine2="                                 ^">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/CourseAdapter.java"
+            line="52"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        ((TextView) findViewById(R.id.tv_status)).setText(&quot;状态：&quot; + displayStatus(courseDetail.status));"
+        errorLine2="                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/CourseDetailActivity.java"
+            line="64"
+            column="59"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        ((TextView) findViewById(R.id.tv_institution)).setText(&quot;开课单位：&quot; + safe(courseDetail.institutionName));"
+        errorLine2="                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/CourseDetailActivity.java"
+            line="65"
+            column="64"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        ((TextView) findViewById(R.id.tv_seat)).setText(courseDetail.seatAvailable + &quot;/&quot; + courseDetail.seatTotal);"
+        errorLine2="                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/CourseDetailActivity.java"
+            line="67"
+            column="57"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        ((TextView) findViewById(R.id.tv_meta)).setText(&quot;浏览量 &quot; + courseDetail.browseCount"
+        errorLine2="                                                        ^">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/CourseDetailActivity.java"
+            line="68"
+            column="57"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                binding.tvResult.setText(&quot;申请号：&quot; + safe(v.applicationNo) + &quot;\n状态：&quot; + safe(v.status) + &quot;\n地点：&quot; + safe(v.location) + &quot;\n提示：&quot; + safe(v.approvalHint));"
+        errorLine2="                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/compliance/FlightApplicationActivity.java"
+            line="48"
+            column="42"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        tvWelcome.setText(&quot;你好，&quot; + name);"
+        errorLine2="                          ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/home/HomeFragment.java"
+            line="74"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        holder.tvStats.setText(displayMode(item.learningMode)"
+        errorLine2="                               ^">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/ManagedCourseAdapter.java"
+            line="52"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvMapHint.setText(&quot;地图已绘制 &quot; + count + &quot; 个禁飞区，当前使用演示坐标进行展示。&quot;);"
+        errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/compliance/NoFlyZoneListActivity.java"
+            line="136"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        holder.tvStatus.setText(&quot;当前状态：&quot; + (order.status == null ? &quot;-&quot; : order.status));"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderAdapter.java"
+            line="51"
+            column="33"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="            binding.tvRemark.setText(&quot;未获取到订单ID，当前展示的是列表透传的基础信息。&quot;);"
+        errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="45"
+            column="38"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvOrderNo.setText(&quot;订单号：&quot; + safe(detail.orderNo));"
+        errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="70"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvStatus.setText(&quot;订单状态：&quot; + safe(detail.status));"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="71"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvAmount.setText(&quot;订单金额：&quot; + safe(amountText(detail.amount)));"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="72"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                &quot;任务标题：&quot; + safe(detail.taskTitle) +"
+        errorLine2="                ^">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="74"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                &quot;飞手：&quot; + safe(detail.pilotName) +"
+        errorLine2="                ^">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="80"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                &quot;支付状态：&quot; + safe(detail.paymentStatus) +"
+        errorLine2="                ^">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="86"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                &quot;创建时间：&quot; + safe(detail.createdAt) +"
+        errorLine2="                ^">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="90"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvOrderNo.setText(&quot;订单号：&quot; + safe(orderNo));"
+        errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="98"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvStatus.setText(&quot;订单状态：&quot; + safe(status));"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="99"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvAmount.setText(&quot;订单金额：&quot; + safe(amount));"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/OrderDetailActivity.java"
+            line="100"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvOrderId.setText(&quot;订单ID：&quot; + orderId);"
+        errorLine2="                                  ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/PaymentActivity.java"
+            line="30"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="        binding.tvOrderId.setText(&quot;订单ID：&quot; + orderId);"
+        errorLine2="                                  ~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/PaymentActivity.java"
+            line="30"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                binding.tvResult.setText(&quot;交易号：&quot; + (r.tradeNo == null ? &quot;-&quot; : r.tradeNo) + &quot;\n状态：&quot; + (r.status == null ? &quot;-&quot; : r.status) + &quot;\n金额：&quot; + (r.amount == null ? &quot;-&quot; : r.amount.toPlainString()));"
+        errorLine2="                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/order/PaymentActivity.java"
+            line="54"
+            column="42"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        holder.tvTitle.setText(&quot;#&quot; + item.id + &quot; · &quot; + item.bizType);"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/profile/SyncQueueAdapter.java"
+            line="50"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        holder.tvStatus.setText(&quot;状态：&quot; + item.status + &quot;  重试：&quot; + item.retryCount);"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/profile/SyncQueueAdapter.java"
+            line="51"
+            column="33"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        holder.tvRequestId.setText(&quot;requestId：&quot; + item.requestId);"
+        errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/profile/SyncQueueAdapter.java"
+            line="52"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="        holder.tvRequestId.setText(&quot;requestId：&quot; + item.requestId);"
+        errorLine2="                                   ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/profile/SyncQueueAdapter.java"
+            line="52"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        holder.tvTime.setText(&quot;创建：&quot; + format(item.createTime) + &quot;  下次：&quot; + format(item.nextRetryAt));"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/profile/SyncQueueAdapter.java"
+            line="53"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvMeta.setText((type == null ? &quot;-&quot; : type) + &quot; · &quot; + (location == null ? &quot;-&quot; : location));"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/task/TaskDetailActivity.java"
+            line="108"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvStatus.setText(&quot;执行状态：&quot; + safe(status) + &quot; · 预算：&quot; + safe(budget));"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/task/TaskDetailActivity.java"
+            line="109"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvMeta.setText(safe(detail.taskType) + &quot; · &quot; + safe(detail.location) + &quot; · 发布方：&quot; + safe(detail.ownerName));"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/task/TaskDetailActivity.java"
+            line="140"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvStatus.setText(&quot;执行状态：&quot; + safe(detail.status) + &quot; · 预算：&quot; + amountLabel(detail.budget) + &quot; · 下一步：按执行航线抵达作业区后开展任务&quot;);"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/task/TaskDetailActivity.java"
+            line="141"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvScope.setText(&quot;作业范围半径约 &quot; + currentSnapshot.radiusMeters + &quot; 米，地图将同时显示起飞点、执行航线、作业圈和附近禁飞区。&quot;);"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/task/TaskDetailActivity.java"
+            line="144"
+            column="33"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvRouteSummary.setText(&quot;路线从建议起飞点沿执行航线进入作业区，全程约 &quot; + snapshot.distanceLabel() + extra);"
+        errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/task/TaskDetailActivity.java"
+            line="202"
+            column="40"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        binding.tvRouteSummary.setText(&quot;路线约 &quot; + snapshot.distanceLabel() + &quot;，作业半径 &quot; + snapshot.radiusMeters + &quot; 米，&quot; + extra);"
+        errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/task/TaskMapFullScreenActivity.java"
+            line="142"
+            column="40"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        tvTotalCourses.setText(&quot;课程 &quot; + totalCourses);"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/TrainingFragment.java"
+            line="170"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        tvTotalViews.setText(&quot;浏览 &quot; + totalViews);"
+        errorLine2="                             ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/TrainingFragment.java"
+            line="171"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        tvTotalEnrolls.setText(&quot;报名 &quot; + totalEnrolls);"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/training/TrainingFragment.java"
+            line="172"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        holder.tvSubtitle.setText((z.zoneType == null ? &quot;-&quot; : z.zoneType) + &quot; · 半径：&quot; + z.radius + &quot;m&quot;);"
+        errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/low_altitudereststop/feature/compliance/ZoneAdapter.java"
+            line="47"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;添加禁飞区&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;添加禁飞区&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_add_no_fly_zone.xml"
+            line="17"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;操作说明&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;操作说明&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_add_no_fly_zone.xml"
+            line="57"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;作为企业管理员，您可以提交临时或长期的禁飞区设定。新增的禁飞区将同步至飞行风控台，并在后续的飞行申请中作为避让参考。请准确填写区域范围和限制类型。&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;作为企业管理员，您可以提交临时或长期的禁飞区设定。新增的禁飞区将同步至飞行风控台，并在后续的飞行申请中作为避让参考。请准确填写区域范围和限制类型。&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_add_no_fly_zone.xml"
+            line="66"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;禁飞区名称&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;禁飞区名称&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_add_no_fly_zone.xml"
+            line="81"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;限制类型（例如：FORBIDDEN, RESTRICTED）&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;限制类型（例如：FORBIDDEN, RESTRICTED）&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_add_no_fly_zone.xml"
+            line="94"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;管控半径（单位：米）&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;管控半径（单位：米）&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_add_no_fly_zone.xml"
+            line="107"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;说明与依据&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;说明与依据&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_add_no_fly_zone.xml"
+            line="120"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;确认添加&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;确认添加&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_add_no_fly_zone.xml"
+            line="131"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;登录&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;登录&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="50"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;统一调度&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;统一调度&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="74"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;安全合规&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;安全合规&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="85"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;经营协同&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;经营协同&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="96"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;业务接入&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;业务接入&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="120"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;统一身份&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;统一身份&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="128"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;管控能力&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;管控能力&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="145"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;权限隔离&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;权限隔离&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="153"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;低空登录&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;低空登录&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="180"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;支持正式账号登录与现场开户注册，适配企业侧日常运营与项目协同场景。&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;支持正式账号登录与现场开户注册，适配企业侧日常运营与项目协同场景。&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="187"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;账号信息&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;账号信息&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="194"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;用户名&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;用户名&quot;>"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="204"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;密码&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;密码&quot;>"
+        errorLine2="                ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="220"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;手机号&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;手机号&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="236"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;账号类型&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;账号类型&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="253"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;上传材料&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;上传材料&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="269"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;登录并进入&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;登录并进入&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="280"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;没有账号？去注册&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;没有账号？去注册&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_auth.xml"
+            line="289"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;-&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="18"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;-&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="41"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;-&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="54"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;-&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="64"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;课程价格&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;课程价格&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="86"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="95"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;名额情况&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;名额情况&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="113"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="122"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;-&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="134"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;课程内容&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;课程内容&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="142"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;加入学习&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;加入学习&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_detail.xml"
+            line="162"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;课程编辑&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;课程编辑&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="19"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;将课程信息拆分为基础资料、开课设置和内容正文三部分，方便录入与校对。&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;将课程信息拆分为基础资料、开课设置和内容正文三部分，方便录入与校对。&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="26"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;基础信息&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;基础信息&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="40"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;课程标题&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;课程标题&quot; />"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="53"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;课程简介&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;课程简介&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="67"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;开课设置&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;开课设置&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="84"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;学习形式&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;学习形式&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="91"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;名额，例如 30&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;名额，例如 30&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="110"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;价格，例如 199&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;价格，例如 199&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="124"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;课程内容&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;课程内容&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="140"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;课程正文、线下安排、学习目标和收获说明&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;课程正文、线下安排、学习目标和收获说明&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="155"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;保存草稿&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;保存草稿&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="172"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;发布课程&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;发布课程&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_editor.xml"
+            line="180"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;我的课程&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;我的课程&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_list.xml"
+            line="13"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;按课程简介、学习形式和报名信息分层展示，阅读和筛选更清晰。&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;按课程简介、学习形式和报名信息分层展示，阅读和筛选更清晰。&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_course_list.xml"
+            line="24"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;发布任务&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;发布任务&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="28"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;任务类型（巡检/测绘/航拍）&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;任务类型（巡检/测绘/航拍）&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="41"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;任务标题&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;任务标题&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="54"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;任务描述&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;任务描述&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="67"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;地点&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;地点&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="80"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;纬度&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;纬度&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="99"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;经度&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;经度&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="113"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;预算&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;预算&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="127"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;发布&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;发布&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_create_task.xml"
+            line="136"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;企业注册材料&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;企业注册材料&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="24"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;企业资料上传&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;企业资料上传&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="32"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;请填写企业基础信息，并上传营业执照后保存返回。&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;请填写企业基础信息，并上传营业执照后保存返回。&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="40"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;必填项&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;必填项&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="55"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;企业名称 *&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;企业名称 *&quot;>"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="64"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;统一社会信用代码 *&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;统一社会信用代码 *&quot;>"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="80"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;联系人姓名 *&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;联系人姓名 *&quot;>"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="96"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;联系人手机号 *&quot;, should use `@string` resource"
+        errorLine1="                android:hint=&quot;联系人手机号 *&quot;>"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="112"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;营业执照 *&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;营业执照 *&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="126"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;上传营业执照&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;上传营业执照&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="136"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;未选择文件&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;未选择文件&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="145"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;保存并返回&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;保存并返回&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_enterprise_materials.xml"
+            line="154"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;飞行申请&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;飞行申请&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_flight_application.xml"
+            line="17"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;飞行地点&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;飞行地点&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_flight_application.xml"
+            line="46"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;飞行时间（示例：2026-04-21 10:00）&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;飞行时间（示例：2026-04-21 10:00）&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_flight_application.xml"
+            line="59"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;飞行用途&quot;, should use `@string` resource"
+        errorLine1="                    android:hint=&quot;飞行用途&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_flight_application.xml"
+            line="72"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;提交申请&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;提交申请&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_flight_application.xml"
+            line="81"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;结果将在这里显示&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;结果将在这里显示&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_flight_application.xml"
+            line="90"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;添加&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;添加&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_no_fly_zone_list.xml"
+            line="28"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;全屏显示&quot;, should use `@string` resource"
+        errorLine1="                    android:contentDescription=&quot;全屏显示&quot; />"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_no_fly_zone_list.xml"
+            line="96"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;刷新&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;刷新&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_operation_log.xml"
+            line="13"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;操作日志（requestId）&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;操作日志（requestId）&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_operation_log.xml"
+            line="22"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;暂无日志&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;暂无日志&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_operation_log.xml"
+            line="45"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;订单详情&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;订单详情&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="22"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="48"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="56"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="64"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;任务信息&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;任务信息&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="88"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="96"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;履约信息&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;履约信息&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="120"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="128"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;支付信息&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;支付信息&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="152"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="160"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;时间与备注&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;时间与备注&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="184"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="192"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="202"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;去支付&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;去支付&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_detail.xml"
+            line="213"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;我的订单&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;我的订单&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_list.xml"
+            line="17"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;暂无数据&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;暂无数据&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_list.xml"
+            line="68"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;模拟支付&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;模拟支付&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_payment.xml"
+            line="17"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;-&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_payment.xml"
+            line="28"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;发起支付（demo）&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;发起支付（demo）&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_payment.xml"
+            line="39"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;查看订单列表&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;查看订单列表&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_payment.xml"
+            line="50"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;结果将在这里显示&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;结果将在这里显示&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_payment.xml"
+            line="62"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;刷新&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;刷新&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sync_queue.xml"
+            line="13"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;离线同步队列&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;离线同步队列&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sync_queue.xml"
+            line="22"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;立即同步&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;立即同步&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sync_queue.xml"
+            line="36"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;清理已完成&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;清理已完成&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sync_queue.xml"
+            line="48"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;当前没有待同步或历史队列记录&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;当前没有待同步或历史队列记录&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sync_queue.xml"
+            line="60"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;返回&quot;, should use `@string` resource"
+        errorLine1="                android:contentDescription=&quot;返回&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="29"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;任务详情&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;任务详情&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="38"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;执行路线与作业范围&quot;, should use `@string` resource"
+        errorLine1="                            android:text=&quot;执行路线与作业范围&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="78"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;正在加载任务航线概览&quot;, should use `@string` resource"
+        errorLine1="                            android:text=&quot;正在加载任务航线概览&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="88"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;全屏&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;全屏&quot; />"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="101"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;-&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="111"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;-&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="119"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;-&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="127"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;任务说明&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;任务说明&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="148"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="158"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;-&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="167"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;接单并支付&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;接单并支付&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="178"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;查看我的订单&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;查看我的订单&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_detail.xml"
+            line="186"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;返回&quot;, should use `@string` resource"
+        errorLine1="            android:contentDescription=&quot;返回&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_map_full_screen.xml"
+            line="32"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;任务地图&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;任务地图&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_map_full_screen.xml"
+            line="47"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;正在加载执行路线与禁飞区&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;正在加载执行路线与禁飞区&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_task_map_full_screen.xml"
+            line="55"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;首页&quot;, should use `@string` resource"
+        errorLine1="        android:title=&quot;首页&quot; />"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/menu/bottom_nav.xml"
+            line="6"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;任务&quot;, should use `@string` resource"
+        errorLine1="        android:title=&quot;任务&quot; />"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/menu/bottom_nav.xml"
+            line="10"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;课程&quot;, should use `@string` resource"
+        errorLine1="        android:title=&quot;课程&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/menu/bottom_nav.xml"
+            line="14"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;合规&quot;, should use `@string` resource"
+        errorLine1="        android:title=&quot;合规&quot; />"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/menu/bottom_nav.xml"
+            line="19"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;我的&quot;, should use `@string` resource"
+        errorLine1="        android:title=&quot;我的&quot; />"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/menu/bottom_nav.xml"
+            line="23"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;合规与飞行申请&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;合规与飞行申请&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_compliance.xml"
+            line="31"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;按角色快速处理禁飞区、飞行申请和检查指引。&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;按角色快速处理禁飞区、飞行申请和检查指引。&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_compliance.xml"
+            line="39"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;查看禁飞区列表&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;查看禁飞区列表&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_compliance.xml"
+            line="49"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;提交飞行申请&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;提交飞行申请&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_compliance.xml"
+            line="61"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;你好，演示用户&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;你好，演示用户&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="36"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;进入任务&quot;, should use `@string` resource"
+        errorLine1="                            android:text=&quot;进入任务&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="77"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;进入合规&quot;, should use `@string` resource"
+        errorLine1="                            android:text=&quot;进入合规&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="111"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;进入我的&quot;, should use `@string` resource"
+        errorLine1="                            android:text=&quot;进入我的&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="145"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;任务&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;任务&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="185"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;-&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="193"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;告警&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;告警&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="225"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;-&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="233"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;课程&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;课程&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="272"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;0&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="280"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;待同步&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;待同步&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="312"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource"
+        errorLine1="                        android:text=&quot;0&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="320"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;0&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_profile.xml"
+            line="62"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource"
+        errorLine1="                    android:text=&quot;0&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_profile.xml"
+            line="91"
+            column="21"/>
+    </issue>
+
+</issues>

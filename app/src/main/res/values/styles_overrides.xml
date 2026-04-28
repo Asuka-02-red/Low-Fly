@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.LowAltitudeRestStop.Header.Preserve" parent="TextAppearance.LowAltitudeRestStop.Header">
+        <item name="android:textSize">@dimen/ui_text_header_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_header_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Title.Preserve" parent="TextAppearance.LowAltitudeRestStop.Title">
+        <item name="android:textSize">@dimen/ui_text_title_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_title_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Title.Compact.Preserve" parent="TextAppearance.LowAltitudeRestStop.Title.Compact">
+        <item name="android:textSize">@dimen/ui_text_title_compact_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_title_compact_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Body.Preserve" parent="TextAppearance.LowAltitudeRestStop.Body">
+        <item name="android:textSize">@dimen/ui_text_body_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_body_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Body.Compact.Preserve" parent="TextAppearance.LowAltitudeRestStop.Body.Compact">
+        <item name="android:textSize">@dimen/ui_text_body_compact_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_body_compact_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Caption.Preserve" parent="TextAppearance.LowAltitudeRestStop.Caption">
+        <item name="android:textSize">@dimen/ui_text_caption_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_caption_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Caption.Compact.Preserve" parent="TextAppearance.LowAltitudeRestStop.Caption.Compact">
+        <item name="android:textSize">@dimen/ui_text_caption_compact_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_caption_compact_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Eyebrow.Preserve" parent="TextAppearance.LowAltitudeRestStop.Eyebrow" />
+
+    <style name="TextAppearance.LowAltitudeRestStop.QuickAction.Preserve" parent="TextAppearance.LowAltitudeRestStop.QuickAction">
+        <item name="android:textSize">@dimen/ui_text_quick_action_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Metric.Preserve" parent="TextAppearance.LowAltitudeRestStop.Metric">
+        <item name="android:textSize">@dimen/ui_text_metric_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.WeatherLabel.Preserve" parent="TextAppearance.LowAltitudeRestStop.WeatherLabel" />
+
+    <style name="TextAppearance.LowAltitudeRestStop.WeatherValue.Preserve" parent="TextAppearance.LowAltitudeRestStop.WeatherValue" />
+
+    <style name="TextAppearance.LowAltitudeRestStop.Auth.Title.Preserve" parent="TextAppearance.LowAltitudeRestStop.Auth.Title" />
+    <style name="TextAppearance.LowAltitudeRestStop.Auth.Subtitle.Preserve" parent="TextAppearance.LowAltitudeRestStop.Auth.Subtitle" />
+    <style name="TextAppearance.LowAltitudeRestStop.Auth.Body.Preserve" parent="TextAppearance.LowAltitudeRestStop.Auth.Body" />
+    <style name="TextAppearance.LowAltitudeRestStop.Auth.Caption.Preserve" parent="TextAppearance.LowAltitudeRestStop.Auth.Caption" />
+    <style name="TextAppearance.LowAltitudeRestStop.Auth.Chip.Preserve" parent="TextAppearance.LowAltitudeRestStop.Auth.Chip" />
+    <style name="TextAppearance.LowAltitudeRestStop.Auth.MetricLabel.Preserve" parent="TextAppearance.LowAltitudeRestStop.Auth.MetricLabel" />
+    <style name="TextAppearance.LowAltitudeRestStop.Auth.MetricValue.Preserve" parent="TextAppearance.LowAltitudeRestStop.Auth.MetricValue" />
+
+    <style name="TextAppearance.LowAltitudeRestStop.MessageTitle" parent="TextAppearance.LowAltitudeRestStop.Title">
+        <item name="android:textSize">@dimen/ui_text_chat_title</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_chat_title</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.MessageBody" parent="TextAppearance.LowAltitudeRestStop.Body">
+        <item name="android:textSize">@dimen/ui_text_chat_body</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_chat_body</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Eyebrow.PageBoost" parent="TextAppearance.LowAltitudeRestStop.Eyebrow">
+        <item name="android:textSize">@dimen/ui_text_caption_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_caption_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Title.PageBoost" parent="TextAppearance.LowAltitudeRestStop.Title">
+        <item name="android:textSize">@dimen/ui_text_title_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_title_base</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Body.PageBoost" parent="TextAppearance.LowAltitudeRestStop.Body">
+        <item name="android:textSize">@dimen/ui_text_body_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_body_base</item>
+        <item name="android:lineSpacingExtra">1dp</item>
+    </style>
+
+    <style name="TextAppearance.LowAltitudeRestStop.Caption.PageBoost" parent="TextAppearance.LowAltitudeRestStop.Caption">
+        <item name="android:textSize">@dimen/ui_text_caption_base</item>
+        <item name="android:lineHeight">@dimen/ui_line_height_caption_base</item>
+    </style>
+
+    <style name="Widget.LowAltitudeRestStop.EditText.PageBoost" parent="Widget.LowAltitudeRestStop.EditText">
+        <item name="android:textSize">@dimen/ui_text_input_base</item>
+        <item name="android:lineSpacingExtra">1dp</item>
+    </style>
+</resources>

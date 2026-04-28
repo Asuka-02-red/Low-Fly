@@ -1,0 +1,82 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: low-altitude-rest-stop-server
+spec:
+  replicas: {{ .Values.server.replicaCount }}
+  selector:
+    matchLabels:
+      app: low-altitude-rest-stop-server
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: low-altitude-rest-stop-server
+    spec:
+      containers:
+        - name: server
+          image: {{ printf "%s/%s:%s" .Values.image.registry .Values.server.image.repository .Values.image.tag }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: low-altitude-rest-stop-config
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources:
+{{ toYaml .Values.server.resources | indent 12 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: low-altitude-rest-stop-admin-web
+spec:
+  replicas: {{ .Values.adminWeb.replicaCount }}
+  selector:
+    matchLabels:
+      app: low-altitude-rest-stop-admin-web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: low-altitude-rest-stop-admin-web
+    spec:
+      containers:
+        - name: admin-web
+          image: {{ printf "%s/%s:%s" .Values.image.registry .Values.adminWeb.image.repository .Values.image.tag }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+{{ toYaml .Values.adminWeb.resources | indent 12 }}

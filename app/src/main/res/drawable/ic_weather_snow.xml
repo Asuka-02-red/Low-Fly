@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_weather_cloudy" />
+    <item android:left="12dp" android:top="35dp" android:right="28dp" android:bottom="3dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/weather_icon_snow" />
+            <size android:width="6dp" android:height="6dp" />
+        </shape>
+    </item>
+    <item android:left="23dp" android:top="35dp" android:right="17dp" android:bottom="3dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/weather_icon_snow" />
+            <size android:width="6dp" android:height="6dp" />
+        </shape>
+    </item>
+    <item android:left="34dp" android:top="35dp" android:right="6dp" android:bottom="3dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/weather_icon_snow" />
+            <size android:width="6dp" android:height="6dp" />
+        </shape>
+    </item>
+</layer-list>

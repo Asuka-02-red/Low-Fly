@@ -1,0 +1,17 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.jdt.ls.java.home": "W:/D/threedown/Anzhuo/jbr",
+    "java.import.gradle.java.home": "W:/D/threedown/Anzhuo/jbr",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-21",
+            "path": "W:/D/threedown/Anzhuo/jbr",
+            "default": true
+        },
+        {
+            "name": "JavaSE-17",
+            "path": "W:/D/threedown/Anzhuo/jbr"
+        }
+    ]
+}

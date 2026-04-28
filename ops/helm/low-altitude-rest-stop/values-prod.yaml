@@ -1,0 +1,8 @@
+﻿server:
+  replicaCount: 4
+adminWeb:
+  replicaCount: 3
+ingress:
+  host: low-altitude.example.com
+autoscaling:
+  maxReplicas: 10

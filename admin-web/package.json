@@ -1,0 +1,39 @@
+{
+  "name": "admin-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "vue-tsc -b --pretty false",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run --coverage",
+    "test:unit": "vitest run",
+    "coverage": "vitest run --coverage",
+    "ci": "npm run typecheck && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/vue-fontawesome": "^3.2.0",
+    "axios": "^1.15.1",
+    "echarts": "^6.0.0",
+    "element-plus": "^2.13.7",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.32",
+    "vue-router": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.2",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitest/coverage-v8": "^4.0.7",
+    "@vue/tsconfig": "^0.9.1",
+    "sass": "^1.99.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.9",
+    "vitest": "^4.1.5",
+    "vue-tsc": "^3.2.7"
+  }
+}

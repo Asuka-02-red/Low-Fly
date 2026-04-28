@@ -1,0 +1,40 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.LowaltitudeRestStop" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/ui_light_primary</item>
+        <item name="colorOnPrimary">@color/ui_light_on_primary</item>
+        <item name="colorPrimaryContainer">@color/ui_light_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/ui_light_on_primary_container</item>
+
+        <item name="colorSecondary">@color/ui_light_secondary</item>
+        <item name="colorOnSecondary">@color/ui_light_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/ui_light_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/ui_light_on_secondary_container</item>
+
+        <item name="colorTertiary">@color/ui_light_tertiary</item>
+        <item name="colorOnTertiary">@color/ui_light_on_tertiary</item>
+        <item name="colorTertiaryContainer">@color/ui_light_tertiary_container</item>
+        <item name="colorOnTertiaryContainer">@color/ui_light_on_tertiary_container</item>
+
+        <item name="colorSurface">@color/ui_light_surface</item>
+        <item name="colorOnSurface">@color/ui_light_on_surface</item>
+        <item name="colorSurfaceVariant">@color/ui_light_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/ui_light_on_surface_variant</item>
+        <item name="colorOutline">@color/ui_light_outline</item>
+        <item name="colorError">@color/ui_error</item>
+        <item name="android:colorBackground">@color/ui_bg_canvas</item>
+        <item name="android:windowBackground">@drawable/bg_app_geometry</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="materialButtonStyle">@style/Widget.LowAltitudeRestStop.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.LowAltitudeRestStop.Button.Outlined</item>
+        <item name="materialCardViewStyle">@style/Widget.LowAltitudeRestStop.CardView</item>
+        <item name="bottomAppBarStyle">@style/Widget.LowAltitudeRestStop.BottomAppBar</item>
+        <item name="bottomNavigationStyle">@style/Widget.LowAltitudeRestStop.BottomNavigation.App</item>
+        <item name="textInputOutlinedStyle">@style/Widget.LowAltitudeRestStop.TextInputLayout</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>

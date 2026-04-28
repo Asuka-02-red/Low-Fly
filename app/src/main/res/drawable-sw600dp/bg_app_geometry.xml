@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base Canvas -->
+    <item android:gravity="fill">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/ui_bg_canvas" />
+        </shape>
+    </item>
+
+    <!-- Top Left Composition -->
+    <item
+        android:width="384dp"
+        android:height="288dp"
+        android:gravity="top|left"
+        android:drawable="@drawable/bg_geo_top_left" />
+
+    <!-- Bottom Right Composition -->
+    <item
+        android:width="288dp"
+        android:height="288dp"
+        android:gravity="bottom|right"
+        android:drawable="@drawable/bg_geo_bottom_right" />
+</layer-list>

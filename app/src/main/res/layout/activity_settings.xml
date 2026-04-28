@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/bg_app_geometry">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="11dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_title"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_settings_eyebrow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="SYSTEM CONSOLE"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Eyebrow"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_preferences"
+            style="@style/Widget.LowAltitudeRestStop.CardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ui_card_spacing"
+            app:layout_constraintTop_toBottomOf="@id/tv_settings_eyebrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/ui_card_padding">
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switch_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_notification_switch" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switch_dark_mode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/settings_dark_mode_switch" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switch_high_contrast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/settings_high_contrast_switch" />
+
+                <TextView
+                    android:id="@+id/tv_high_contrast_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/settings_high_contrast_hint"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switch_ai_ball"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/settings_ai_ball_switch" />
+
+                <TextView
+                    android:id="@+id/tv_ai_ball_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/settings_ai_ball_hint"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body" />
+
+                <TextView
+                    android:id="@+id/tv_ai_ball_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_open_overlay_permission"
+                    style="@style/Widget.LowAltitudeRestStop.Button.Outlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/settings_ai_ball_overlay_permission" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_open_accessibility"
+                    style="@style/Widget.LowAltitudeRestStop.Button.Outlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/settings_ai_ball_accessibility" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/settings_font_scale_label"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption" />
+
+                <TextView
+                    android:id="@+id/tv_font_scale_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/settings_font_scale_hint"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_cache"
+            style="@style/Widget.LowAltitudeRestStop.CardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ui_card_spacing"
+            app:layout_constraintTop_toBottomOf="@id/card_preferences"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/ui_card_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_cache_title"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title" />
+
+                <TextView
+                    android:id="@+id/tv_cache_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/settings_cache_hint"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body" />
+
+                <TextView
+                    android:id="@+id/tv_cache_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_clear_cache"
+                    style="@style/Widget.LowAltitudeRestStop.Button.Outlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/settings_clear_cache" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:id="@+id/layout_actions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ui_card_spacing"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/card_cache"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save"
+                style="@style/Widget.LowAltitudeRestStop.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_save" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_open_messages"
+                style="@style/Widget.LowAltitudeRestStop.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/settings_open_messages" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_open_help"
+                style="@style/Widget.LowAltitudeRestStop.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/settings_open_help" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,41 @@
+name: Release Assets
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: chmod +x gradlew
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: admin-web/package-lock.json
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew :server:test :server:jacocoTestReport :server:bootJar :app:assembleProdRelease :app:bundleProdRelease
+      - run: npm ci
+        working-directory: admin-web
+      - run: npm run ci
+        working-directory: admin-web
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: |
+            server/build/libs/*.jar
+            server/build/reports/**
+            admin-web/dist/**
+            admin-web/coverage/**
+            app/build/outputs/apk/**/*.apk
+            app/build/outputs/bundle/**/*.aab
+            app/build/outputs/mapping/**

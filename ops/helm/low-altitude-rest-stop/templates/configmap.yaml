@@ -1,0 +1,11 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: low-altitude-rest-stop-config
+data:
+  SPRING_PROFILES_ACTIVE: {{ .Values.server.env.SPRING_PROFILES_ACTIVE | quote }}
+  DB_URL: {{ .Values.server.env.DB_URL | quote }}
+  DB_USERNAME: {{ .Values.server.env.DB_USERNAME | quote }}
+  DB_PASSWORD: {{ .Values.server.env.DB_PASSWORD | quote }}
+  REDIS_HOST: {{ .Values.server.env.REDIS_HOST | quote }}
+  REDIS_PORT: {{ .Values.server.env.REDIS_PORT | quote }}

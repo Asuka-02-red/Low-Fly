@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_geometry"
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/training_screen_padding"
+    android:paddingTop="@dimen/training_screen_padding_top"
+    android:paddingEnd="@dimen/training_screen_padding"
+    android:paddingBottom="@dimen/training_screen_padding">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_training_header"
+        style="@style/Widget.LowAltitudeRestStop.CardView.Hero"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/ui_card_padding">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TRAINING LAB"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Eyebrow" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/training_center_title"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_course"
+                style="@style/Widget.LowAltitudeRestStop.Button.Ghost.Compact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/training_new_course" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:id="@+id/layout_metrics"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_training_header">
+
+        <TextView
+            android:id="@+id/tv_total_courses"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_metric_chip"
+            android:gravity="center"
+            android:minHeight="46dp"
+            android:padding="7dp"
+            android:text="@string/training_total_courses"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption"
+            android:textColor="@color/ui_light_on_surface" />
+
+        <TextView
+            android:id="@+id/tv_total_views"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/training_card_spacing"
+            android:layout_weight="1"
+            android:background="@drawable/bg_metric_chip"
+            android:gravity="center"
+            android:minHeight="46dp"
+            android:padding="7dp"
+            android:text="@string/training_total_views"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption"
+            android:textColor="@color/ui_light_on_surface" />
+
+        <TextView
+            android:id="@+id/tv_total_enrolls"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/training_card_spacing"
+            android:layout_weight="1"
+            android:background="@drawable/bg_metric_chip"
+            android:gravity="center"
+            android:minHeight="46dp"
+            android:padding="7dp"
+            android:text="@string/training_total_enrolls"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption"
+            android:textColor="@color/ui_light_on_surface" />
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_training_chart"
+        style="@style/Widget.LowAltitudeRestStop.CardView.Panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_metrics"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/training_chart_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/training_heat_title"
+                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart_training"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/training_chart_height"
+                android:layout_marginTop="7dp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/ui_card_spacing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_training_chart">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="18dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

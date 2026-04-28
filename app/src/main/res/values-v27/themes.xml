@@ -1,0 +1,5 @@
+<resources>
+    <style name="Theme.LowaltitudeRestStop" parent="Base.Theme.LowaltitudeRestStop">
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

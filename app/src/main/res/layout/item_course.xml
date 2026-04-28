@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.LowAltitudeRestStop.CardView.Panel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/training_card_spacing">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/training_card_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@string/placeholder_dash"
+                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_course_tag"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="3dp"
+                android:text="@string/placeholder_dash"
+                android:textColor="@color/ui_light_on_primary_container"
+                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/placeholder_dash"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_meta_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_surface_panel"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="3dp"
+                android:text="@string/placeholder_dash"
+                android:textColor="@color/ui_light_on_surface"
+                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption" />
+
+            <TextView
+                android:id="@+id/tv_meta_secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_surface_panel"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="3dp"
+                android:text="@string/placeholder_dash"
+                android:textColor="@color/ui_light_on_surface"
+                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_metrics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:maxLines="2"
+            android:text="@string/placeholder_dash"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_enroll"
+            style="@style/Widget.LowAltitudeRestStop.Button.Compact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:text="@string/course_action_enroll" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,47 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: low-altitude-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: low_altitude_rest_stop
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  redis:
+    image: redis:7.2
+    container_name: low-altitude-redis
+    ports:
+      - "6379:6379"
+
+  server:
+    build:
+      context: ../..
+      dockerfile: ops/docker/server.Dockerfile
+    container_name: low-altitude-server
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/low_altitude_rest_stop?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+
+  admin-web:
+    build:
+      context: ../..
+      dockerfile: ops/docker/admin-web.Dockerfile
+    container_name: low-altitude-admin-web
+    depends_on:
+      - server
+    ports:
+      - "5173:80"
+
+volumes:
+  mysql-data:

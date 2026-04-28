@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  backend-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: chmod +x gradlew
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew :server:test :server:jacocoTestReport
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: server-quality-reports
+          path: |
+            server/build/reports/tests/test
+            server/build/reports/jacoco/test
+            server/build/test-results/test
+
+  android-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: chmod +x gradlew
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew :app:testDemoDebugUnitTest :app:lintDemoDebug
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-quality-reports
+          path: |
+            app/build/reports
+            app/build/test-results
+
+  admin-web-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: admin-web/package-lock.json
+      - run: npm ci
+        working-directory: admin-web
+      - run: npm run ci
+        working-directory: admin-web
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: admin-web-quality-reports
+          path: |
+            admin-web/coverage
+            admin-web/dist
+
+  contract-and-docs:
+    runs-on: ubuntu-latest
+    needs: [backend-quality, admin-web-quality]
+    steps:
+      - uses: actions/checkout@v4
+      - run: test -f docs/openapi/openapi.json
+      - run: test -f docs/runbooks/上线检查清单.md
+      - run: test -f docs/runbooks/回滚方案.md
+      - run: test -f CHANGELOG.md
+
+  sonar:
+    runs-on: ubuntu-latest
+    needs: [backend-quality, android-quality, admin-web-quality]
+    if: ${{ secrets.SONAR_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: chmod +x gradlew
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: admin-web/package-lock.json
+      - uses: gradle/actions/setup-gradle@v4
+      - run: npm ci
+        working-directory: admin-web
+      - run: npm run coverage
+        working-directory: admin-web
+      - run: ./gradlew test sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}

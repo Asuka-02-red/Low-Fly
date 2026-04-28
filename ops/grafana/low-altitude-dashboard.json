@@ -1,0 +1,44 @@
+﻿{
+  "title": "Low Altitude Rest Stop",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 2,
+  "panels": [
+    {
+      "type": "stat",
+      "title": "HTTP QPS",
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+      "targets": [{ "expr": "sum(rate(http_server_requests_seconds_count[1m]))" }]
+    },
+    {
+      "type": "stat",
+      "title": "P99 RT",
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
+      "targets": [{ "expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket[5m])) by (le))" }]
+    },
+    {
+      "type": "stat",
+      "title": "5xx Error Rate",
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 0 },
+      "targets": [{ "expr": "sum(rate(http_server_requests_seconds_count{status=~\"5..\"}[5m])) / sum(rate(http_server_requests_seconds_count[5m]))" }]
+    },
+    {
+      "type": "stat",
+      "title": "JVM Heap Usage",
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 0 },
+      "targets": [{ "expr": "sum(jvm_memory_used_bytes{area=\"heap\"}) / sum(jvm_memory_max_bytes{area=\"heap\"})" }]
+    },
+    {
+      "type": "timeseries",
+      "title": "Request Trend",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "targets": [{ "expr": "sum(rate(http_server_requests_seconds_count[5m])) by (uri)" }]
+    },
+    {
+      "type": "timeseries",
+      "title": "Latency Trend",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "targets": [{ "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket[5m])) by (le, uri))" }]
+    }
+  ]
+}

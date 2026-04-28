@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_geometry"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/ui_grid_2"
+        android:paddingTop="@dimen/ui_grid_3"
+        android:paddingEnd="@dimen/ui_grid_2"
+        android:paddingBottom="@dimen/ui_grid_4">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_home_hero"
+            style="@style/Widget.LowAltitudeRestStop.CardView.Hero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ui_card_spacing">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MISSION HUB"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Eyebrow.Preserve" />
+
+                <TextView
+                    android:id="@+id/tv_welcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="你好，欢迎回来"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Header.Preserve" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/home_summary_hint"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body.Compact.Preserve" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:baselineAligned="false"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:id="@+id/btn_go_task"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_quick_action_primary"
+                        android:clickable="true"
+                        android:elevation="@dimen/ui_quick_action_elevation"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:minHeight="@dimen/ui_quick_action_min_height"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="@dimen/ui_quick_action_padding_horizontal"
+                        android:paddingVertical="@dimen/ui_quick_action_padding_vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_quick_task"
+                            android:layout_width="@dimen/ui_quick_action_icon_size"
+                            android:layout_height="@dimen/ui_quick_action_icon_size"
+                            android:contentDescription="@null"
+                            app:tint="@color/ui_quick_action_primary_foreground"
+                            android:src="@drawable/ic_quick_task" />
+
+                        <TextView
+                            android:id="@+id/tv_quick_task"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="进入任务"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.QuickAction.Preserve"
+                            android:textColor="@color/ui_quick_action_primary_foreground" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btn_go_compliance"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_quick_action"
+                        android:clickable="true"
+                        android:elevation="@dimen/ui_quick_action_elevation"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:minHeight="@dimen/ui_quick_action_min_height"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="@dimen/ui_quick_action_padding_horizontal"
+                        android:paddingVertical="@dimen/ui_quick_action_padding_vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_quick_compliance"
+                            android:layout_width="@dimen/ui_quick_action_icon_size"
+                            android:layout_height="@dimen/ui_quick_action_icon_size"
+                            android:contentDescription="@null"
+                            app:tint="@color/ui_quick_action_secondary_foreground"
+                            android:src="@drawable/ic_quick_compliance" />
+
+                        <TextView
+                            android:id="@+id/tv_quick_compliance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="进入合规"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.QuickAction.Preserve"
+                            android:textColor="@color/ui_quick_action_secondary_foreground" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btn_go_profile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_quick_action"
+                        android:clickable="true"
+                        android:elevation="@dimen/ui_quick_action_elevation"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:minHeight="@dimen/ui_quick_action_min_height"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="@dimen/ui_quick_action_padding_horizontal"
+                        android:paddingVertical="@dimen/ui_quick_action_padding_vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_quick_profile"
+                            android:layout_width="@dimen/ui_quick_action_icon_size"
+                            android:layout_height="@dimen/ui_quick_action_icon_size"
+                            android:contentDescription="@null"
+                            app:tint="@color/ui_quick_action_secondary_foreground"
+                            android:src="@drawable/ic_quick_profile" />
+
+                        <TextView
+                            android:id="@+id/tv_quick_profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="进入我的"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.QuickAction.Preserve"
+                            android:textColor="@color/ui_quick_action_secondary_foreground" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ui_card_spacing_tight"
+            android:text="@string/home_key_metrics_title"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title.Preserve" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.LowAltitudeRestStop.CardView.Metric"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:minHeight="@dimen/ui_metric_card_min_height"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/iv_stat_task"
+                        android:layout_width="@dimen/ui_metric_icon_size"
+                        android:layout_height="@dimen/ui_metric_icon_size"
+                        android:background="@drawable/bg_home_metric_icon_task"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_stat_task"
+                        app:tint="@color/ui_metric_blue"
+                        android:contentDescription="@null" />
+
+                    <TextView
+                        android:id="@+id/tv_task_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="待执行"
+                        android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption.Preserve" />
+
+                    <TextView
+                        android:id="@+id/tv_task_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="-"
+                        android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Metric.Preserve" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.LowAltitudeRestStop.CardView.Metric"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:minHeight="@dimen/ui_metric_card_min_height"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/iv_stat_alert"
+                        android:layout_width="@dimen/ui_metric_icon_size"
+                        android:layout_height="@dimen/ui_metric_icon_size"
+                        android:background="@drawable/bg_home_metric_icon_alert"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_stat_alert"
+                        app:tint="@color/ui_metric_orange"
+                        android:contentDescription="@null" />
+
+                    <TextView
+                        android:id="@+id/tv_alert_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="风险"
+                        android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption.Preserve" />
+
+                    <TextView
+                        android:id="@+id/tv_alert_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="-"
+                        android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Metric.Preserve" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.LowAltitudeRestStop.CardView.Metric"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:minHeight="@dimen/ui_metric_card_min_height"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/iv_stat_course"
+                        android:layout_width="@dimen/ui_metric_icon_size"
+                        android:layout_height="@dimen/ui_metric_icon_size"
+                        android:background="@drawable/bg_home_metric_icon_course"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_stat_course"
+                        app:tint="@color/ui_metric_teal"
+                        android:contentDescription="@null" />
+
+                    <TextView
+                        android:id="@+id/tv_course_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="课程"
+                        android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption.Preserve" />
+
+                    <TextView
+                        android:id="@+id/tv_course_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="0"
+                        android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Metric.Preserve" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.LowAltitudeRestStop.CardView.Metric"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:minHeight="@dimen/ui_metric_card_min_height"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/iv_stat_sync"
+                        android:layout_width="@dimen/ui_metric_icon_size"
+                        android:layout_height="@dimen/ui_metric_icon_size"
+                        android:background="@drawable/bg_home_metric_icon_sync"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_stat_sync"
+                        app:tint="@color/ui_metric_purple"
+                        android:contentDescription="@null" />
+
+                    <TextView
+                        android:id="@+id/tv_queue_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="待同步"
+                        android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption.Preserve" />
+
+                    <TextView
+                        android:id="@+id/tv_queue_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="0"
+                        android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Metric.Preserve" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_home_weather"
+            style="@style/Widget.LowAltitudeRestStop.CardView.Panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ui_grid_3"
+            android:layout_marginBottom="@dimen/ui_card_spacing">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_weather_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_weather_title"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title.Preserve" />
+
+                        <TextView
+                            android:id="@+id/tv_weather_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/home_weather_location_placeholder"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption.Preserve" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_weather_refresh"
+                        style="@style/Widget.LowAltitudeRestStop.Button.Ghost.Compact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_weather_refresh" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ui_card_spacing"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_weather_icon"
+                        android:layout_width="@dimen/ui_weather_icon_size"
+                        android:layout_height="@dimen/ui_weather_icon_size"
+                        android:contentDescription="@string/home_weather_condition_label"
+                        android:src="@drawable/ic_weather_cloudy" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_weather_condition"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_weather_loading_short"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title.Preserve" />
+
+                        <TextView
+                            android:id="@+id/tv_weather_result"
+                            style="@style/Widget.LowAltitudeRestStop.Badge.Success"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="@string/home_weather_loading_short" />
+
+                        <TextView
+                            android:id="@+id/tv_weather_summary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/home_weather_loading_detail"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body.Preserve" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_weather_overview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ui_card_spacing"
+                    android:text="@string/home_weather_overview_placeholder"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body.Preserve" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ui_card_spacing"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_metric_chip"
+                        android:gravity="center"
+                        android:minHeight="64dp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/ui_card_padding_compact">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/home_weather_wind_label"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.WeatherLabel.Preserve" />
+
+                        <TextView
+                            android:id="@+id/tv_weather_wind"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="@string/placeholder_dash"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.WeatherValue.Preserve" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_metric_chip"
+                        android:gravity="center"
+                        android:minHeight="64dp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/ui_card_padding_compact">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/home_weather_precipitation_short"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.WeatherLabel.Preserve" />
+
+                        <TextView
+                            android:id="@+id/tv_weather_precipitation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="@string/placeholder_dash"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.WeatherValue.Preserve" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ui_card_spacing"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_metric_chip"
+                        android:gravity="center"
+                        android:minHeight="64dp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/ui_card_padding_compact">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/home_weather_thunderstorm_label"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.WeatherLabel.Preserve" />
+
+                        <TextView
+                            android:id="@+id/tv_weather_thunderstorm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="@string/placeholder_dash"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.WeatherValue.Preserve" />
+
+                        <TextView
+                            android:id="@+id/tv_weather_thunderstorm_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center"
+                            android:text="@string/home_weather_risk_hint_placeholder"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption.Preserve" />
+
+                        <View
+                            android:id="@+id/view_weather_risk_bar"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/ui_weather_risk_bar_height"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_weather_risk_gradient" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_metric_chip"
+                        android:gravity="center"
+                        android:minHeight="64dp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/ui_card_padding_compact">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/home_weather_temperature_label"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.WeatherLabel.Preserve" />
+
+                        <ImageView
+                            android:id="@+id/iv_weather_temp_icon"
+                            android:layout_width="@dimen/ui_weather_temp_icon_size"
+                            android:layout_height="@dimen/ui_weather_temp_icon_size"
+                            android:layout_marginTop="4dp"
+                            android:contentDescription="@string/home_weather_condition_label"
+                            android:src="@drawable/ic_weather_clear" />
+
+                        <TextView
+                            android:id="@+id/tv_weather_temperature"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="@string/placeholder_dash"
+                            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.WeatherValue.Preserve" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ui_card_spacing"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_weather_meta"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/home_weather_loading_detail"
+                        android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption.Preserve" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_weather_detail"
+                        style="@style/Widget.LowAltitudeRestStop.Button.Compact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_weather_detail_action" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_weather_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption.Preserve"
+                    android:textColor="@color/ui_error"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_home_chart"
+            style="@style/Widget.LowAltitudeRestStop.CardView.Panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_trend_title"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title.Preserve" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/home_trend_summary"
+                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body.Preserve" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart_overview"
+                    android:layout_width="match_parent"
+                    android:layout_height="192dp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

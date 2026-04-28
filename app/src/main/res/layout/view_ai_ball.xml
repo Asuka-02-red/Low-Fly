@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ai_ball_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:gravity="end|center_vertical"
+    android:orientation="horizontal"
+    android:padding="4dp">
+
+    <LinearLayout
+        android:id="@+id/layout_ai_ball_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="300dp"
+        android:minWidth="248dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_ai_ball_panel"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        android:padding="11dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ASSISTANT"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Eyebrow" />
+
+        <TextView
+            android:id="@+id/tv_ai_ball_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="AI 助手"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title"
+            android:textColor="@color/ui_light_on_surface" />
+
+        <TextView
+            android:id="@+id/tv_ai_ball_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/ai_ball_idle_hint"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption" />
+
+        <TextView
+            android:id="@+id/tv_ai_ball_transcript"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body"
+            android:textColor="@color/ui_light_on_surface"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:id="@+id/scroll_ai_ball_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fillViewport="true"
+            android:maxHeight="220dp"
+            android:overScrollMode="ifContentScrolls"
+            android:scrollbars="vertical">
+
+            <TextView
+                android:id="@+id/tv_ai_ball_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body"
+                android:textColor="@color/ui_light_on_surface" />
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/layout_ai_ball_input_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.LowAltitudeRestStop.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ai_ball_input_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_ai_ball_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionSend"
+                    android:inputType="textMultiLine"
+                    android:maxLines="3"
+                    android:minLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_ai_ball_voice"
+                    style="@style/Widget.LowAltitudeRestStop.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="语音" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_ai_ball_send"
+                    style="@style/Widget.LowAltitudeRestStop.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="发送" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_ai_ball_bubble"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_ai_ball_circle"
+        android:clickable="true"
+        android:elevation="12dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless">
+
+        <TextView
+            android:id="@+id/tv_ai_ball_badge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="AI"
+            android:textColor="@android:color/white"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+</LinearLayout>

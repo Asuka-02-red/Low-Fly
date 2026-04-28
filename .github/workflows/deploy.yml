@@ -1,0 +1,65 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 目标环境
+        required: true
+        type: choice
+        options:
+          - staging
+          - prod
+      image_tag:
+        description: 镜像标签
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+  packages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: sigstore/cosign-installer@v3.6.0
+      - uses: azure/setup-helm@v4.2.0
+      - uses: azure/setup-kubectl@v4
+      - name: 构建并推送 server 镜像
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ops/docker/server.Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/low-altitude-server:${{ inputs.image_tag }}
+      - name: 构建并推送 admin-web 镜像
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ops/docker/admin-web.Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/low-altitude-admin-web:${{ inputs.image_tag }}
+      - name: 镜像签名
+        run: |
+          cosign sign --yes ghcr.io/${{ github.repository_owner }}/low-altitude-server:${{ inputs.image_tag }}
+          cosign sign --yes ghcr.io/${{ github.repository_owner }}/low-altitude-admin-web:${{ inputs.image_tag }}
+      - name: Helm 部署
+        run: >
+          helm upgrade --install low-altitude-rest-stop ops/helm/low-altitude-rest-stop
+          --namespace low-altitude-${{ inputs.environment }}
+          --create-namespace
+          -f ops/helm/low-altitude-rest-stop/values.yaml
+          -f ops/helm/low-altitude-rest-stop/values-${{ inputs.environment }}.yaml
+          --set image.tag=${{ inputs.image_tag }}
+      - name: 部署后校验
+        run: kubectl rollout status deployment/low-altitude-rest-stop-server -n low-altitude-${{ inputs.environment }} --timeout=180s

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ui_grid_1">8dp</dimen>
+    <dimen name="ui_grid_2">13dp</dimen>
+    <dimen name="ui_grid_3">26dp</dimen>
+    <dimen name="ui_grid_4">34dp</dimen>
+    <dimen name="ui_grid_5">38dp</dimen>
+
+    <dimen name="ui_radius_small">17dp</dimen>
+    <dimen name="ui_radius_medium">21dp</dimen>
+    <dimen name="ui_radius_large">25dp</dimen>
+    <dimen name="ui_radius_xlarge">33dp</dimen>
+    <dimen name="ui_quick_action_corner_radius">29dp</dimen>
+
+    <dimen name="ui_text_header">22sp</dimen>
+    <dimen name="ui_text_title">22sp</dimen>
+    <dimen name="ui_text_body">15sp</dimen>
+    <dimen name="ui_text_caption">12sp</dimen>
+    <dimen name="ui_text_metric">22sp</dimen>
+    <dimen name="ui_text_bottom_nav">13sp</dimen>
+    <dimen name="ui_weather_label_text">22sp</dimen>
+    <dimen name="ui_weather_value_text">15sp</dimen>
+
+    <dimen name="ui_bottom_nav_height">62dp</dimen>
+    <dimen name="ui_nav_shell_margin_horizontal">12dp</dimen>
+    <dimen name="ui_nav_shell_margin_bottom">4dp</dimen>
+    <dimen name="ui_nav_padding_horizontal">10dp</dimen>
+    <dimen name="ui_nav_item_padding_top">8dp</dimen>
+    <dimen name="ui_nav_item_padding_bottom">8dp</dimen>
+    <dimen name="ui_card_padding">16dp</dimen>
+    <dimen name="ui_card_padding_compact">12dp</dimen>
+    <dimen name="ui_card_spacing">16dp</dimen>
+    <dimen name="ui_card_spacing_tight">12dp</dimen>
+    <dimen name="ui_metric_card_min_height">96dp</dimen>
+    <dimen name="ui_quick_action_min_height">52dp</dimen>
+    <dimen name="ui_metric_icon_size">36dp</dimen>
+
+    <dimen name="ui_nav_active_height">56dp</dimen>
+    <dimen name="ui_nav_active_width">80dp</dimen>
+</resources>

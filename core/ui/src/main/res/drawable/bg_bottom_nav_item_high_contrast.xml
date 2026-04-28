@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <inset
+            android:left="3dp"
+            android:top="3dp"
+            android:right="3dp"
+            android:bottom="3dp">
+            <layer-list>
+                <item android:top="2dp">
+                    <shape android:shape="rectangle">
+                        <solid android:color="@color/ui_nav_hc_active_shadow" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+
+                <item
+                    android:left="1dp"
+                    android:top="0dp"
+                    android:right="1dp"
+                    android:bottom="1dp">
+                    <shape android:shape="rectangle">
+                        <gradient
+                            android:angle="90"
+                            android:startColor="@color/ui_nav_hc_active_container_start"
+                            android:endColor="@color/ui_nav_hc_active_container_end" />
+                        <corners android:radius="23dp" />
+                    </shape>
+                </item>
+
+                <item
+                    android:left="5dp"
+                    android:top="2dp"
+                    android:right="5dp"
+                    android:bottom="24dp">
+                    <shape android:shape="rectangle">
+                        <gradient
+                            android:angle="90"
+                            android:startColor="@color/ui_nav_hc_highlight"
+                            android:endColor="@android:color/transparent" />
+                        <corners android:radius="20dp" />
+                    </shape>
+                </item>
+
+                <item
+                    android:left="2dp"
+                    android:top="2dp"
+                    android:right="2dp"
+                    android:bottom="3dp">
+                    <shape android:shape="rectangle">
+                        <gradient
+                            android:angle="90"
+                            android:startColor="@color/ui_nav_hc_inner_shadow"
+                            android:endColor="@android:color/transparent" />
+                        <corners android:radius="21dp" />
+                    </shape>
+                </item>
+
+                <item
+                    android:left="1dp"
+                    android:top="0dp"
+                    android:right="1dp"
+                    android:bottom="1dp">
+                    <shape android:shape="rectangle">
+                        <corners android:radius="23dp" />
+                        <stroke
+                            android:width="1dp"
+                            android:color="@color/ui_nav_hc_active_stroke" />
+                    </shape>
+                </item>
+            </layer-list>
+        </inset>
+    </item>
+
+    <item android:state_pressed="true">
+        <inset
+            android:left="3dp"
+            android:top="3dp"
+            android:right="3dp"
+            android:bottom="3dp">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/ui_nav_hc_pressed_overlay" />
+                <corners android:radius="23dp" />
+                <stroke
+                    android:width="1dp"
+                    android:color="@color/ui_nav_hc_stroke" />
+            </shape>
+        </inset>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+</selector>

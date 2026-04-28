@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="6dp" android:top="18dp" android:right="6dp" android:bottom="8dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp" />
+            <solid android:color="@color/weather_icon_cloud" />
+        </shape>
+    </item>
+    <item android:left="8dp" android:top="12dp" android:right="20dp" android:bottom="12dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/weather_icon_cloud" />
+        </shape>
+    </item>
+    <item android:left="20dp" android:top="8dp" android:right="8dp" android:bottom="14dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/weather_icon_cloud" />
+        </shape>
+    </item>
+</layer-list>

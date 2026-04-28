@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="6dp" android:top="10dp" android:right="6dp" android:bottom="28dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" />
+            <solid android:color="@color/weather_icon_fog" />
+        </shape>
+    </item>
+    <item android:left="10dp" android:top="20dp" android:right="10dp" android:bottom="18dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" />
+            <solid android:color="@color/weather_icon_fog" />
+        </shape>
+    </item>
+    <item android:left="6dp" android:top="30dp" android:right="6dp" android:bottom="8dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" />
+            <solid android:color="@color/weather_icon_fog" />
+        </shape>
+    </item>
+</layer-list>
