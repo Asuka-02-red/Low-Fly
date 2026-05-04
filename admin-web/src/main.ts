@@ -1,3 +1,4 @@
+/** 应用入口文件：创建 Vue 实例，注册 Pinia 状态管理、Vue Router 路由、Element Plus 组件库（中文语言包）和 FontAwesome 图标组件，并挂载到 DOM */
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'

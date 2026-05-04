@@ -1,3 +1,4 @@
+/** HTTP 请求基础模块：基于 Axios 封装统一的请求实例，配置请求/响应拦截器（自动注入 Token、401 跳转登录），并提供 API 响应解包（unwrap）和模拟请求（mockRequest）工具函数 */
 import axios from 'axios'
 
 const TOKEN_KEY = 'admin_token'

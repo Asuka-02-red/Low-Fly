@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 经营分析页面：展示营收趋势柱状图、用户活跃度折线图和项目健康度饼图，附带核心经营指标卡片 */
 import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { EChartsOption } from 'echarts'
@@ -23,20 +24,51 @@ const revenueOption = computed<EChartsOption>(() => ({
   tooltip: { trigger: 'axis' },
   xAxis: { type: 'category', data: payload.value.revenueTrend.map((item) => item.label) },
   yAxis: { type: 'value' },
-  series: [{ type: 'bar', data: payload.value.revenueTrend.map((item) => item.value) }],
+  series: [{
+    type: 'bar',
+    barWidth: 28,
+    itemStyle: { borderRadius: [6, 6, 0, 0] },
+    data: payload.value.revenueTrend.map((item) => item.value),
+  }],
 }))
 
 const userOption = computed<EChartsOption>(() => ({
   tooltip: { trigger: 'axis' },
   xAxis: { type: 'category', data: payload.value.userActivity.map((item) => item.label) },
   yAxis: { type: 'value' },
-  series: [{ type: 'line', smooth: true, areaStyle: {}, data: payload.value.userActivity.map((item) => item.value) }],
+  series: [{
+    type: 'line',
+    smooth: true,
+    lineStyle: { width: 2.5 },
+    areaStyle: {
+      color: {
+        type: 'linear',
+        x: 0, y: 0, x2: 0, y2: 1,
+        colorStops: [
+          { offset: 0, color: 'rgba(5, 150, 105, 0.2)' },
+          { offset: 1, color: 'rgba(5, 150, 105, 0.02)' },
+        ],
+      },
+    },
+    data: payload.value.userActivity.map((item) => item.value),
+  }],
 }))
 
 const healthOption = computed<EChartsOption>(() => ({
   tooltip: { trigger: 'item' },
   legend: { bottom: 0 },
-  series: [{ type: 'pie', radius: '68%', data: payload.value.projectHealth }],
+  series: [{
+    type: 'pie',
+    radius: '68%',
+    data: payload.value.projectHealth,
+    emphasis: {
+      itemStyle: {
+        shadowBlur: 10,
+        shadowOffsetX: 0,
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+      },
+    },
+  }],
 }))
 
 async function loadData() {
@@ -80,6 +112,6 @@ void loadData()
 .chart-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
+  gap: var(--space-5);
 }
 </style>

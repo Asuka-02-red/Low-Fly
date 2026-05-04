@@ -1,0 +1,18 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "color-no-hex": [true, {
+      "message": "禁止使用硬编码的十六进制颜色，必须引用 var(--color-*) 的 Design Token"
+    }],
+    "declaration-property-value-disallowed-list": {
+      "z-index": ["/^([2-9]|[1-9][0-9]+)$/"],
+      "font-size": ["/^([0-9]+)(px|em|rem)$/"]
+    },
+    "custom-property-pattern": [
+      "^color-|space-|text-|font-|ease-|duration-",
+      {
+        "message": "CSS 变量必须符合设计规范的命名约定"
+      }
+    ]
+  }
+}

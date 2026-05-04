@@ -6,6 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
+/**
+ * 用户账号实体。
+ * <p>
+ * 对应 user_account 表，存储平台用户账号信息，
+ * 包括用户名、密码哈希、手机号、邮箱、角色、真实姓名、
+ * 所属公司、账号状态及乐观锁版本号。
+ * </p>
+ */
 @TableName("user_account")
 public class UserAccountEntity {
 

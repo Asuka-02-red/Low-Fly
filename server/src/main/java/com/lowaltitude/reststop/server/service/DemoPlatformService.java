@@ -1,14 +1,32 @@
 package com.lowaltitude.reststop.server.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lowaltitude.reststop.server.api.ApiDtos;
+import com.lowaltitude.reststop.server.common.BizException;
 import com.lowaltitude.reststop.server.entity.AdminNotificationRuleEntity;
 import com.lowaltitude.reststop.server.entity.AdminSettingEntity;
-import com.lowaltitude.reststop.server.common.BizException;
 import com.lowaltitude.reststop.server.entity.BizOrderEntity;
-import com.lowaltitude.reststop.server.entity.CourseEntity;
 import com.lowaltitude.reststop.server.entity.CourseEnrollmentEntity;
+import com.lowaltitude.reststop.server.entity.CourseEntity;
 import com.lowaltitude.reststop.server.entity.FeedbackTicketEntity;
 import com.lowaltitude.reststop.server.entity.MessageConversationEntity;
 import com.lowaltitude.reststop.server.entity.MessageEntryEntity;
@@ -34,27 +52,20 @@ import com.lowaltitude.reststop.server.security.RequestIdContext;
 import com.lowaltitude.reststop.server.security.RoleType;
 import com.lowaltitude.reststop.server.security.SessionUser;
 import com.lowaltitude.reststop.server.security.TokenService;
-import jakarta.annotation.PostConstruct;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service
+import jakarta.annotation.PostConstruct;
+
+/**
+ * 演示平台核心业务服务（已拆分，保留作历史参考）。
+ * <p>
+ * 本类已按单一职责原则拆分为以下独立服务：
+ * AuthService、TaskService、OrderService、FeedbackService、MessageService、
+ * CourseService、AdminDashboardService、AdminUserService、AdminProjectService、
+ * AdminSettingsService、DemoDataSeeder、PlatformUtils。
+ * </p>
+ */
+@Deprecated
+// @Service
 public class DemoPlatformService {
 
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

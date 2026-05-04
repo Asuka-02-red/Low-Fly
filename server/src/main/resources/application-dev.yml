@@ -1,5 +1,8 @@
-server:
-  port: 8080
-
 app:
   profile: dev
+
+weather:
+  qweather:
+    credential-id: K45F5Y4V3F
+    api-key: ef1a1c145b2e41b68c278e62d832c4a2
+    api-host: ${QWEATHER_API_HOST:https://mm2pg8ecbq.re.qweatherapi.com}

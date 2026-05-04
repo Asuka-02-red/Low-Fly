@@ -6,6 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
+/**
+ * 审计事件实体。
+ * <p>
+ * 对应 audit_event 表，记录系统中所有关键操作的审计日志，
+ * 包括请求标识、操作者信息、业务类型、事件类型及负载内容，
+ * 支持操作留痕与安全审计。
+ * </p>
+ */
 @TableName("audit_event")
 public class AuditEventEntity {
 

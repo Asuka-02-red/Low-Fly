@@ -1,3 +1,4 @@
+/** 用户状态管理（Pinia Store）：管理登录 Token、用户资料、记住密码等状态，提供登录、登出、获取资料和同步记住密码等操作 */
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { getProfileApi, loginApi } from '@/api/auth'

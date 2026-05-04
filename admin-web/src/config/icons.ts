@@ -1,3 +1,4 @@
+/** 图标注册表：将图标键名映射到 FontAwesome 图标定义，供 AppIcon 组件统一引用 */
 import {
   faArrowLeft,
   faArrowRightFromBracket,

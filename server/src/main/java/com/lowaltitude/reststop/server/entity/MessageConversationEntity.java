@@ -6,6 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
+/**
+ * 消息会话实体。
+ * <p>
+ * 对应 message_conversation 表，存储企业与飞手之间的消息会话信息，
+ * 包括关联企业、飞手、任务、会话标题及最近消息时间。
+ * </p>
+ */
 @TableName("message_conversation")
 public class MessageConversationEntity {
 

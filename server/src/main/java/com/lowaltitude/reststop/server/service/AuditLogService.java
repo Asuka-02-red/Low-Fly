@@ -8,6 +8,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+/**
+ * 审计日志服务。
+ * <p>
+ * 提供审计事件的记录与查询功能，包括写入审计事件、
+ * 统计事件总数及查询最近的审计事件列表，用于操作留痕与安全审计。
+ * </p>
+ */
 @Service
 public class AuditLogService {
 

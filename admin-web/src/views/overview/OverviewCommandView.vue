@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 平台态势页面：对比终端访问占比、在线服务实例等运营指标，展示动态通知和近期关键操作时间线 */
 import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { EChartsOption } from 'echarts'
@@ -53,7 +54,7 @@ void loadData()
     back-label="返回总览"
   >
     <template #actions>
-      <el-button :loading="loading" @click="loadData">刷新态势</el-button>
+      <el-button type="primary" :loading="loading" @click="loadData">刷新态势</el-button>
     </template>
 
     <div class="metrics-grid">
@@ -67,15 +68,17 @@ void loadData()
         <template #header>
           <span class="section-title">动态通知</span>
         </template>
-        <el-alert
-          v-for="notice in overview.notices"
-          :key="notice.title"
-          :title="notice.title"
-          :type="notice.level === '高' ? 'error' : notice.level === '中' ? 'warning' : 'success'"
-          :description="notice.time"
-          :closable="false"
-          show-icon
-        />
+        <div class="alert-stack">
+          <el-alert
+            v-for="notice in overview.notices"
+            :key="notice.title"
+            :title="notice.title"
+            :type="notice.level === '高' ? 'error' : notice.level === '中' ? 'warning' : 'success'"
+            :description="notice.time"
+            :closable="false"
+            show-icon
+          />
+        </div>
       </el-card>
 
       <el-card class="page-card" shadow="never">
@@ -87,6 +90,7 @@ void loadData()
             v-for="activity in overview.activities"
             :key="`${activity.title}-${activity.time}`"
             :timestamp="activity.time"
+            placement="top"
           >
             <strong>{{ activity.title }}</strong>
             <p>{{ activity.content }}</p>
@@ -101,11 +105,13 @@ void loadData()
 .command-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: var(--space-5);
+}
 
-  :deep(.el-alert + .el-alert) {
-    margin-top: 12px;
-  }
+.alert-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 @media (max-width: 1080px) {

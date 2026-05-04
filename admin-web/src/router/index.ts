@@ -1,3 +1,4 @@
+/** 路由配置模块：基于 Vue Router 创建路由实例，根据导航菜单自动生成路由表，配置全局前置鉴权守卫和后置标题更新 */
 import { createRouter, createWebHistory } from 'vue-router'
 import AdminLayout from '@/layout/AdminLayout.vue'
 import { menuData } from '@/config/navigation'

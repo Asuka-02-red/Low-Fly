@@ -6,6 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
+/**
+ * 告警记录实体。
+ * <p>
+ * 对应 alert_record 表，存储风险告警信息，
+ * 包括关联飞手、告警级别、告警内容及处理状态。
+ * </p>
+ */
 @TableName("alert_record")
 public class AlertRecordEntity {
 

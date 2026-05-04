@@ -1,3 +1,4 @@
+/** 管理后台数据仓库单元测试：验证项目增删改、用户角色分配、权限组更新、审计日志导出、设置保存及异常边界情况 */
 import { describe, expect, it } from 'vitest'
 import { AdminRepository, createAdminRepository } from '@/services/adminRepository'
 

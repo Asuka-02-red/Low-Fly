@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 用户目录页面：展示管理员账号列表，支持搜索、新增、编辑和删除用户，包含指标统计卡片和用户信息弹窗表单 */
 import { computed, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { createAdminUser, deleteAdminUser, fetchAdminUsers, updateAdminUser } from '@/api/admin'
@@ -186,7 +187,7 @@ void loadData()
     back-label="返回用户管理"
   >
     <template #actions>
-      <el-input v-model="keyword" placeholder="搜索姓名/组织/手机号/权限组" clearable class="toolbar-search" />
+      <el-input v-model="keyword" placeholder="搜索姓名/组织/手机号/权限组" clearable class="toolbar-search" prefix-icon="Search" />
       <el-button type="primary" plain @click="openCreateDialog">新增用户</el-button>
       <el-button type="primary" :loading="loading" @click="loadData">刷新目录</el-button>
     </template>
@@ -196,7 +197,7 @@ void loadData()
     </div>
 
     <el-card class="page-card" shadow="never" v-loading="loading">
-      <el-table :data="filteredUsers" border>
+      <el-table :data="filteredUsers" border stripe>
         <el-table-column prop="id" label="账号 ID" min-width="100" />
         <el-table-column prop="username" label="账号" min-width="140" />
         <el-table-column prop="name" label="姓名" min-width="120" />
@@ -232,34 +233,36 @@ void loadData()
 
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="560px" @closed="resetForm">
       <el-form label-position="top">
-        <el-form-item label="账号">
-          <el-input v-model="form.username" placeholder="请输入账号" />
-        </el-form-item>
-        <el-form-item :label="editingUserId ? '密码（留空表示不修改）' : '初始密码'">
-          <el-input v-model="form.password" type="password" show-password placeholder="请输入密码" />
-        </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="form.realName" placeholder="请输入姓名" />
-        </el-form-item>
-        <el-form-item label="手机号">
-          <el-input v-model="form.phone" placeholder="请输入手机号" />
-        </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="form.email" placeholder="请输入邮箱" />
-        </el-form-item>
-        <el-form-item label="组织归属">
-          <el-input v-model="form.companyName" placeholder="请输入组织名称" />
-        </el-form-item>
-        <el-form-item label="角色">
-          <el-select v-model="form.role" class="dialog-select">
-            <el-option v-for="item in roleOptions" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-select v-model="form.status" class="dialog-select">
-            <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
+        <div class="form-grid">
+          <el-form-item label="账号">
+            <el-input v-model="form.username" placeholder="请输入账号" />
+          </el-form-item>
+          <el-form-item :label="editingUserId ? '密码（留空不修改）' : '初始密码'">
+            <el-input v-model="form.password" type="password" show-password placeholder="请输入密码" />
+          </el-form-item>
+          <el-form-item label="姓名">
+            <el-input v-model="form.realName" placeholder="请输入姓名" />
+          </el-form-item>
+          <el-form-item label="手机号">
+            <el-input v-model="form.phone" placeholder="请输入手机号" />
+          </el-form-item>
+          <el-form-item label="邮箱">
+            <el-input v-model="form.email" placeholder="请输入邮箱" />
+          </el-form-item>
+          <el-form-item label="组织归属">
+            <el-input v-model="form.companyName" placeholder="请输入组织名称" />
+          </el-form-item>
+          <el-form-item label="角色">
+            <el-select v-model="form.role" class="full-width">
+              <el-option v-for="item in roleOptions" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="状态">
+            <el-select v-model="form.status" class="full-width">
+              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+          </el-form-item>
+        </div>
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
@@ -274,7 +277,19 @@ void loadData()
   width: min(320px, 100%);
 }
 
-.dialog-select {
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 var(--space-5);
+}
+
+.full-width {
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

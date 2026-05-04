@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 性能分析页面：展示服务响应时间与可用性双轴图、运维任务负载环形图，附带核心性能指标卡片 */
 import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { EChartsOption } from 'echarts'
@@ -88,6 +89,6 @@ void loadData()
 .chart-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
+  gap: var(--space-5);
 }
 </style>

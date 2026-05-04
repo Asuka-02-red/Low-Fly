@@ -7,6 +7,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * 每日统计报表实体。
+ * <p>
+ * 对应 report_daily_summary 表，存储按日汇总的运营统计数据，
+ * 包括任务数、订单数、支付金额、告警数及培训数。
+ * </p>
+ */
 @TableName("report_daily_summary")
 public class ReportDailySummaryEntity {
 

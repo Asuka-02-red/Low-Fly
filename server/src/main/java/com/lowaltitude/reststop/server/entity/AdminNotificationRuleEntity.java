@@ -6,6 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
+/**
+ * 管理员通知规则实体。
+ * <p>
+ * 对应 admin_notification_rule 表，存储后台通知规则的配置信息，
+ * 包括规则标识、名称、通知渠道、启用状态及触发条件描述。
+ * </p>
+ */
 @TableName("admin_notification_rule")
 public class AdminNotificationRuleEntity {
 

@@ -1,3 +1,10 @@
+server:
+  port: 8080
+
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173,http://localhost:8080}
+
 spring:
   application:
     name: low-altitude-rest-stop-server
@@ -29,7 +36,7 @@ management:
         include: health,info,prometheus
   health:
     redis:
-      enabled: true
+      enabled: false
   metrics:
     tags:
       application: ${spring.application.name}
@@ -57,10 +64,13 @@ logging:
   level:
     org.springframework.security: INFO
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [requestId=%X{requestId}] - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}
+      [requestId=%X{requestId}] - %msg%n"
 
 weather:
-  amap:
-    service-name: 实时天气
-    realtime-key: ${AMAP_REALTIME_WEATHER_KEY:1c4f1fc1a4acc125d1c0aaff01f13ba9}
+  qweather:
+    service-name: 和风天气
+    credential-id: ${QWEATHER_CREDENTIAL_ID:K45F5Y4V3F}
+    api-key: ${QWEATHER_API_KEY:ef1a1c145b2e41b68c278e62d832c4a2}
+    api-host: ${QWEATHER_API_HOST:https://mm2pg8ecbq.re.qweatherapi.com}
     cache-minutes: 15

@@ -1,0 +1,105 @@
+:root {
+  /* Color System */
+  --color-primary: #0052CC;
+  --color-secondary: #172B4D;
+  --color-success: #00875A;
+  --color-warning: #FF991F;
+  --color-danger: #DE350B;
+  --color-bg: #FAFBFC;
+  --color-text: #091E42;
+  --color-text-light: #5E6C84;
+
+  /* Typography */
+  --font-display: 'Outfit', 'SF Pro Display', sans-serif;
+  --font-body: 'Inter', 'SF Pro Text', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Type Scale */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+
+  /* Spacing */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+
+  /* Animation */
+  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0.0, 1, 1);
+
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+}
+
+/* Dark Mode Tokens */
+[data-theme='dark'] {
+  --color-bg: #121212;
+  --color-text: #E3E3E3;
+  --color-text-light: #A0A0A0;
+  --color-primary: #4C9AFF;
+  --color-secondary: #B3D4FF;
+}
+
+/* High Contrast Mode */
+[data-theme='high-contrast'] {
+  --color-primary: #000000;
+  --color-bg: #FFFFFF;
+  --color-text: #000000;
+}
+
+/* Layout Core Rules */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Visual Hierarchy Class Utilities (Score <= 0.35) */
+.vh-h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+.vh-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.vh-body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.vh-caption {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-text-light);
+}

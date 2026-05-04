@@ -1,3 +1,4 @@
+/** 管理后台 API 接口单元测试：验证用户列表空值兜底、概览数据映射、实时天气空值处理及业务错误抛出 */
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { fetchAdminOverview, fetchAdminRealtimeWeather, fetchAdminUsers } from '@/api/admin'
 import { request } from '@/api/http'

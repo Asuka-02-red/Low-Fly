@@ -7,6 +7,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 培训课程实体。
+ * <p>
+ * 对应 course 表，存储培训课程信息，
+ * 包括课程标题、机构名称、发布者、课程类型、摘要、内容、
+ * 座位数量、价格、状态及浏览/报名统计。
+ * </p>
+ */
 @TableName("course")
 public class CourseEntity {
 

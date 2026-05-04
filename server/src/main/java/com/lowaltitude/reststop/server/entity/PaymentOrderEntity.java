@@ -7,6 +7,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 支付订单实体。
+ * <p>
+ * 对应 payment_order 表，存储业务订单的支付流水信息，
+ * 包括关联业务订单、交易编号、支付渠道、金额、状态及回调负载。
+ * </p>
+ */
 @TableName("payment_order")
 public class PaymentOrderEntity {
 

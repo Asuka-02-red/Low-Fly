@@ -4,6 +4,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * 全局异常处理器。
+ * <p>
+ * 统一捕获并处理控制器层抛出的各类异常，包括业务异常（BizException）、
+ * 参数校验异常（MethodArgumentNotValidException）及其他未知异常，
+ * 将其转换为统一的ApiResponse格式返回给前端。
+ * </p>
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

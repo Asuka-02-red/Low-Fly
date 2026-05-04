@@ -5,6 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+/**
+ * 禁飞区实体。
+ * <p>
+ * 对应 no_fly_zone 表，存储禁飞区域信息，
+ * 包括区域名称、类型、中心点经纬度、半径及描述。
+ * </p>
+ */
 @TableName("no_fly_zone")
 public class NoFlyZoneEntity {
 

@@ -7,6 +7,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 飞行任务实体。
+ * <p>
+ * 对应 task 表，存储企业发布的飞行任务信息，
+ * 包括任务类型、标题、描述、地点、截止时间、经纬度坐标、
+ * 预算、状态及乐观锁版本号。
+ * </p>
+ */
 @TableName("task")
 public class TaskEntity {
 

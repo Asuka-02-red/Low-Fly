@@ -6,6 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
+/**
+ * 课程报名记录实体。
+ * <p>
+ * 对应 course_enrollment 表，存储用户报名课程的信息，
+ * 包括关联课程、用户、报名编号及报名状态。
+ * </p>
+ */
 @TableName("course_enrollment")
 public class CourseEnrollmentEntity {
 

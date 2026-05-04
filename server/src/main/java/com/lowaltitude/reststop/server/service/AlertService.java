@@ -8,6 +8,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+/**
+ * 告警服务。
+ * <p>
+ * 提供告警记录的管理功能，包括初始化种子告警数据、
+ * 查询告警列表、统计未关闭告警数及高风险告警数。
+ * </p>
+ */
 @Service
 public class AlertService {
 

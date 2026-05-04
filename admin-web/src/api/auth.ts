@@ -1,3 +1,4 @@
+/** 认证 API 接口层：封装用户登录和获取当前用户信息的 HTTP 请求 */
 import type { ApiEnvelope } from '@/api/http'
 import { request } from '@/api/http'
 import type { LoginPayload, LoginResult, UserProfile } from '@/types'

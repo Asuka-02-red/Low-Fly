@@ -1,3 +1,4 @@
+/** 管理后台数据仓库：提供本地模拟的后端数据服务，包含用户、角色、权限组、项目、设置和审计日志的增删改查，支持 localStorage 持久化和种子数据注入 */
 import type {
   AnalyticsPayload,
   AuditLogRecord,

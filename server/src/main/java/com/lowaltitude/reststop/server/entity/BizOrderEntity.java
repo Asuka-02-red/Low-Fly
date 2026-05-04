@@ -7,6 +7,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 业务订单实体。
+ * <p>
+ * 对应 biz_order 表，存储飞手接单后产生的业务订单信息，
+ * 包括关联任务、飞手、企业、订单金额及状态，支持乐观锁并发控制。
+ * </p>
+ */
 @TableName("biz_order")
 public class BizOrderEntity {
 

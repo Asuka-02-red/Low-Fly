@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 通知规则设置页面：以表格形式管理通知规则的名称、渠道、触发条件和启停状态 */
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import PageContainer from '@/components/PageContainer.vue'

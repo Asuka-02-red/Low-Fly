@@ -8,6 +8,13 @@ import com.lowaltitude.reststop.server.mapper.AuthRefreshTokenMapper;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
+/**
+ * 刷新令牌存储服务。
+ * <p>
+ * 管理用户刷新令牌的签发与验证，签发时删除旧令牌并创建新记录，
+ * 验证时检查令牌是否存在且未过期，过期或无效时抛出401业务异常。
+ * </p>
+ */
 @Service
 public class RefreshTokenStore {
 

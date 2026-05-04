@@ -14,6 +14,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * JWT认证过滤器。
+ * <p>
+ * 继承 OncePerRequestFilter，从请求头中提取Bearer令牌并解析为SessionUser，
+ * 设置Spring Security上下文认证信息。对认证接口、Swagger文档等路径跳过过滤，
+ * 令牌无效时返回401状态码。
+ * </p>
+ */
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
 

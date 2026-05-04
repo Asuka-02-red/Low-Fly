@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 订单记录页面：展示订单列表表格，支持点击行查看订单详情抽屉（包含订单编号、金额、支付状态、支付方式等） */
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import PageContainer from '@/components/PageContainer.vue'
@@ -94,11 +95,13 @@ void loadData()
 
 <style scoped lang="scss">
 .page-content {
-  background: #fff;
-  padding: 24px;
-  border-radius: 8px;
+  background: var(--color-bg-card);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
 .order-details {
-  padding: 0 20px;
+  padding: 0 var(--space-5);
 }
 </style>

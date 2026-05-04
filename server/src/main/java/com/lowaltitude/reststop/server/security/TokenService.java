@@ -5,6 +5,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import org.springframework.stereotype.Service;
 
+/**
+ * 令牌服务。
+ * <p>
+ * 负责创建和解析Base64编码的认证令牌，将SessionUser信息序列化为令牌字符串，
+ * 以及从令牌反序列化恢复SessionUser对象，令牌无效时抛出401业务异常。
+ * </p>
+ */
 @Service
 public class TokenService {
 

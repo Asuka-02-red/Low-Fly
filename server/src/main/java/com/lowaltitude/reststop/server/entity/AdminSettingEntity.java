@@ -6,6 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
+/**
+ * 管理员系统设置实体。
+ * <p>
+ * 对应 admin_setting 表，以键值对形式存储后台系统配置参数，
+ * 包括基础参数、安全策略等设置项。
+ * </p>
+ */
 @TableName("admin_setting")
 public class AdminSettingEntity {
 

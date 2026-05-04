@@ -42,8 +42,8 @@ public class AmapWeatherServiceTest {
 
     @Test
     public void shouldTranslateProviderKeyMismatchMessage() {
-        String translated = AmapWeatherService.translateProviderMessage("USERKEY_PLAT_NOMATCH", "默认错误");
+        String translated = AmapWeatherService.translateProviderMessage("INVALID HOST", "默认错误");
 
-        Assertions.assertEquals("实时天气服务鉴权失败，请检查高德 Key 的平台类型配置。", translated);
+        Assertions.assertEquals("和风天气 API Host 无效，请在控制台设置中复制正确的 API Host。", translated);
     }
 }

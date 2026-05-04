@@ -1,3 +1,4 @@
+/** 路由鉴权守卫单元测试：验证匿名用户重定向、已登录用户跳转、过期 Token 处理和非管理员拦截逻辑 */
 import { describe, expect, it } from 'vitest'
 import { resolveAuthRedirect } from '@/router/authGuard'
 

@@ -1,3 +1,4 @@
+/** 用户状态管理单元测试：验证记住密码功能的存储、登出后保留、以及取消记住时的清除逻辑 */
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { useUserStore } from '@/stores/user'

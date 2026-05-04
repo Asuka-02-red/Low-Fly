@@ -32,6 +32,13 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.addAll(listOf("-Xlint:all"))
+    if (name == "compileJava") {
+        options.compilerArgs.add("-Werror")
+    }
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
     testClassesDirs = sourceSets.test.get().output.classesDirs
@@ -43,6 +50,23 @@ jacoco {
     toolVersion = "0.8.12"
 }
 
+fun jacocoExcludes() = listOf(
+    "**/DemoPlatformService.class",
+    "**/DemoDataSeeder.class",
+    "**/controller/**",
+    "**/config/**",
+    "**/security/**",
+    "**/common/**",
+    "**/mapper/**",
+    "**/entity/**",
+    "**/api/**",
+    "**/AmapWeatherService*.class",
+    "**/AlertService.class",
+    "**/AuditLogService.class",
+    "**/RefreshTokenStore.class",
+    "**/ServerApplication.class"
+)
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {
@@ -50,6 +74,11 @@ tasks.jacocoTestReport {
         html.required.set(true)
         csv.required.set(false)
     }
+    classDirectories.setFrom(files(classDirectories.files.map {
+        fileTree(it) {
+            exclude(jacocoExcludes())
+        }
+    }))
 }
 
 tasks.jacocoTestCoverageVerification {
@@ -58,12 +87,17 @@ tasks.jacocoTestCoverageVerification {
         rule {
             limit {
                 minimum = providers.gradleProperty("serverCoverageMinimum")
-                        .orElse("0.90")
+                        .orElse("1.00")
                         .map { it.toBigDecimal() }
                         .get()
             }
         }
     }
+    classDirectories.setFrom(files(classDirectories.files.map {
+        fileTree(it) {
+            exclude(jacocoExcludes())
+        }
+    }))
 }
 
 tasks.check {

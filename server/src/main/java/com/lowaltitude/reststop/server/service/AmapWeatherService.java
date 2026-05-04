@@ -4,20 +4,37 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lowaltitude.reststop.server.api.ApiDtos;
 import com.lowaltitude.reststop.server.common.BizException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.zip.GZIPInputStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * 和风天气服务。
+ * <p>
+ * 封装和风天气API的调用逻辑，提供实时天气查询功能，
+ * 包括天气实况获取、分钟级降水查询、地理编码解析、
+ * 飞行适宜性评估及天气数据缓存管理。
+ * </p>
+ */
 @Service
 public class AmapWeatherService {
 
@@ -37,43 +54,63 @@ public class AmapWeatherService {
             Map.entry(11, 32.6),
             Map.entry(12, 36.9)
     );
+    private static final String DEFAULT_SOURCE_NOTE = "天气、温度、湿度、风向、风速与能见度来自和风天气实时天气；降水风险依据和风分钟级降水与实时天气现象综合推导。";
+    private static final String REALTIME_FALLBACK_SOURCE_NOTE = "天气、温度、湿度、风向、风速与能见度来自和风天气实时天气；当前分钟级降水不可用时，降水风险依据实时天气现象推导。";
 
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
     private final String serviceName;
+    private final String apiHost;
     private final String apiKey;
+    private final String credentialId;
     private final Duration cacheTtl;
     private final Map<String, CachedWeather> cache = new ConcurrentHashMap<>();
 
     public AmapWeatherService(
             ObjectMapper objectMapper,
-            @Value("${weather.amap.service-name:实时天气}") String serviceName,
-            @Value("${weather.amap.realtime-key:}") String apiKey,
-            @Value("${weather.amap.cache-minutes:15}") long cacheMinutes
+            @Value("${weather.qweather.service-name:和风天气}") String serviceName,
+            @Value("${weather.qweather.api-host:}") String apiHost,
+            @Value("${weather.qweather.api-key:}") String apiKey,
+            @Value("${weather.qweather.credential-id:}") String credentialId,
+            @Value("${weather.qweather.cache-minutes:15}") long cacheMinutes
     ) {
         this.objectMapper = objectMapper;
         this.serviceName = serviceName;
+        this.apiHost = stripTrailingSlash(apiHost);
         this.apiKey = apiKey;
+        this.credentialId = credentialId;
         this.cacheTtl = Duration.ofMinutes(Math.max(cacheMinutes, 1));
-        this.restClient = RestClient.builder()
-                .baseUrl("https://restapi.amap.com")
-                .build();
+        this.restClient = RestClient.builder().build();
     }
 
     public ApiDtos.AdminRealtimeWeatherView getRealtimeWeather(BigDecimal longitude, BigDecimal latitude) {
         validateCoordinates(longitude, latitude);
-        ensureApiKey();
+        ensureConfiguration();
 
-        ResolvedLocation resolvedLocation = resolveLocation(longitude, latitude);
-        CachedWeather cachedWeather = cache.get(resolvedLocation.adcode());
+        String locationParam = buildLocationParam(longitude, latitude);
+        CachedWeather cachedWeather = cache.get(locationParam);
         if (cachedWeather != null && !cachedWeather.isExpired(cacheTtl)) {
             return cachedWeather.payload();
         }
 
-        JsonNode live = loadLiveWeather(resolvedLocation.adcode());
-        JsonNode forecast = loadForecastWeather(resolvedLocation.adcode());
-        ApiDtos.AdminRealtimeWeatherView payload = mapWeatherPayload(resolvedLocation, live, forecast);
-        cache.put(resolvedLocation.adcode(), new CachedWeather(payload, LocalDateTime.now()));
+        ResolvedLocation resolvedLocation = resolveLocation(locationParam);
+        JsonNode weatherRoot = requestJson(
+                "/v7/weather/now",
+                Map.of("location", locationParam, "lang", "zh", "unit", "m"),
+                "和风实时天气服务暂时不可用，请稍后重试。",
+                false,
+                false
+        );
+        JsonNode minutelyRoot = requestJson(
+                "/v7/minutely/5m",
+                Map.of("location", locationParam, "lang", "zh"),
+                "和风分钟级降水服务暂时不可用，请稍后重试。",
+                true,
+                true
+        );
+
+        ApiDtos.AdminRealtimeWeatherView payload = mapWeatherPayload(resolvedLocation, locationParam, weatherRoot, minutelyRoot);
+        cache.put(locationParam, new CachedWeather(payload, LocalDateTime.now()));
         return payload;
     }
 
@@ -187,124 +224,125 @@ public class AmapWeatherService {
         );
     }
 
-    private ApiDtos.AdminRealtimeWeatherView mapWeatherPayload(ResolvedLocation location, JsonNode live, JsonNode forecast) {
-        String liveWeather = textValue(live, "weather");
-        String dayWeather = "";
-        String nightWeather = "";
+    private ApiDtos.AdminRealtimeWeatherView mapWeatherPayload(
+            ResolvedLocation location,
+            String locationParam,
+            JsonNode weatherRoot,
+            JsonNode minutelyRoot
+    ) {
+        JsonNode now = weatherRoot.path("now");
+        String liveWeather = textValue(now, "text");
+        DerivedMetrics heuristicMetrics = deriveMetrics(liveWeather, liveWeather, liveWeather, textValue(now, "windScale"));
+        MinutelyMetrics minutelyMetrics = extractMinutelyMetrics(minutelyRoot, liveWeather, parseDouble(textValue(now, "precip")));
 
-        JsonNode casts = forecast.path("casts");
-        if (casts.isArray() && !casts.isEmpty()) {
-            JsonNode today = casts.get(0);
-            dayWeather = textValue(today, "dayweather");
-            nightWeather = textValue(today, "nightweather");
-        }
-
-        DerivedMetrics derivedMetrics = deriveMetrics(liveWeather, dayWeather, nightWeather, textValue(live, "windpower"));
-        ApiDtos.AdminFlightSuitabilityView suitability = buildSuitabilityView(derivedMetrics);
+        double actualWindSpeed = parseDouble(textValue(now, "windSpeed"));
+        double windSpeedMetersPerSecond = actualWindSpeed > 0.0 ? round(actualWindSpeed / 3.6d) : heuristicMetrics.windSpeed();
+        double visibility = parseDouble(textValue(now, "vis"));
+        double finalVisibility = visibility > 0.0 ? round(visibility) : heuristicMetrics.visibility();
+        double precipitationIntensity = minutelyMetrics == null
+                ? Math.max(round(parseDouble(textValue(now, "precip"))), heuristicMetrics.precipitationIntensity())
+                : minutelyMetrics.precipitationIntensity();
+        int precipitationProbability = minutelyMetrics == null
+                ? heuristicMetrics.precipitationProbability()
+                : minutelyMetrics.precipitationProbability();
+        String thunderstormRisk = resolveThunderstormRisk(liveWeather, minutelyMetrics, heuristicMetrics.thunderstormRisk());
+        DerivedMetrics finalMetrics = new DerivedMetrics(
+                windSpeedMetersPerSecond,
+                finalVisibility,
+                precipitationProbability,
+                precipitationIntensity,
+                thunderstormRisk
+        );
+        ApiDtos.AdminFlightSuitabilityView suitability = buildSuitabilityView(finalMetrics);
 
         return new ApiDtos.AdminRealtimeWeatherView(
                 serviceName,
                 location.displayName(),
-                location.adcode(),
+                location.adcode().isBlank() ? locationParam : location.adcode(),
                 liveWeather,
-                textValue(live, "reporttime"),
+                formatProviderTime(textValue(now, "obsTime")),
                 TIME_FORMATTER.format(LocalDateTime.now()),
                 "15 分钟自动刷新",
-                parseDouble(textValue(live, "temperature")),
-                parseInteger(textValue(live, "humidity")),
-                textValue(live, "winddirection"),
-                textValue(live, "windpower"),
-                derivedMetrics.windSpeed(),
-                derivedMetrics.visibility(),
-                derivedMetrics.precipitationProbability(),
-                derivedMetrics.precipitationIntensity(),
-                derivedMetrics.thunderstormRisk(),
-                "温度、湿度、风向和风力来自高德实时天气；能见度、降水概率、降水强度与雷暴风险依据高德天气现象和当日预报进行推导。",
+                parseDouble(textValue(now, "temp")),
+                parseInteger(textValue(now, "humidity")),
+                textValue(now, "windDir"),
+                formatWindScale(textValue(now, "windScale")),
+                finalMetrics.windSpeed(),
+                finalMetrics.visibility(),
+                finalMetrics.precipitationProbability(),
+                finalMetrics.precipitationIntensity(),
+                finalMetrics.thunderstormRisk(),
+                minutelyMetrics == null ? REALTIME_FALLBACK_SOURCE_NOTE : DEFAULT_SOURCE_NOTE,
                 suitability
         );
     }
 
-    private ResolvedLocation resolveLocation(BigDecimal longitude, BigDecimal latitude) {
+    private ResolvedLocation resolveLocation(String locationParam) {
         try {
-            String response = restClient.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/v3/geocode/regeo")
-                            .queryParam("key", apiKey)
-                            .queryParam("location", longitude + "," + latitude)
-                            .queryParam("extensions", "base")
-                            .build())
-                    .retrieve()
-                    .body(String.class);
-
-            JsonNode root = readTree(response, "地理反编码结果解析失败");
-            ensureSuccess(root, "定位当前位置失败，请稍后重试。");
-
-            JsonNode regeocode = root.path("regeocode");
-            JsonNode addressComponent = regeocode.path("addressComponent");
-            String adcode = textValue(addressComponent, "adcode");
-            if (adcode.isBlank()) {
-                throw new BizException(502, "当前位置缺少区域编码，暂时无法查询天气。");
-            }
-
-            String province = textValue(addressComponent, "province");
-            String city = normalizeCity(addressComponent.path("city"), province);
-            String district = textValue(addressComponent, "district");
-            String displayName = String.join(" ", province, city, district).trim().replaceAll("\\s+", " ");
-
-            return new ResolvedLocation(
-                    adcode,
-                    displayName.isBlank() ? "当前位置" : displayName
+            JsonNode root = requestJson(
+                    "/geo/v2/city/lookup",
+                    Map.of("location", locationParam, "number", "1", "lang", "zh"),
+                    "当前位置解析失败，已回退为坐标显示。",
+                    true,
+                    true
             );
-        } catch (RestClientException exception) {
-            throw new BizException(502, "定位当前位置失败，请检查网络后重试。");
-        }
-    }
-
-    private JsonNode loadLiveWeather(String adcode) {
-        return loadWeatherNode(adcode, "base", "lives", "实时天气服务暂时不可用，请稍后重试。");
-    }
-
-    private JsonNode loadForecastWeather(String adcode) {
-        return loadWeatherNode(adcode, "all", "casts", "天气预报服务暂时不可用，请稍后重试。");
-    }
-
-    private JsonNode loadWeatherNode(String adcode, String extensions, String nodeName, String errorMessage) {
-        try {
-            String response = restClient.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/v3/weather/weatherInfo")
-                            .queryParam("key", apiKey)
-                            .queryParam("city", adcode)
-                            .queryParam("extensions", extensions)
-                            .queryParam("output", "JSON")
-                            .build())
-                    .retrieve()
-                    .body(String.class);
-
-            JsonNode root = readTree(response, "天气结果解析失败");
-            ensureSuccess(root, errorMessage);
-            JsonNode nodes = root.path(nodeName);
-            if (!nodes.isArray() || nodes.isEmpty()) {
-                throw new BizException(502, errorMessage);
+            if (root == null) {
+                return new ResolvedLocation("", formatCoordinateLabel(locationParam));
             }
-            return nodes.get(0);
-        } catch (RestClientException exception) {
-            throw new BizException(502, errorMessage);
+            JsonNode locations = root.path("location");
+            if (!locations.isArray() || locations.isEmpty()) {
+                return new ResolvedLocation("", formatCoordinateLabel(locationParam));
+            }
+            JsonNode item = locations.get(0);
+            String id = textValue(item, "id");
+            return new ResolvedLocation(id, buildLocationDisplayName(item, locationParam));
+        } catch (BizException exception) {
+            return new ResolvedLocation("", formatCoordinateLabel(locationParam));
         }
     }
 
-    private JsonNode readTree(String body, String fallbackMessage) {
+    private JsonNode requestJson(
+            String path,
+            Map<String, String> queryParameters,
+            String defaultErrorMessage,
+            boolean allowNoData,
+            boolean optionalFeature
+    ) {
         try {
-            return objectMapper.readTree(body);
-        } catch (Exception exception) {
-            throw new BizException(502, fallbackMessage);
-        }
-    }
-
-    private void ensureSuccess(JsonNode root, String defaultMessage) {
-        if (!"1".equals(textValue(root, "status"))) {
-            String message = textValue(root, "info");
-            throw new BizException(502, translateProviderMessage(message, defaultMessage));
+            ProviderResponse response = restClient.get()
+                    .uri(buildRequestUri(path, queryParameters))
+                    .header("X-QW-Api-Key", apiKey)
+                    .header("Accept", "application/json")
+                    .header("Accept-Encoding", "identity")
+                    .exchange((request, clientResponse) -> new ProviderResponse(
+                            clientResponse.getStatusCode().value(),
+                            readResponseBody(clientResponse.getBody(), clientResponse.getHeaders().get("Content-Encoding"))
+                    ));
+            JsonNode root = readTree(response.body(), defaultErrorMessage);
+            if (response.statusCode() >= 400) {
+                if (optionalFeature && isIgnorableOptionalError(root, response.statusCode())) {
+                    return null;
+                }
+                throw new BizException(502, translateProviderHttpError(root, response.statusCode(), defaultErrorMessage));
+            }
+            String code = textValue(root, "code");
+            if (!code.isBlank() && !"200".equals(code)) {
+                if ("204".equals(code) && allowNoData) {
+                    return null;
+                }
+                if (optionalFeature && isIgnorableOptionalCode(code)) {
+                    return null;
+                }
+                throw new BizException(502, translateProviderMessage(code, defaultErrorMessage));
+            }
+            return root;
+        } catch (BizException exception) {
+            throw exception;
+        } catch (RestClientException | IllegalStateException exception) {
+            if (optionalFeature) {
+                return null;
+            }
+            throw new BizException(502, defaultErrorMessage);
         }
     }
 
@@ -313,13 +351,180 @@ public class AmapWeatherService {
         if (message.isBlank()) {
             return defaultMessage;
         }
-        return switch (message) {
-            case "USERKEY_PLAT_NOMATCH" -> "实时天气服务鉴权失败，请检查高德 Key 的平台类型配置。";
-            case "INVALID_USER_KEY" -> "实时天气服务密钥无效，请联系管理员检查配置。";
-            case "SERVICE_NOT_AVAILABLE" -> "实时天气服务暂时不可用，请稍后重试。";
-            case "DAILY_QUERY_OVER_LIMIT", "ACCESS_TOO_FREQUENT" -> "实时天气服务请求过于频繁，请稍后再试。";
+        String normalized = message.toUpperCase(Locale.ROOT);
+        return switch (normalized) {
+            case "INVALID HOST", "INVALID_HOST" -> "和风天气 API Host 无效，请在控制台设置中复制正确的 API Host。";
+            case "UNAUTHORIZED", "401" -> "和风天气 API Key 无效，请检查 API Key 或鉴权方式。";
+            case "NO CREDIT", "402" -> "和风天气可用额度不足，请检查订阅或账户余额。";
+            case "FORBIDDEN", "403", "SECURITY RESTRICTION" -> "和风天气请求被拒绝，请检查 Host、凭据安全限制或接口权限。";
+            case "TOO MANY REQUESTS", "429", "OVER MONTHLY LIMIT" -> "和风天气请求过于频繁或已超限，请稍后重试。";
+            case "NO SUCH LOCATION", "404" -> "和风天气未识别当前位置，请检查坐标格式或改用附近有效坐标。";
+            case "DATA NOT AVAILABLE", "204" -> "当前位置暂时没有可用的天气数据。";
             default -> message;
         };
+    }
+
+    private String translateProviderHttpError(JsonNode root, int statusCode, String defaultMessage) {
+        JsonNode error = root.path("error");
+        String title = textValue(error, "title");
+        String detail = textValue(error, "detail");
+        String message = translateProviderMessage(title, defaultMessage);
+        if (message.equals(title) && !detail.isBlank()) {
+            message = detail;
+        }
+        if (!message.equals(defaultMessage) && !detail.isBlank() && !detail.equalsIgnoreCase(title)) {
+            return message + " " + detail;
+        }
+        if (!message.equals(defaultMessage)) {
+            return message;
+        }
+        return switch (statusCode) {
+            case 401 -> "和风天气鉴权失败，请检查 API Key。";
+            case 403 -> "和风天气请求被拒绝，请检查 API Host、账号权限或安全限制。";
+            case 404 -> "和风天气接口路径无效，请检查 API Host 和请求路径。";
+            case 429 -> "和风天气请求过于频繁，请稍后再试。";
+            default -> defaultMessage;
+        };
+    }
+
+    private boolean isIgnorableOptionalError(JsonNode root, int statusCode) {
+        if (statusCode == 404) {
+            return true;
+        }
+        JsonNode error = root.path("error");
+        String title = textValue(error, "title").toUpperCase(Locale.ROOT);
+        return statusCode == 400
+                || "DATA NOT AVAILABLE".equals(title)
+                || "NO SUCH LOCATION".equals(title)
+                || "FORBIDDEN".equals(title);
+    }
+
+    private boolean isIgnorableOptionalCode(String code) {
+        return "204".equals(code) || "403".equals(code) || "404".equals(code);
+    }
+
+    private String buildRequestUri(String path, Map<String, String> queryParameters) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiHost).path(path);
+        queryParameters.forEach((key, value) -> {
+            if (value != null && !value.isBlank()) {
+                builder.queryParam(key, value);
+            }
+        });
+        return builder.build(true).toUriString();
+    }
+
+    private static String readResponseBody(InputStream body, List<String> contentEncodings) {
+        try {
+            byte[] bytes = StreamUtils.copyToByteArray(body);
+            boolean gzipEncoded = contentEncodings != null
+                    && contentEncodings.stream().anyMatch(value -> value != null && value.toLowerCase(Locale.ROOT).contains("gzip"));
+            if (!gzipEncoded) {
+                return new String(bytes, StandardCharsets.UTF_8);
+            }
+            try (GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(bytes))) {
+                return StreamUtils.copyToString(gzipInputStream, StandardCharsets.UTF_8);
+            }
+        } catch (Exception exception) {
+            throw new IllegalStateException("Failed to decode weather response", exception);
+        }
+    }
+
+    private MinutelyMetrics extractMinutelyMetrics(JsonNode minutelyRoot, String weatherText, double realtimePrecipitation) {
+        if (minutelyRoot == null || minutelyRoot.isMissingNode()) {
+            return null;
+        }
+        JsonNode items = minutelyRoot.path("minutely");
+        double maxPrecip = 0.0;
+        boolean hasSnow = false;
+        boolean hasRain = false;
+        if (items.isArray()) {
+            for (JsonNode item : items) {
+                maxPrecip = Math.max(maxPrecip, parseDouble(textValue(item, "precip")));
+                String type = textValue(item, "type");
+                hasSnow = hasSnow || "snow".equalsIgnoreCase(type);
+                hasRain = hasRain || "rain".equalsIgnoreCase(type);
+            }
+        }
+        String summary = textValue(minutelyRoot, "summary");
+        double precipitationIntensity = maxPrecip > 0.0 ? round(maxPrecip * 12.0d) : round(realtimePrecipitation);
+        int precipitationProbability;
+        if (maxPrecip > 0.0) {
+            precipitationProbability = 90;
+        } else if (hasRain || hasSnow) {
+            precipitationProbability = 50;
+        } else if (containsAny(summary, "雨", "雪") || containsAny(weatherText, "雨", "雪")) {
+            precipitationProbability = 65;
+        } else if (containsAny(weatherText, "阴")) {
+            precipitationProbability = 25;
+        } else if (containsAny(weatherText, "多云")) {
+            precipitationProbability = 12;
+        } else {
+            precipitationProbability = 5;
+        }
+        return new MinutelyMetrics(
+                precipitationProbability,
+                precipitationIntensity,
+                summary
+        );
+    }
+
+    private String resolveThunderstormRisk(String weatherText, MinutelyMetrics minutelyMetrics, String fallbackRisk) {
+        String summary = minutelyMetrics == null ? "" : minutelyMetrics.summary();
+        if (containsAny(weatherText, "雷", "强对流") || containsAny(summary, "雷", "强对流")) {
+            return "高";
+        }
+        return fallbackRisk;
+    }
+
+    private String buildLocationDisplayName(JsonNode item, String locationParam) {
+        LinkedHashSet<String> parts = new LinkedHashSet<>();
+        addIfPresent(parts, textValue(item, "adm1"));
+        addIfPresent(parts, textValue(item, "adm2"));
+        addIfPresent(parts, textValue(item, "name"));
+        String displayName = String.join(" ", parts).trim();
+        return displayName.isBlank() ? formatCoordinateLabel(locationParam) : displayName;
+    }
+
+    private void addIfPresent(LinkedHashSet<String> parts, String value) {
+        String text = value == null ? "" : value.trim();
+        if (!text.isBlank()) {
+            parts.add(text);
+        }
+    }
+
+    private String buildLocationParam(BigDecimal longitude, BigDecimal latitude) {
+        return String.format(Locale.ROOT, "%.2f,%.2f", longitude.doubleValue(), latitude.doubleValue());
+    }
+
+    private String formatCoordinateLabel(String locationParam) {
+        return "当前位置(" + locationParam + ")";
+    }
+
+    private String formatProviderTime(String rawTime) {
+        if (rawTime == null || rawTime.isBlank()) {
+            return TIME_FORMATTER.format(LocalDateTime.now());
+        }
+        try {
+            return TIME_FORMATTER.format(OffsetDateTime.parse(rawTime).toLocalDateTime());
+        } catch (Exception ignored) {
+            return rawTime.replace('T', ' ').replace("+08:00", "");
+        }
+    }
+
+    private String formatWindScale(String windScale) {
+        String value = windScale == null ? "" : windScale.trim();
+        if (value.isBlank()) {
+            return "";
+        }
+        return value.endsWith("级") ? value : value + "级";
+    }
+
+    private JsonNode readTree(String body, String fallbackMessage) {
+        try {
+            return objectMapper.readTree(body);
+        } catch (Exception exception) {
+            throw new BizException(502, fallbackMessage);
+        }
     }
 
     private void validateCoordinates(BigDecimal longitude, BigDecimal latitude) {
@@ -334,25 +539,31 @@ public class AmapWeatherService {
         }
     }
 
-    private void ensureApiKey() {
-        if (apiKey == null || apiKey.isBlank()) {
-            throw new BizException(500, "实时天气服务未配置，请联系管理员。");
+    private void ensureConfiguration() {
+        if (apiHost == null || apiHost.isBlank()) {
+            throw new BizException(500, "和风天气 API Host 未配置，请在控制台设置中复制 API Host 后再启动服务。");
         }
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new BizException(500, "和风天气 API Key 未配置，请联系管理员。");
+        }
+        if (credentialId == null || credentialId.isBlank()) {
+            return;
+        }
+    }
+
+    private static String stripTrailingSlash(String url) {
+        if (url == null) {
+            return "";
+        }
+        String result = url.trim();
+        while (result.endsWith("/")) {
+            result = result.substring(0, result.length() - 1);
+        }
+        return result;
     }
 
     private static String normalizeWeather(String weather) {
         return weather == null ? "" : weather.trim();
-    }
-
-    private static String normalizeCity(JsonNode cityNode, String province) {
-        if (cityNode == null || cityNode.isMissingNode() || cityNode.isNull()) {
-            return province;
-        }
-        if (cityNode.isArray()) {
-            return cityNode.isEmpty() ? province : cityNode.get(0).asText(province);
-        }
-        String value = cityNode.asText("");
-        return value.isBlank() ? province : value;
     }
 
     private static String textValue(JsonNode node, String fieldName) {
@@ -364,7 +575,6 @@ public class AmapWeatherService {
         if (windPowerText == null || windPowerText.isBlank()) {
             return 0.0;
         }
-
         String normalized = windPowerText.replace("≤", "").replace("级", "").trim();
         String[] segments = normalized.split("-");
         try {
@@ -396,8 +606,9 @@ public class AmapWeatherService {
     }
 
     private static boolean containsAny(String text, String... keywords) {
+        String content = text == null ? "" : text;
         for (String keyword : keywords) {
-            if (text.contains(keyword)) {
+            if (content.contains(keyword)) {
                 return true;
             }
         }
@@ -426,5 +637,11 @@ public class AmapWeatherService {
         private boolean isExpired(Duration ttl) {
             return cachedAt.plus(ttl).isBefore(LocalDateTime.now());
         }
+    }
+
+    private record ProviderResponse(int statusCode, String body) {
+    }
+
+    private record MinutelyMetrics(int precipitationProbability, double precipitationIntensity, String summary) {
     }
 }

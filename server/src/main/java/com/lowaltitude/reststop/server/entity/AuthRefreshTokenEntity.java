@@ -6,6 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
+/**
+ * 认证刷新令牌实体。
+ * <p>
+ * 对应 auth_refresh_token 表，存储用户刷新令牌信息，
+ * 包括关联用户、令牌值及过期时间，用于实现令牌刷新机制。
+ * </p>
+ */
 @TableName("auth_refresh_token")
 public class AuthRefreshTokenEntity {
 

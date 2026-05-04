@@ -1,3 +1,4 @@
+/** 全局类型定义：统一声明管理后台所有业务实体的 TypeScript 类型，包括用户、项目、订单、设置、审计日志、天气、分析数据等 */
 export type MetricStatus = 'success' | 'warning' | 'danger' | 'info'
 
 export interface UserProfile {
@@ -237,11 +238,14 @@ export interface FlightSuitability {
   recommendations: string[]
 }
 
+export type WeatherIconType = 'clear' | 'cloudy' | 'rain' | 'snow' | 'fog' | 'thunderstorm'
+
 export interface RealtimeWeatherPayload {
   serviceName: string
   locationName: string
   adcode: string
   weather: string
+  weatherIconType: WeatherIconType
   reportTime: string
   fetchedAt: string
   refreshInterval: string
@@ -254,6 +258,10 @@ export interface RealtimeWeatherPayload {
   precipitationProbability: number
   precipitationIntensity: number
   thunderstormRisk: string
+  thunderstormRiskLevel: number
+  thunderstormRiskLabel: string
+  thunderstormRiskHint: string
+  thunderstormProtectionAdvice: string
   sourceNote: string
   suitability: FlightSuitability
 }

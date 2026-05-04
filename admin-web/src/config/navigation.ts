@@ -1,3 +1,4 @@
+/** 导航菜单配置：定义管理后台的侧边栏菜单结构、路由映射和页面描述，供布局和路由模块统一引用 */
 import type { Component } from 'vue'
 import type { IconKey } from '@/types'
 

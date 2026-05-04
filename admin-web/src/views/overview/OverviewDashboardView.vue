@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 总览看板页面：展示基于定位的实时天气与飞行适宜性判断、核心指标卡片、项目区域分布饼图、进度趋势图、设备终端态势和系统通知 */
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { EChartsOption } from 'echarts'
@@ -7,6 +8,13 @@ import { fetchAdminOverview, fetchAdminRealtimeWeather } from '@/api/admin'
 import PageContainer from '@/components/PageContainer.vue'
 import StatCard from '@/components/StatCard.vue'
 import type { OverviewPayload, RealtimeWeatherPayload } from '@/types'
+import {
+  resolveWeatherEmoji,
+  resolveWeatherBackground,
+  resolveWeatherTextColor,
+  resolveRiskColor,
+  formatRiskSummary,
+} from '@/utils/weatherVisuals'
 
 interface Coordinates {
   longitude: number
@@ -32,6 +40,36 @@ const overview = ref<OverviewPayload>({
 
 const isSuitableToFly = computed(() => weather.value?.suitability.result === '适宜飞行')
 
+const weatherEmoji = computed(() => {
+  if (!weather.value) return '🌤'
+  return resolveWeatherEmoji(weather.value.weatherIconType)
+})
+
+const weatherBg = computed(() => {
+  if (!weather.value) return resolveWeatherBackground('clear')
+  return resolveWeatherBackground(weather.value.weatherIconType)
+})
+
+const weatherTextColor = computed(() => {
+  if (!weather.value) return resolveWeatherTextColor('clear')
+  return resolveWeatherTextColor(weather.value.weatherIconType)
+})
+
+const riskColor = computed(() => {
+  if (!weather.value) return '#64748b'
+  return resolveRiskColor(weather.value.thunderstormRiskLevel)
+})
+
+const riskSummary = computed(() => {
+  if (!weather.value) return '-'
+  return formatRiskSummary(weather.value.thunderstormRiskLevel, weather.value.thunderstormRiskLabel)
+})
+
+const isOfflineMode = computed(() => {
+  if (!weather.value) return false
+  return weather.value.serviceName.includes('离线模式') || weather.value.sourceNote.includes('本地模拟')
+})
+
 const weatherMetrics = computed(() => {
   if (!weather.value) {
     return []
@@ -41,37 +79,44 @@ const weatherMetrics = computed(() => {
     {
       label: '温度',
       value: `${weather.value.temperature.toFixed(1)}°C`,
-      note: '高德实时天气',
+      note: weather.value.serviceName,
+      icon: '🌡️',
     },
     {
       label: '湿度',
       value: `${weather.value.humidity}%`,
-      note: '高德实时天气',
+      note: weather.value.serviceName,
+      icon: '💧',
     },
     {
       label: '风速',
       value: `${weather.value.windSpeed.toFixed(1)} m/s`,
-      note: `${weather.value.windDirection}风 ${weather.value.windPower}级`,
+      note: `${weather.value.windDirection}风 ${weather.value.windPower}`,
+      icon: '💨',
     },
     {
       label: '能见度',
       value: `${weather.value.visibility.toFixed(1)} km`,
-      note: '按天气现象推导',
+      note: weather.value.visibility > 5 ? '满足目视飞行' : '低于安全阈值',
+      icon: '👁️',
     },
     {
       label: '降水概率',
       value: `${weather.value.precipitationProbability}%`,
-      note: '按实况与当日预报推导',
+      note: weather.value.precipitationProbability > 50 ? '降水风险较高' : '降水风险较低',
+      icon: '🌧️',
     },
     {
       label: '降水强度',
       value: `${weather.value.precipitationIntensity.toFixed(1)} mm/h`,
-      note: '按天气现象推导',
+      note: weather.value.precipitationIntensity < 0.5 ? '对起降影响可控' : '建议暂停任务',
+      icon: '💦',
     },
     {
       label: '雷暴风险',
-      value: weather.value.thunderstormRisk,
-      note: '按天气现象识别',
+      value: riskSummary.value,
+      note: weather.value.thunderstormRiskHint,
+      icon: '⚡',
     },
   ]
 })
@@ -219,10 +264,11 @@ onBeforeUnmount(() => {
           <div>
             <span class="section-title">实时天气与飞行适宜性</span>
             <p class="weather-card__subtitle">
-              首页显著展示当前位置气象条件，系统每 15 分钟自动刷新一次。
+              基于浏览器定位获取当前位置气象条件，系统每 15 分钟自动刷新一次。
             </p>
           </div>
           <div class="weather-card__actions">
+            <el-tag v-if="isOfflineMode" effect="dark" type="warning">离线模式</el-tag>
             <el-tag effect="light">{{ weather?.serviceName ?? '实时天气' }}</el-tag>
             <el-button link type="primary" :loading="weatherRefreshing" @click="loadWeather({ relocate: true })">
               刷新天气
@@ -242,12 +288,15 @@ onBeforeUnmount(() => {
 
       <div v-if="weather" class="weather-card__body">
         <div class="weather-hero">
-          <div class="weather-hero__summary">
-            <span class="weather-hero__icon">🌤</span>
+          <div class="weather-hero__summary" :style="{ background: weatherBg, color: weatherTextColor }">
+            <span class="weather-hero__icon">{{ weatherEmoji }}</span>
             <span class="weather-hero__label">{{ weather.locationName }}</span>
             <div class="weather-hero__temperature">{{ weather.temperature.toFixed(1) }}°C</div>
             <div class="weather-hero__description">
-              {{ weather.weather }} | {{ weather.windDirection }}风 {{ weather.windPower }}级
+              {{ weather.weather }} | {{ weather.windDirection }}风 {{ weather.windPower }}
+            </div>
+            <div class="weather-hero__risk" :style="{ color: riskColor }">
+              ⚡ 雷暴风险 {{ riskSummary }}
             </div>
             <p class="weather-hero__meta">
               发布时间 {{ weather.reportTime }} | 本次同步 {{ weather.fetchedAt }}
@@ -266,9 +315,12 @@ onBeforeUnmount(() => {
 
         <div class="weather-metrics-grid">
           <div v-for="metric in weatherMetrics" :key="metric.label" class="weather-metric">
-            <span>{{ metric.label }}</span>
-            <strong>{{ metric.value }}</strong>
-            <small>{{ metric.note }}</small>
+            <div class="weather-metric__header">
+              <span class="weather-metric__icon">{{ metric.icon }}</span>
+              <span class="weather-metric__label">{{ metric.label }}</span>
+            </div>
+            <strong class="weather-metric__value">{{ metric.value }}</strong>
+            <small class="weather-metric__note">{{ metric.note }}</small>
           </div>
         </div>
 
@@ -415,9 +467,9 @@ onBeforeUnmount(() => {
 }
 
 .weather-hero__summary {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
   display: flex;
   flex-direction: column;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
 .weather-hero__icon {
@@ -429,27 +481,32 @@ onBeforeUnmount(() => {
 .weather-hero__label {
   display: inline-flex;
   margin-bottom: 12px;
-  color: #1d4ed8;
   font-size: var(--font-medium);
   font-weight: 600;
+  opacity: 0.85;
 }
 
 .weather-hero__temperature {
   font-size: calc(var(--font-large) * 2.2);
   line-height: 1;
   font-weight: 700;
-  color: var(--color-text-primary);
 }
 
 .weather-hero__description {
   margin-top: 12px;
   font-size: var(--font-large);
-  color: var(--color-text-secondary);
+  opacity: 0.9;
+}
+
+.weather-hero__risk {
+  margin-top: 10px;
+  font-size: var(--font-medium);
+  font-weight: 600;
 }
 
 .weather-hero__meta {
   margin: 12px 0 0;
-  color: var(--color-text-muted);
+  opacity: 0.65;
   font-size: var(--font-medium);
 }
 
@@ -499,22 +556,32 @@ onBeforeUnmount(() => {
   border-radius: 14px;
   background: var(--color-bg-section);
   border: 1px solid var(--color-border-light);
+}
 
-  span {
-    color: var(--color-text-primary);
-    font-size: var(--font-large);
-    font-weight: 600;
-  }
+.weather-metric__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  strong {
-    font-size: var(--font-medium);
-    color: var(--color-text-secondary);
-  }
+.weather-metric__icon {
+  font-size: var(--font-large);
+}
 
-  small {
-    color: var(--color-text-caption);
-    font-size: var(--font-small);
-  }
+.weather-metric__label {
+  color: var(--color-text-primary);
+  font-size: var(--font-medium);
+  font-weight: 600;
+}
+
+.weather-metric__value {
+  font-size: var(--font-large);
+  color: var(--color-text-primary);
+}
+
+.weather-metric__note {
+  color: var(--color-text-caption);
+  font-size: var(--font-small);
 }
 
 .flight-checks {

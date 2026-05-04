@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 合规风控页面：以表格形式展示项目的合规状态、风险等级和最近更新时间 */
 import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import PageContainer from '@/components/PageContainer.vue'

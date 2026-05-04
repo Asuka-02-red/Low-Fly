@@ -6,6 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
+/**
+ * 反馈工单实体。
+ * <p>
+ * 对应 feedback_ticket 表，存储用户提交的反馈工单信息，
+ * 包括工单编号、提交者、联系方式、详细内容、处理状态、
+ * 管理员回复及关闭时间。
+ * </p>
+ */
 @TableName("feedback_ticket")
 public class FeedbackTicketEntity {
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 项目中心页面：展示项目全生命周期管理视图，包含指标卡片、关键词搜索和项目详情表格（状态、进度、预算、合规、风险、结算） */
 import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { fetchAdminProjects } from '@/api/admin'
@@ -60,8 +61,8 @@ void loadData()
     back-label="返回项目管理"
   >
     <template #actions>
-      <el-input v-model="keyword" placeholder="搜索项目/区域/负责人" clearable class="toolbar-search" />
-      <el-button @click="loadData">刷新</el-button>
+      <el-input v-model="keyword" placeholder="搜索项目/区域/负责人" clearable class="toolbar-search" prefix-icon="Search" />
+      <el-button type="primary" :loading="loading" @click="loadData">刷新</el-button>
     </template>
 
     <div class="metrics-grid">
@@ -69,7 +70,7 @@ void loadData()
     </div>
 
     <el-card class="page-card" shadow="never" v-loading="loading">
-      <el-table :data="filteredProjects" border>
+      <el-table :data="filteredProjects" border stripe>
         <el-table-column prop="id" label="项目编号" min-width="120" />
         <el-table-column prop="name" label="项目名称" min-width="220" />
         <el-table-column prop="owner" label="负责人" min-width="120" />
@@ -97,7 +98,9 @@ void loadData()
           </template>
         </el-table-column>
         <el-table-column label="预算" min-width="140">
-          <template #default="{ row }">¥ {{ row.budget.toLocaleString('zh-CN') }}</template>
+          <template #default="{ row }">
+            <span class="money-value">¥ {{ row.budget.toLocaleString('zh-CN') }}</span>
+          </template>
         </el-table-column>
         <el-table-column label="合规" min-width="120">
           <template #default="{ row }">
@@ -129,5 +132,11 @@ void loadData()
 <style scoped lang="scss">
 .toolbar-search {
   width: min(280px, 100%);
+}
+
+.money-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--color-text-primary);
 }
 </style>
