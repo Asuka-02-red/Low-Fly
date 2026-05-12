@@ -8,6 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+/**
+ * 网络状态监控器，通过系统ConnectivityManager实时监听网络连接变化，
+ * 以LiveData形式暴露在线状态供UI层观察。
+ */
 public final class NetworkMonitor {
 
     private static final MutableLiveData<Boolean> ONLINE = new MutableLiveData<>();

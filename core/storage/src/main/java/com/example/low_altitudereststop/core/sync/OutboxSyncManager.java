@@ -14,6 +14,10 @@ import com.google.gson.Gson;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 发件箱同步管理器，负责将离线操作入队并调度WorkManager进行即时或周期性同步，
+ * 确保离线期间的操作在网络恢复后可靠地提交到服务端。
+ */
 public final class OutboxSyncManager {
 
     private static final String PERIODIC_NAME = "operation_outbox_periodic_sync";

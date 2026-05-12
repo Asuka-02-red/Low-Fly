@@ -3,6 +3,9 @@ package com.example.low_altitudereststop.core.storage;
 import android.content.Context;
 import java.util.List;
 
+/**
+ * 操作发件箱存储服务，封装发件箱的入队、状态更新、重试调度和已完成记录清理等业务操作。
+ */
 public class OperationOutboxStore {
 
     private final OperationOutboxDao dao;

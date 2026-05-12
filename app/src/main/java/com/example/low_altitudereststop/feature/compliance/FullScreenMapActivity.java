@@ -15,6 +15,14 @@ import com.example.low_altitudereststop.databinding.ActivityFullScreenMapBinding
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * 禁飞区全屏地图展示Activity。
+ * <p>
+ * 以全屏模式展示高德地图，加载并渲染本地和远程禁飞区数据，
+ * 支持安全模式降级（地图不可用时显示缓存摘要），
+ * 并在启动时请求定位权限。
+ * </p>
+ */
 public class FullScreenMapActivity extends NavigableEdgeToEdgeActivity {
 
     private ActivityFullScreenMapBinding binding;

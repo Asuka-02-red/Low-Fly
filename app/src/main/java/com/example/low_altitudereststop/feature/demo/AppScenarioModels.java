@@ -4,6 +4,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 应用演示场景数据模型定义类。
+ * <p>
+ * 定义ScenarioBundle（场景集合）及其子模型：Person（飞手）、Company（企业）、
+ * Task（任务）、Order（订单）、Course（课程）、FlightApplication（飞行申请）、
+ * Zone（禁飞区）、WeatherAnchor（天气锚点）和MessageLine（消息行），
+ * 用于构建完整的演示业务数据。
+ * </p>
+ */
 public final class AppScenarioModels {
 
     private AppScenarioModels() {
@@ -75,6 +84,7 @@ public final class AppScenarioModels {
         public String title;
         public String summary;
         public String content;
+        public String category;
         public String learningMode;
         public String institutionName;
         public int seatTotal;

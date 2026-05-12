@@ -67,7 +67,8 @@ public class AuthService {
     }
 
     public ApiDtos.AuthPayload refresh(ApiDtos.RefreshTokenRequest request) {
-        UserAccountEntity user = getUserByUsername(refreshTokenStore.requireUsernameByRefreshToken(request.refreshToken()));
+        Long userId = refreshTokenStore.requireUserIdByRefreshToken(request.refreshToken());
+        UserAccountEntity user = getUserById(userId);
         SessionUser sessionUser = toSessionUser(user);
         return new ApiDtos.AuthPayload(
                 tokenService.createToken(sessionUser),
@@ -77,7 +78,7 @@ public class AuthService {
     }
 
     public ApiDtos.SessionInfo currentUser(SessionUser user) {
-        return toSessionInfo(getUserByUsername(user.username()));
+        return toSessionInfo(getUserById(user.id()));
     }
 
     private ApiDtos.AuthPayload buildAuthPayload(UserAccountEntity user) {
@@ -113,6 +114,14 @@ public class AuthService {
 
     private UserAccountEntity getUserByUsername(String username) {
         UserAccountEntity user = findUserByUsername(username);
+        if (user == null) {
+            throw new BizException(404, "用户不存在");
+        }
+        return user;
+    }
+
+    UserAccountEntity getUserById(Long id) {
+        UserAccountEntity user = userAccountMapper.selectById(id);
         if (user == null) {
             throw new BizException(404, "用户不存在");
         }

@@ -22,6 +22,13 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import retrofit2.Response;
 
+/**
+ * 消息已读回执同步Worker，定期将本地已读状态同步到服务端。
+ * <p>
+ * 通过WorkManager调度一次性任务和周期性任务，批量查询待同步的已读回执
+ * 并调用API上报，支持重试限制和审计日志记录。
+ * </p>
+ */
 public class MessageReadReceiptWorker extends Worker {
 
     private static final String ONCE_NAME = "message_read_receipt_once";

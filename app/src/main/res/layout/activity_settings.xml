@@ -59,7 +59,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/settings_dark_mode_switch" />
+                    android:text="@string/settings_dark_mode_switch"
+                    android:visibility="gone" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/switch_high_contrast"

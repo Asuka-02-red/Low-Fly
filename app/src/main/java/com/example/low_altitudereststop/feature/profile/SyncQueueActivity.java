@@ -9,6 +9,14 @@ import com.example.low_altitudereststop.core.sync.OutboxSyncManager;
 import com.example.low_altitudereststop.databinding.ActivitySyncQueueBinding;
 import java.util.List;
 
+/**
+ * 离线同步队列Activity，展示待同步的操作列表。
+ * <p>
+ * 从OperationOutboxStore加载所有未完成的操作记录，
+ * 展示操作类型、状态和创建时间，支持单条重试和全部重试，
+ * 重试时触发OutboxSyncManager立即执行同步。
+ * </p>
+ */
 public class SyncQueueActivity extends NavigableEdgeToEdgeActivity {
 
     private ActivitySyncQueueBinding binding;

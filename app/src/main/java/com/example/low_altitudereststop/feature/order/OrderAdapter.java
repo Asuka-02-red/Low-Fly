@@ -11,6 +11,13 @@ import com.example.low_altitudereststop.core.model.PlatformModels;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 订单列表适配器。
+ * <p>
+ * 展示订单的编号、状态、金额等信息，支持点击回调跳转到订单详情，
+ * 采用差异化的列表更新策略优化刷新性能。
+ * </p>
+ */
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.VH> {
 
     public interface OnItemClickListener {

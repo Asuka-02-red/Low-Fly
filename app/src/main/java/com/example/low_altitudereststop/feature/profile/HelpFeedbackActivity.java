@@ -18,6 +18,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 帮助与反馈Activity，提供用户提交反馈工单的功能。
+ * <p>
+ * 用户填写反馈内容后提交到服务端，网络不可用时加入离线同步队列，
+ * 展示最近一次提交的工单编号，支持页面状态管理（加载/内容/错误）。
+ * </p>
+ */
 public class HelpFeedbackActivity extends NavigableEdgeToEdgeActivity {
 
     private static final String PREF = "help_feedback";

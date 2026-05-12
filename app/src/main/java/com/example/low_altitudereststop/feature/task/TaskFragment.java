@@ -37,6 +37,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 任务Fragment，作为底部导航任务Tab的入口页。
+ * <p>
+ * 根据用户角色展示不同的任务列表和操作入口，企业用户可创建任务，
+ * 飞手用户可浏览和接单，支持下拉刷新、空状态展示、
+ * 页面状态管理和边到边布局适配。
+ * </p>
+ */
 public class TaskFragment extends Fragment {
 
     private static final String TASK_CACHE_NAME = "tasks.json";

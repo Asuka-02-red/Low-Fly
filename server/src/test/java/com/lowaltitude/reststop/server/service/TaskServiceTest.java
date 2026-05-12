@@ -102,7 +102,7 @@ public class TaskServiceTest {
 
     @Test
     public void shouldRejectPilotCreatingEnterpriseTask() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         try {
             taskService.createTask(
                     pilot,

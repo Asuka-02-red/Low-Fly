@@ -14,6 +14,13 @@ import com.example.low_altitudereststop.feature.message.local.MessageEntity;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.List;
 
+/**
+ * 消息详情Activity，展示单个会话的聊天记录。
+ * <p>
+ * 加载指定会话的所有消息，支持发送新消息、实时接收已读状态变更、
+ * 自动标记会话已读、同步待处理已读回执，以及草稿内容的保存与恢复。
+ * </p>
+ */
 public class MessageDetailActivity extends NavigableEdgeToEdgeActivity {
 
     public static final String EXTRA_CONVERSATION_ID = "conversation_id";

@@ -14,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * 离线同步队列适配器。
+ * <p>
+ * 展示待同步操作的类型、载荷摘要、状态和创建时间，
+ * 支持重试按钮回调，用于SyncQueueActivity的列表展示。
+ * </p>
+ */
 public class SyncQueueAdapter extends RecyclerView.Adapter<SyncQueueAdapter.VH> {
 
     public interface ActionListener {

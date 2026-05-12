@@ -5,6 +5,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.example.low_altitudereststop.core.ui.NavigableEdgeToEdgeActivity;
 
+/**
+ * 告警详情页面，展示单条告警的风险等级、发生时间、风险描述和处置建议。
+ */
 public class AlertDetailActivity extends NavigableEdgeToEdgeActivity {
 
     public static final String EXTRA_ALERT_ID = "alert_id";

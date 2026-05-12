@@ -4,8 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,6 +25,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.NavOptions;
 import com.example.low_altitudereststop.R;
+import com.amap.api.location.AMapLocation;
+import com.example.low_altitudereststop.feature.location.AmapLocationProvider;
 import com.example.low_altitudereststop.feature.permission.AppPermissionManager;
 import com.example.low_altitudereststop.core.model.AuthModels;
 import com.example.low_altitudereststop.core.model.PlatformModels;
@@ -60,32 +60,41 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+/**
+ * 首页Fragment，展示用户欢迎信息、快捷操作入口、运营指标图表和天气模块。
+ * <p>
+ * 根据用户角色动态配置快捷操作和指标标签，集成高德定位获取当前位置，
+ * 通过WeatherRepository获取实时天气和飞行适宜性评估，
+ * 支持定位权限管理、天气自动刷新、安全降级等容错机制。
+ * </p>
+ */
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
     private static final long WEATHER_REFRESH_INTERVAL_MS = 15 * 60 * 1000L;
-    private static final long LOCATION_TIMEOUT_MS = 8000L;
+    private static final long LOCATION_TIMEOUT_MS = 15_000L;
+    private static final long MAX_LAST_KNOWN_AGE_MS = 10 * 60 * 1000L;
+    private static final float MAX_ACCEPTABLE_LOCATION_ACCURACY_METERS = 150f;
     private static final double FALLBACK_LATITUDE = 29.56301d;
     private static final double FALLBACK_LONGITUDE = 106.55156d;
+    private static volatile PlatformModels.RealtimeWeatherView sLastKnownWeather;
+    private static volatile long sLastWeatherFetchedAt;
 
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private final ExecutorService weatherExecutor = Executors.newSingleThreadExecutor();
     private final Runnable weatherRefreshRunnable = () -> refreshWeather(false, false);
-    private final Runnable locationTimeoutRunnable = () -> {
-        currentLocationRequestInFlight = false;
-        appendLocationCrash("request timeout");
-        if (isAdded()) {
-            loadWeatherForLocation(createFallbackLocation(), "demo_timeout_fallback", false);
-        }
-    };
 
     private WeatherRepository weatherRepository;
+    private AmapLocationProvider amapLocationProvider;
     private AppPermissionManager permissionManager;
     private OperationLogStore operationLogStore;
     private Snackbar locationPermissionSnackbar;
-    private boolean currentLocationRequestInFlight;
+    private Future<?> pendingWeatherTask;
     private long lastWeatherRefreshTime;
+    private double lastWeatherRequestLat;
+    private double lastWeatherRequestLon;
     private ImageView ivWeatherIcon;
     private TextView tvWeatherCondition;
     private TextView tvWeatherLocation;
@@ -163,6 +172,7 @@ public class HomeFragment extends Fragment {
         tvWeatherError = view.findViewById(R.id.tv_weather_error);
         btnWeatherDetail = view.findViewById(R.id.btn_weather_detail);
         weatherRepository = new WeatherRepository(requireContext());
+        amapLocationProvider = new AmapLocationProvider(requireContext());
         permissionManager = AppPermissionManager.getInstance();
         operationLogStore = new OperationLogStore(requireContext());
 
@@ -227,9 +237,16 @@ public class HomeFragment extends Fragment {
             analyticsStore.trackFeature(userRole, "home_orders");
             startActivity(new Intent(requireContext(), OrderListActivity.class));
         });
-        view.findViewById(R.id.btn_weather_refresh).setOnClickListener(v -> {
+        View btnRefresh = view.findViewById(R.id.btn_weather_refresh);
+        btnRefresh.setOnClickListener(v -> {
             Toast.makeText(requireContext(), R.string.home_weather_refreshing, Toast.LENGTH_SHORT).show();
             refreshWeather(true, true);
+        });
+        btnRefresh.setOnLongClickListener(v -> {
+            weatherRepository.clearCache();
+            Toast.makeText(requireContext(), "天气缓存已清除，正在强制刷新", Toast.LENGTH_SHORT).show();
+            refreshWeather(true, true);
+            return true;
         });
         btnWeatherDetail.setOnClickListener(v -> openWeatherDetail());
         btnWeatherDetail.setEnabled(false);
@@ -262,6 +279,15 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         try {
+            if (currentWeather == null && sLastKnownWeather != null
+                    && System.currentTimeMillis() - sLastWeatherFetchedAt < WEATHER_REFRESH_INTERVAL_MS) {
+                currentWeather = sLastKnownWeather;
+                lastWeatherRefreshTime = sLastWeatherFetchedAt;
+                if (tvWeatherLocation != null) {
+                    bindWeather(currentWeather);
+                    scheduleNextWeatherRefresh();
+                }
+            }
             long now = System.currentTimeMillis();
             if (now - lastWeatherRefreshTime >= WEATHER_REFRESH_INTERVAL_MS) {
                 refreshWeather(false, false);
@@ -276,15 +302,20 @@ public class HomeFragment extends Fragment {
     public void onPause() {
         super.onPause();
         mainHandler.removeCallbacks(weatherRefreshRunnable);
-        mainHandler.removeCallbacks(locationTimeoutRunnable);
+        if (amapLocationProvider != null) {
+            amapLocationProvider.cancel();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mainHandler.removeCallbacks(weatherRefreshRunnable);
-        mainHandler.removeCallbacks(locationTimeoutRunnable);
-        currentLocationRequestInFlight = false;
+        cancelPendingWeatherTask();
+        if (amapLocationProvider != null) {
+            amapLocationProvider.destroy();
+            amapLocationProvider = null;
+        }
         ivWeatherIcon = null;
         tvWeatherCondition = null;
         tvWeatherLocation = null;
@@ -414,15 +445,23 @@ public class HomeFragment extends Fragment {
             return;
         }
         dismissLocationPermissionPrompt();
+
         if (!permissionManager.isLocationServiceEnabled(requireContext())) {
-            appendLocationAudit("service_disabled");
+            appendLocationAudit("location_service_disabled");
             maybePromptLocationServiceSettings();
-            loadWeatherForLocation(createFallbackLocation(), "demo_service_fallback", forceRefresh);
+            loadWeatherForLocation(createFallbackLocation(), "demo_location_disabled_fallback", forceRefresh);
             return;
         }
+
         Location location = getBestLocation();
         if (location == null) {
             appendLocationAudit("last_known_location_missing");
+            requestCurrentLocation(forceRefresh);
+            return;
+        }
+        if (shouldRequestFreshLocation(location)) {
+            appendLocationAudit("last_known_requires_refresh ageMs=" + calculateLocationAgeMs(location)
+                    + " accuracy=" + readLocationAccuracy(location));
             requestCurrentLocation(forceRefresh);
             return;
         }
@@ -430,8 +469,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadWeatherForLocation(@NonNull Location location, @NonNull String source, boolean forceRefresh) {
+        lastWeatherRequestLat = location.getLatitude();
+        lastWeatherRequestLon = location.getLongitude();
+        String locationDebug = String.format(Locale.getDefault(), "📍 %.5f, %.5f", lastWeatherRequestLat, lastWeatherRequestLon);
         renderWeatherLoading(
-                getString(R.string.home_weather_location_placeholder),
+                locationDebug,
                 getString(forceRefresh ? R.string.home_weather_refreshing_detail : R.string.home_weather_loading_detail)
         );
         appendLocationAudit("weather_request source=" + source
@@ -439,13 +481,14 @@ public class HomeFragment extends Fragment {
                 + " lon=" + location.getLongitude()
                 + " time=" + location.getTime()
                 + " forceRefresh=" + forceRefresh);
-        weatherExecutor.execute(() -> {
+        pendingWeatherTask = weatherExecutor.submit(() -> {
             try {
                 PlatformModels.RealtimeWeatherView weather = weatherRepository.getRealtimeWeather(
                         location.getLongitude(),
                         location.getLatitude(),
                         forceRefresh
                 );
+                pendingWeatherTask = null;
                 mainHandler.post(() -> {
                     if (!isAdded()) {
                         return;
@@ -475,76 +518,54 @@ public class HomeFragment extends Fragment {
     @SuppressLint("MissingPermission")
     @Nullable
     private Location getBestLocation() {
-        LocationManager manager = (LocationManager) requireContext().getSystemService(android.content.Context.LOCATION_SERVICE);
-        if (manager == null) {
-            appendLocationCrash("location_manager_null");
+        try {
+            if (amapLocationProvider != null) {
+                Location amapBest = amapLocationProvider.getBestKnownLocation();
+                if (amapBest != null && hasValidCoordinates(amapBest)) {
+                    appendLocationAudit("last_known_amap time=" + amapBest.getTime()
+                            + " accuracy=" + readLocationAccuracy(amapBest));
+                    return amapBest;
+                }
+            }
+            appendLocationAudit("last_known_no_amap_cache");
+            return null;
+        } catch (Throwable throwable) {
+            appendLocationCrash("get_best_location_failed " + throwable.getClass().getSimpleName());
             return null;
         }
-        Location bestLocation = null;
-        List<String> providers = manager.getProviders(true);
-        for (String provider : providers) {
-            try {
-                Location location = manager.getLastKnownLocation(provider);
-                if (location == null) {
-                    continue;
-                }
-                appendLocationAudit("last_known_hit provider=" + provider + " time=" + location.getTime());
-                if (bestLocation == null || location.getTime() > bestLocation.getTime()) {
-                    bestLocation = location;
-                }
-            } catch (SecurityException ignored) {
-                appendLocationCrash("last_known_security_exception provider=" + provider);
-                return null;
-            }
-        }
-        return bestLocation;
     }
 
     @SuppressLint("MissingPermission")
     private void requestCurrentLocation(boolean forceRefresh) {
-        if (!isAdded() || currentLocationRequestInFlight) {
-            return;
-        }
-        LocationManager manager = (LocationManager) requireContext().getSystemService(android.content.Context.LOCATION_SERVICE);
-        if (manager == null) {
-            appendLocationCrash("request_current manager_null");
-            loadWeatherForLocation(createFallbackLocation(), "demo_manager_fallback", forceRefresh);
-            return;
-        }
-        String provider = resolveRealtimeProvider(manager);
-        if (provider.isEmpty()) {
-            appendLocationCrash("request_current provider_missing");
-            loadWeatherForLocation(createFallbackLocation(), "demo_provider_fallback", forceRefresh);
-            return;
-        }
-        currentLocationRequestInFlight = true;
-        appendLocationAudit("request_current provider=" + provider + " sdk=" + Build.VERSION.SDK_INT);
-        mainHandler.removeCallbacks(locationTimeoutRunnable);
-        mainHandler.postDelayed(locationTimeoutRunnable, LOCATION_TIMEOUT_MS);
-        try {
-            manager.getCurrentLocation(provider, null, requireContext().getMainExecutor(),
-                    location -> handleCurrentLocationResult(provider, location, forceRefresh));
-        } catch (RuntimeException exception) {
-            currentLocationRequestInFlight = false;
-            mainHandler.removeCallbacks(locationTimeoutRunnable);
-            appendLocationCrash("request_current_failed provider=" + provider + " message=" + exception.getMessage());
-            loadWeatherForLocation(createFallbackLocation(), "demo_runtime_fallback", forceRefresh);
-        }
-    }
-
-    private void handleCurrentLocationResult(@NonNull String provider, @Nullable Location location, boolean forceRefresh) {
-        currentLocationRequestInFlight = false;
-        mainHandler.removeCallbacks(locationTimeoutRunnable);
         if (!isAdded()) {
             return;
         }
-        if (location == null) {
-            appendLocationCrash("current_location_null provider=" + provider);
-            loadWeatherForLocation(createFallbackLocation(), "demo_null_fallback", forceRefresh);
+        if (amapLocationProvider == null) {
+            appendLocationAudit("request_current amap_null");
+            loadWeatherUsingBestKnownOrFallback("amap_null", forceRefresh);
             return;
         }
-        appendLocationAudit("current_location_success provider=" + provider + " accuracy=" + location.getAccuracy());
-        loadWeatherForLocation(location, "current_" + provider, forceRefresh);
+        appendLocationAudit("request_current amap requesting");
+        amapLocationProvider.requestOnceLocation(new AmapLocationProvider.LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull Location location, @NonNull String source) {
+                mainHandler.post(() -> {
+                    if (isAdded()) {
+                        handleRealtimeLocationSuccess("amap", location, forceRefresh);
+                    }
+                });
+            }
+
+            @Override
+            public void onLocationError(@NonNull String reason) {
+                mainHandler.post(() -> {
+                    if (isAdded()) {
+                        appendLocationAudit("request_current amap_error reason=" + reason);
+                        loadWeatherUsingBestKnownOrFallback("amap_" + reason, forceRefresh);
+                    }
+                });
+            }
+        }, LOCATION_TIMEOUT_MS);
     }
 
     @NonNull
@@ -557,18 +578,61 @@ public class HomeFragment extends Fragment {
         return location;
     }
 
-    @NonNull
-    private String resolveRealtimeProvider(@NonNull LocationManager manager) {
-        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            return LocationManager.GPS_PROVIDER;
+    private void handleRealtimeLocationSuccess(@NonNull String provider, @NonNull Location location, boolean forceRefresh) {
+        if (!hasValidCoordinates(location)) {
+            appendLocationCrash("current_location_invalid_coordinates provider=" + provider);
+            loadWeatherUsingBestKnownOrFallback("invalid_coordinates", forceRefresh);
+            return;
         }
-        if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            return LocationManager.NETWORK_PROVIDER;
+        appendLocationAudit("current_location_success provider=" + provider
+                + " accuracy=" + readLocationAccuracy(location));
+        loadWeatherForLocation(location, "current_" + provider, forceRefresh);
+    }
+
+    private void loadWeatherUsingBestKnownOrFallback(@NonNull String reason, boolean forceRefresh) {
+        Location bestKnown = getBestLocation();
+        if (bestKnown != null) {
+            appendLocationAudit("best_known_fallback reason=" + reason
+                    + " ageMs=" + calculateLocationAgeMs(bestKnown)
+                    + " accuracy=" + readLocationAccuracy(bestKnown));
+            loadWeatherForLocation(bestKnown, "best_known_" + reason, forceRefresh);
+            return;
         }
-        if (manager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
-            return LocationManager.PASSIVE_PROVIDER;
+        loadWeatherForLocation(createFallbackLocation(), "demo_" + reason + "_fallback", forceRefresh);
+    }
+
+    private boolean shouldRequestFreshLocation(@NonNull Location location) {
+        return calculateLocationAgeMs(location) > MAX_LAST_KNOWN_AGE_MS
+                || !isLocationAccurateEnough(location);
+    }
+
+    private boolean isLocationAccurateEnough(@NonNull Location location) {
+        return !location.hasAccuracy() || location.getAccuracy() <= MAX_ACCEPTABLE_LOCATION_ACCURACY_METERS;
+    }
+
+    private long calculateLocationAgeMs(@NonNull Location location) {
+        long time = location.getTime();
+        if (time <= 0L) {
+            return Long.MAX_VALUE;
         }
-        return "";
+        return Math.max(0L, System.currentTimeMillis() - time);
+    }
+
+    private float readLocationAccuracy(@NonNull Location location) {
+        return location.hasAccuracy() ? location.getAccuracy() : -1f;
+    }
+
+    private boolean hasValidCoordinates(@NonNull Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        return !Double.isNaN(latitude)
+                && !Double.isNaN(longitude)
+                && !Double.isInfinite(latitude)
+                && !Double.isInfinite(longitude)
+                && latitude >= -90d
+                && latitude <= 90d
+                && longitude >= -180d
+                && longitude <= 180d;
     }
 
     private void bindWeather(@NonNull PlatformModels.RealtimeWeatherView weather) {
@@ -577,7 +641,13 @@ public class HomeFragment extends Fragment {
         }
         currentWeather = weather;
         lastWeatherRefreshTime = System.currentTimeMillis();
-        tvWeatherLocation.setText(safe(weather.locationName));
+        sLastKnownWeather = weather;
+        sLastWeatherFetchedAt = lastWeatherRefreshTime;
+        String locationDisplay = safe(weather.locationName);
+        if (locationDisplay.isEmpty()) {
+            locationDisplay = String.format(Locale.getDefault(), "%.5f, %.5f", lastWeatherRequestLat, lastWeatherRequestLon);
+        }
+        tvWeatherLocation.setText(locationDisplay);
         if (ivWeatherIcon != null) {
             ivWeatherIcon.setImageResource(WeatherVisuals.resolveWeatherIcon(weather));
         }
@@ -599,7 +669,17 @@ public class HomeFragment extends Fragment {
             tvWeatherThunderstormLabel.setTextColor(WeatherVisuals.resolveRiskColor(requireContext(), weather.thunderstormRiskLevel));
         }
         tvWeatherMeta.setText("更新时间 " + safe(weather.fetchedAt) + " | " + safe(weather.refreshInterval));
-        tvWeatherError.setVisibility(View.GONE);
+        if (isOfflineWeather(weather)) {
+            tvWeatherMeta.setText(tvWeatherMeta.getText() + " ⚠ 模拟数据");
+            tvWeatherMeta.setTextColor(ContextCompat.getColor(requireContext(), R.color.ui_warning));
+            if (tvWeatherError != null) {
+                tvWeatherError.setVisibility(View.VISIBLE);
+                tvWeatherError.setText("网络不可用，当前显示本地模拟推演数据，与实际天气可能存在偏差。");
+            }
+        } else {
+            tvWeatherMeta.setTextColor(ContextCompat.getColor(requireContext(), R.color.ui_text_muted));
+            tvWeatherError.setVisibility(View.GONE);
+        }
         if (btnWeatherDetail != null) {
             btnWeatherDetail.setEnabled(true);
         }
@@ -1119,6 +1199,26 @@ public class HomeFragment extends Fragment {
             return "待回款";
         }
         return "待同步";
+    }
+
+    private boolean isOfflineWeather(@Nullable PlatformModels.RealtimeWeatherView weather) {
+        if (weather == null) {
+            return false;
+        }
+        String serviceName = weather.serviceName == null ? "" : weather.serviceName;
+        String sourceNote = weather.sourceNote == null ? "" : weather.sourceNote;
+        String adcode = weather.adcode == null ? "" : weather.adcode;
+        return serviceName.contains("离线模式")
+                || sourceNote.contains("本地模拟")
+                || sourceNote.contains("模拟推演")
+                || adcode.startsWith("CQ-");
+    }
+
+    private void cancelPendingWeatherTask() {
+        if (pendingWeatherTask != null && !pendingWeatherTask.isDone()) {
+            pendingWeatherTask.cancel(true);
+            pendingWeatherTask = null;
+        }
     }
 
 }

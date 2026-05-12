@@ -4,6 +4,13 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * 禁飞区表单校验器。
+ * <p>
+ * 对禁飞区记录的名称、类型、坐标范围、管控半径、生效时段和原因
+ * 进行完整性及合法性校验，返回包含所有字段错误的校验结果。
+ * </p>
+ */
 public final class NoFlyZoneFormValidator {
 
     private NoFlyZoneFormValidator() {

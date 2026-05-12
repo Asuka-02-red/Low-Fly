@@ -12,6 +12,13 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 飞行申请管理列表适配器（企业端）。
+ * <p>
+ * 展示飞行申请记录的申请号、状态、申请人、项目、飞行时间、用途、
+ * 审批流程和意见等信息，支持勾选、批准和驳回操作回调。
+ * </p>
+ */
 public class FlightApplicationManageAdapter extends RecyclerView.Adapter<FlightApplicationManageAdapter.VH> {
 
     public interface ActionListener {

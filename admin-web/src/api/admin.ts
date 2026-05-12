@@ -1,4 +1,4 @@
-/** 管理后台 API 接口层：封装所有与管理后台相关的 HTTP 请求，包括概览、天气、用户、项目、订单、审计日志、设置等接口，并负责后端 DTO 到前端模型的转换与空值兜底 */
+/** 管理后台 API 请求与数据映射。 */
 import { request, unwrap } from '@/api/http'
 import type { ApiEnvelope } from '@/api/http'
 import type {
@@ -27,6 +27,7 @@ export async function fetchSectionSummaries(): Promise<SectionSummary[]> {
   return unwrap(request.get('/admin/sections-summary') as Promise<ApiEnvelope<SectionSummary[]>>)
 }
 
+// 后端首页与天气接口返回的 DTO 结构。
 interface AdminMetricDto {
   label: string
   value: string
@@ -213,6 +214,7 @@ interface AdminOrderDto {
   details: string
 }
 
+// 指标卡片在多个页面复用，这里统一做默认状态兜底。
 function normalizeMetric(item: AdminMetricDto): SummaryMetric {
   return {
     label: item.label,
@@ -252,6 +254,7 @@ interface QWeatherCacheEntry {
   payload: RealtimeWeatherPayload
 }
 
+// 浏览器侧缓存只按粗粒度坐标分桶，避免短时间内重复拉取同一区域天气。
 function readQWeatherCache(locationKey: string): RealtimeWeatherPayload | null {
   try {
     const raw = localStorage.getItem(QWEATHER_CACHE_PREFIX + locationKey)
@@ -271,6 +274,7 @@ function writeQWeatherCache(locationKey: string, payload: RealtimeWeatherPayload
   } catch { }
 }
 
+// 将后端天气 DTO 补齐为前端看板直接可用的展示模型。
 function enrichWeatherPayload(data: AdminRealtimeWeatherDto): RealtimeWeatherPayload {
   const iconType = (data.weatherIconType as WeatherIconType) || resolveWeatherIconType(data.weather)
   const metrics = deriveFromServerData(
@@ -326,6 +330,7 @@ export async function fetchAdminRealtimeWeather(payload: {
 }): Promise<RealtimeWeatherPayload | null> {
   const locationKey = `${payload.longitude.toFixed(2)},${payload.latitude.toFixed(2)}`
 
+  // 先复用本地缓存，减少定位刷新时的重复请求与计算。
   if (!payload.forceRefresh) {
     const cached = readQWeatherCache(locationKey)
     if (cached) {
@@ -334,6 +339,7 @@ export async function fetchAdminRealtimeWeather(payload: {
     }
   }
 
+  // 优先直连和风，保证浏览器端在后端不可用时仍可独立展示天气卡片。
   if (qWeatherClient.isConfigured()) {
     console.debug(`fetchAdminRealtimeWeather: trying QWeather direct API for ${locationKey}`)
     try {
@@ -362,6 +368,7 @@ export async function fetchAdminRealtimeWeather(payload: {
     )
   }
 
+  // 其次回退到平台后端接口，统一复用服务端已有的天气整合逻辑。
   try {
     const data = await unwrap(
       request.get('/admin/weather/realtime', {
@@ -386,6 +393,7 @@ export async function fetchAdminRealtimeWeather(payload: {
     )
   }
 
+  // 最后提供离线推演结果，保证看板始终有可展示的数据。
   console.warn(
     `fetchAdminRealtimeWeather: all sources failed, using fallback for ${locationKey}`,
   )
@@ -411,6 +419,7 @@ const WEATHER_PROFILES = [
   { weather: '雾', iconType: 'fog' as WeatherIconType, minTemp: -5, maxTemp: 18, minHumidity: 55, maxHumidity: 100, windPower: '2级' },
 ]
 
+// 离线天气按坐标和分钟级时间片生成稳定结果，兼顾演示一致性与随机感。
 function generateFallbackWeather(longitude: number, latitude: number): RealtimeWeatherPayload {
   const seed = Math.abs(Math.round((longitude * 1000 + latitude * 7) * Date.now() / 60000))
   const profileIndex = seed % WEATHER_PROFILES.length
@@ -484,6 +493,7 @@ export async function fetchAdminUsers(): Promise<UserView[]> {
   const data = await unwrap(request.get('/admin/users') as Promise<ApiEnvelope<AdminUserDto[] | null>>)
   const items = Array.isArray(data) ? data : []
 
+  // 列表接口可能返回部分空字段，这里统一转成表格可直接消费的字段集。
   return items.map((item) => {
     const roleNames = Array.isArray(item.roleNames) ? item.roleNames : []
 
@@ -663,6 +673,7 @@ export async function exportAdminAuditLogs(keyword = ''): Promise<ExportPackage>
         .includes(text),
     )
 
+  // 直接导出 CSV 文本，方便前端下载而无需额外文件服务。
   const header = '时间,模块,动作,操作人,结果,详情'
   const rows = filtered.map((item) =>
     [item.time, item.module, item.action, item.operator, item.result, item.detail]

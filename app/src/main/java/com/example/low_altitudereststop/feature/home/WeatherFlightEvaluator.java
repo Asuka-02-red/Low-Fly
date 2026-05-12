@@ -9,6 +9,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * 天气飞行适宜性评估器，根据气象数据推导飞行安全指标。
+ * <p>
+ * 综合分析风速、能见度、降水概率/强度和雷暴风险等气象因子，
+ * 生成飞行适宜性结论（适宜/不适宜飞行）、各项指标检查结果、
+ * 条件说明和建议措施，并计算1-9级雷暴风险等级及对应防护建议。
+ * </p>
+ */
 final class WeatherFlightEvaluator {
 
     private static final Map<Integer, Double> WIND_SPEED_LEVELS = buildWindLevels();
@@ -90,6 +98,26 @@ final class WeatherFlightEvaluator {
                 riskDescriptor.label,
                 riskDescriptor.hint,
                 riskDescriptor.protectionAdvice
+        );
+    }
+
+    static DerivedMetrics deriveFromServerData(double windSpeed, double visibility, int precipitationProbability, double precipitationIntensity, String thunderstormRisk) {
+        RiskDescriptor descriptor = buildThunderstormRiskDescriptor(
+                "高".equals(thunderstormRisk),
+                windSpeed,
+                visibility,
+                precipitationProbability,
+                precipitationIntensity
+        );
+        return new DerivedMetrics(
+                windSpeed,
+                visibility,
+                precipitationProbability,
+                precipitationIntensity,
+                descriptor.level,
+                thunderstormRisk,
+                descriptor.hint,
+                descriptor.protectionAdvice
         );
     }
 

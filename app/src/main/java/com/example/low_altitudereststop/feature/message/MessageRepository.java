@@ -24,6 +24,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import retrofit2.Response;
 
+/**
+ * 消息数据仓库，管理消息的加载、发送、已读状态和本地持久化。
+ * <p>
+ * 提供消息列表查询（LiveData）、发送消息、标记会话已读、
+ * 更新单条消息已读状态、同步待处理已读回执等能力，
+ * 优先使用本地数据库，网络不可用时自动降级到演示数据。
+ * </p>
+ */
 public class MessageRepository {
 
     public interface CompletionCallback {
@@ -236,6 +244,10 @@ public class MessageRepository {
     public void replaceAllForTesting(@NonNull List<MessageEntity> entities) {
         messageDao.clearAll();
         messageDao.upsertAll(entities);
+    }
+
+    public void deleteConversation(long conversationId) {
+        ioExecutor.execute(() -> messageDao.deleteConversation(conversationId));
     }
 
     private void applyMockMessages() {

@@ -2,14 +2,16 @@ package com.example.low_altitudereststop.feature.order;
 
 import android.os.Bundle;
 import android.content.Intent;
-import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.low_altitudereststop.core.model.PlatformModels;
 import com.example.low_altitudereststop.core.network.ApiClient;
 import com.example.low_altitudereststop.core.network.ApiEnvelope;
 import com.example.low_altitudereststop.core.ui.NavigableEdgeToEdgeActivity;
 import com.example.low_altitudereststop.databinding.ActivityOrderListBinding;
-import com.example.low_altitudereststop.feature.demo.AppScenarioMapper;
+import com.example.low_altitudereststop.feature.order.local.OrderDao;
+import com.example.low_altitudereststop.feature.order.local.OrderLocalDatabase;
+import com.example.low_altitudereststop.feature.order.local.OrderEntity;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import retrofit2.Call;
@@ -22,12 +24,16 @@ public class OrderListActivity extends NavigableEdgeToEdgeActivity {
 
     private ActivityOrderListBinding binding;
     private OrderAdapter adapter;
+    private OrderDao orderDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityOrderListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        orderDao = OrderLocalDatabase.get(this).orderDao();
+        OrderLocalDatabase.ensureSeeded(this);
 
         adapter = new OrderAdapter(order -> {
             Intent intent = new Intent(this, OrderDetailActivity.class);
@@ -39,14 +45,23 @@ public class OrderListActivity extends NavigableEdgeToEdgeActivity {
         });
         binding.recycler.setLayoutManager(new LinearLayoutManager(this));
         binding.recycler.setAdapter(adapter);
-        binding.swipe.setOnRefreshListener(this::loadOrders);
+        binding.swipe.setOnRefreshListener(this::refreshFromNetwork);
 
-        binding.swipe.setRefreshing(true);
-        updateEmptyState(false);
-        loadOrders();
+        loadFromLocal();
+        refreshFromNetwork();
     }
 
-    private void loadOrders() {
+    private void loadFromLocal() {
+        List<OrderEntity> entities = orderDao.listAll();
+        List<PlatformModels.OrderView> orders = new ArrayList<>();
+        for (OrderEntity entity : entities) {
+            orders.add(OrderLocalDatabase.toOrderView(entity));
+        }
+        adapter.submit(orders);
+        updateEmptyState(orders.isEmpty());
+    }
+
+    private void refreshFromNetwork() {
         if (getIntent().getBooleanExtra(EXTRA_FORCE_EMPTY_STATE, false)) {
             binding.swipe.setRefreshing(false);
             adapter.submit(Collections.emptyList());
@@ -58,13 +73,10 @@ public class OrderListActivity extends NavigableEdgeToEdgeActivity {
             public void onResponse(Call<ApiEnvelope<List<PlatformModels.OrderView>>> call, Response<ApiEnvelope<List<PlatformModels.OrderView>>> response) {
                 binding.swipe.setRefreshing(false);
                 if (!response.isSuccessful() || response.body() == null || response.body().data == null) {
-                    List<PlatformModels.OrderView> fallback = AppScenarioMapper.buildFallbackOrders();
-                    adapter.submit(fallback);
-                    updateEmptyState(fallback.isEmpty());
-                    toast("已展示可用订单");
                     return;
                 }
                 List<PlatformModels.OrderView> orders = response.body().data;
+                syncToLocal(orders);
                 adapter.submit(orders);
                 updateEmptyState(orders == null || orders.isEmpty());
             }
@@ -72,16 +84,28 @@ public class OrderListActivity extends NavigableEdgeToEdgeActivity {
             @Override
             public void onFailure(Call<ApiEnvelope<List<PlatformModels.OrderView>>> call, Throwable t) {
                 binding.swipe.setRefreshing(false);
-                List<PlatformModels.OrderView> fallback = AppScenarioMapper.buildFallbackOrders();
-                adapter.submit(fallback);
-                updateEmptyState(fallback.isEmpty());
-                toast("已展示可用订单");
             }
         });
     }
 
-    private void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    private void syncToLocal(List<PlatformModels.OrderView> orders) {
+        if (orders == null || orders.isEmpty()) {
+            return;
+        }
+        long now = System.currentTimeMillis();
+        List<OrderEntity> entities = new ArrayList<>();
+        for (PlatformModels.OrderView order : orders) {
+            OrderEntity existing = orderDao.findById(order.id == null ? 0L : order.id);
+            OrderEntity entity = existing != null ? existing : new OrderEntity();
+            entity.id = order.id == null ? 0L : order.id;
+            entity.orderNo = order.orderNo == null ? "" : order.orderNo;
+            entity.status = order.status == null ? "" : order.status;
+            entity.amount = order.amount == null ? "" : order.amount.toPlainString();
+            entity.taskId = order.taskId == null ? 0L : order.taskId;
+            entity.updateTimeMillis = now;
+            entities.add(entity);
+        }
+        orderDao.upsertAll(entities);
     }
 
     private void updateEmptyState(boolean isEmpty) {
@@ -89,4 +113,3 @@ public class OrderListActivity extends NavigableEdgeToEdgeActivity {
         binding.recycler.setVisibility(isEmpty ? android.view.View.GONE : android.view.View.VISIBLE);
     }
 }
-

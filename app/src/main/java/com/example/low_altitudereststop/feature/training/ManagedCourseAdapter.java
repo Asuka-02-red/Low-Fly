@@ -12,6 +12,13 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 企业管理课程列表适配器。
+ * <p>
+ * 展示企业已创建课程的标题、类型、难度、报名人数和状态，
+ * 支持编辑和查看详情操作回调，用于CourseListActivity的企业管理视角。
+ * </p>
+ */
 public class ManagedCourseAdapter extends RecyclerView.Adapter<ManagedCourseAdapter.VH> {
 
     public interface Listener {

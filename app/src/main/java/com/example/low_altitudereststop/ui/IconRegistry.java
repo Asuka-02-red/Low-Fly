@@ -10,6 +10,13 @@ import com.example.low_altitudereststop.BuildConfig;
 import com.example.low_altitudereststop.R;
 import com.google.android.material.navigation.NavigationBarView;
 
+/**
+ * 图标注册表，集中管理应用内各功能模块使用的图标资源映射。
+ * <p>
+ * 提供底部导航、快捷操作、个人中心菜单等场景的图标资源ID映射方法，
+ * 根据功能名称返回对应的drawable资源，统一图标引用入口。
+ * </p>
+ */
 public final class IconRegistry {
 
     private static final String TAG = "IconRegistry";

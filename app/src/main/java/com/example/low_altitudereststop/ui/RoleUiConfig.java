@@ -2,6 +2,14 @@ package com.example.low_altitudereststop.ui;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+/**
+ * 角色UI配置类，根据用户角色提供差异化的界面配置。
+ * <p>
+ * 根据飞手（PILOT）和企业（ENTERPRISE）角色返回不同的底部导航项、
+ * 快捷操作列表、运营指标标签和合规功能描述，
+ * 实现角色驱动的UI差异化展示。
+ * </p>
+ */
 public final class RoleUiConfig {
 
     public final String displayName;

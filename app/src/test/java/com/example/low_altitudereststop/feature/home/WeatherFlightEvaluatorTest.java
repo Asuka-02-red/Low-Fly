@@ -29,7 +29,7 @@ public class WeatherFlightEvaluatorTest {
         PlatformModels.FlightSuitabilityView result = WeatherFlightEvaluator.buildSuitabilityView(metrics);
 
         Assert.assertEquals("不适宜飞行", result.result);
-        Assert.assertEquals("高", metrics.thunderstormRisk);
+        Assert.assertEquals("极高", metrics.thunderstormRisk);
         Assert.assertTrue(metrics.precipitationIntensity >= 2.0);
         Assert.assertFalse(result.checks.get(0).passed);
         Assert.assertFalse(result.checks.get(1).passed);

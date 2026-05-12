@@ -11,6 +11,13 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 禁飞区列表适配器。
+ * <p>
+ * 展示禁飞区的名称、类型、半径、坐标、生效时段和原因等信息，
+ * 支持点击定位、编辑和删除操作回调，企业角色可显示管理按钮。
+ * </p>
+ */
 public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.VH> {
 
     public interface OnZoneClickListener {

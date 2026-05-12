@@ -1,10 +1,11 @@
-/** 路由配置模块：基于 Vue Router 创建路由实例，根据导航菜单自动生成路由表，配置全局前置鉴权守卫和后置标题更新 */
+/** 管理后台路由入口。 */
 import { createRouter, createWebHistory } from 'vue-router'
 import AdminLayout from '@/layout/AdminLayout.vue'
 import { menuData } from '@/config/navigation'
 import { resolveAuthRedirect } from '@/router/authGuard'
 
 function createSectionRoutes() {
+  // 侧边导航与实际路由共用同一份配置，避免页面入口重复维护。
   return menuData.flatMap((section) => [
     ...section.children.map((child) => ({
       path: child.path.slice(1),
@@ -75,6 +76,7 @@ router.beforeEach((to) => {
   const profileRaw = localStorage.getItem('admin_profile')
   const role = profileRaw ? (JSON.parse(profileRaw) as { role?: string }).role ?? null : null
 
+  // 旧的演示 token 需要在进入路由前清掉，避免误通过鉴权守卫。
   if (token?.startsWith('mock-token-')) {
     localStorage.removeItem('admin_token')
     localStorage.removeItem('admin_profile')
@@ -85,6 +87,7 @@ router.beforeEach((to) => {
 })
 
 router.afterEach((to) => {
+  // 页面标题统一在路由收口，避免各页面重复处理。
   document.title = `${String(to.meta.title ?? '管理后台')} - 低空驿站`
 })
 

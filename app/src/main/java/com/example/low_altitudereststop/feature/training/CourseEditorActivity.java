@@ -19,6 +19,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 课程编辑Activity，供企业用户创建和编辑培训课程。
+ * <p>
+ * 提供课程标题、类型、时长、难度、描述和章节列表的编辑表单，
+ * 支持添加和删除章节，提交后保存到服务端或加入离线同步队列。
+ * </p>
+ */
 public class CourseEditorActivity extends NavigableEdgeToEdgeActivity {
 
     public static final String EXTRA_COURSE_ID = "course_id";

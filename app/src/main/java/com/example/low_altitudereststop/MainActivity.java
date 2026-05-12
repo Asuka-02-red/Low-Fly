@@ -25,6 +25,7 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.example.low_altitudereststop.core.session.SessionStore;
+import com.example.low_altitudereststop.core.session.UserSessionManager;
 import com.example.low_altitudereststop.core.sync.OutboxSyncManager;
 import com.example.low_altitudereststop.core.trace.OperationLogStore;
 import com.example.low_altitudereststop.feature.ai.AiBallAccessibilityHelper;
@@ -48,6 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/** 应用主界面与底部导航入口。 */
 public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeToEdgeActivity {
 
     public static final String EXTRA_TARGET_DESTINATION = "target_destination";
@@ -65,17 +67,27 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SessionStore sessionStore = new SessionStore(this);
-        if (!sessionStore.isLoggedIn()) {
+        UserSessionManager sessionManager = new UserSessionManager(this);
+        // 先在主入口完成会话校验，未登录用户不进入主导航容器。
+        if (!sessionManager.hasActiveSession()) {
             SessionStore.AutoLoginSnapshot snapshot = sessionStore.getAutoLoginSnapshot();
-            if (snapshot.expired) {
+            if (snapshot.expired || sessionStore.isRefreshTokenExpired()) {
                 sessionStore.clear();
             }
-            if (snapshot.enabled && !snapshot.expired) {
-                trySilentRefresh(sessionStore, snapshot.refreshToken);
+            String refreshToken = sessionManager.getRefreshToken();
+            if (refreshToken != null && (snapshot.enabled || sessionManager.canRefreshSession())) {
+                trySilentRefresh(sessionStore, refreshToken);
                 return;
             }
             startAuth();
             return;
+        }
+        if (sessionManager.shouldRefreshSession()) {
+            String refreshToken = sessionManager.getRefreshToken();
+            if (refreshToken != null) {
+                trySilentRefresh(sessionStore, refreshToken);
+                return;
+            }
         }
         try {
             setContentView(R.layout.activity_main);
@@ -98,12 +110,14 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
             applyMainInsets(root, host, bottomNavShell, bottomNav);
             IconRegistry.verifyCriticalIcons(this);
             IconRegistry.applyBottomNavIcons(bottomNav);
+            // 角色配置统一收口到导航层，避免各 Fragment 再感知文案差异。
             applyRoleNavigation(bottomNavShell, bottomNav, config, userRole);
             NavigationUI.setupWithNavController(bottomNav, navController);
             safeSetupBottomNavMotion(bottomNav);
             ensureAiBallService();
             bottomNav.setOnItemSelectedListener(item -> {
                 trackBottomTab(analyticsStore, userRole, item.getItemId());
+                // 使用 restoreState 保留各 tab 的返回栈与滚动状态。
                 NavOptions options = new NavOptions.Builder()
                         .setLaunchSingleTop(true)
                         .setRestoreState(true)
@@ -143,6 +157,7 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
             @NonNull View bottomNavShell,
             @NonNull BottomNavigationView bottomNav
     ) {
+        // 仅在 root、内容区和底部壳层分别补偿 inset，避免重复叠加内边距。
         final int rootLeft = root.getPaddingLeft();
         final int rootTop = root.getPaddingTop();
         final int rootRight = root.getPaddingRight();
@@ -225,6 +240,7 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
     }
 
     private void configureBottomNavShell(@NonNull View bottomNavShell) {
+        // 外层壳体负责圆角裁切，内部导航项保留自由动画空间。
         bottomNavShell.setClipToOutline(true);
         bottomNavShell.setOutlineProvider(new ViewOutlineProvider() {
             @Override
@@ -263,6 +279,7 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
             for (int i = 0; i < itemCount; i++) {
                 boolean checked = bottomNav.getMenu().getItem(i).isChecked();
                 View itemView = menuView.getChildAt(i);
+                // 先统一内部层级布局，再应用选中态动画，避免不同机型偏移不一致。
                 normalizeBottomNavItemLayout(itemView);
                 applyNavItemVisualState(itemView, checked, animate);
             }
@@ -373,6 +390,7 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
     private boolean collectBottomNavContentBounds(@NonNull View root, @NonNull View view, @NonNull Rect outBounds) {
         boolean found = false;
         if (view.getVisibility() == View.VISIBLE && view.getWidth() > 0 && view.getHeight() > 0) {
+            // 只统计图标与文本的真实内容区域，用于回算视觉居中偏移。
             if (view instanceof TextView || view.getId() == com.google.android.material.R.id.navigation_bar_item_icon_view) {
                 int[] rootLocation = new int[2];
                 int[] viewLocation = new int[2];
@@ -445,9 +463,23 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
     protected void onResume() {
         super.onResume();
         SessionStore store = new SessionStore(this);
-        if (!store.isLoggedIn()) {
+        UserSessionManager sessionManager = new UserSessionManager(this);
+        // 从权限页或登录页返回时，再次兜底校验会话与悬浮球状态。
+        if (!sessionManager.hasActiveSession()) {
+            String refreshToken = sessionManager.getRefreshToken();
+            if (refreshToken != null && sessionManager.canRefreshSession()) {
+                trySilentRefresh(store, refreshToken);
+                return;
+            }
             startAuth();
             return;
+        }
+        if (sessionManager.shouldRefreshSession()) {
+            String refreshToken = sessionManager.getRefreshToken();
+            if (refreshToken != null) {
+                trySilentRefresh(store, refreshToken);
+                return;
+            }
         }
         syncAiBallVisibility();
     }
@@ -455,12 +487,17 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
     private void trySilentRefresh(@NonNull SessionStore sessionStore, @NonNull String refreshToken) {
         AuthModels.RefreshTokenRequest request = new AuthModels.RefreshTokenRequest();
         request.refreshToken = refreshToken;
+        // 静默刷新成功后直接 recreate，确保导航文案和用户态同步更新。
         ApiClient.getPublicService(this).refresh(request).enqueue(new Callback<ApiEnvelope<AuthModels.AuthPayload>>() {
             @Override
             public void onResponse(Call<ApiEnvelope<AuthModels.AuthPayload>> call, Response<ApiEnvelope<AuthModels.AuthPayload>> response) {
                 ApiEnvelope<AuthModels.AuthPayload> envelope = response.body();
                 if (!response.isSuccessful() || envelope == null || envelope.code != 200 || envelope.data == null) {
-                    sessionStore.clear();
+                    boolean isAuthFailure = response.code() == 401
+                            || (envelope != null && envelope.code == 401);
+                    if (isAuthFailure) {
+                        sessionStore.clear();
+                    }
                     startAuth();
                     return;
                 }
@@ -471,7 +508,6 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
 
             @Override
             public void onFailure(Call<ApiEnvelope<AuthModels.AuthPayload>> call, Throwable t) {
-                sessionStore.clear();
                 startAuth();
             }
         });
@@ -523,6 +559,7 @@ public class MainActivity extends com.example.low_altitudereststop.core.ui.EdgeT
             return;
         }
         AiBallSettingsStore settingsStore = new AiBallSettingsStore(this);
+        // 悬浮窗权限与无障碍兜底共用同一套可用性判定，主界面只负责执行结果。
         AiBallDisplayCoordinator.Availability availability = AiBallDisplayCoordinator.resolve(
                 settingsStore.isEnabled(),
                 AiBallOverlayPermissionHelper.canDrawOverlays(this),

@@ -3,6 +3,14 @@ package com.example.low_altitudereststop.feature.compliance;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 飞行申请审批工作流工具类。
+ * <p>
+ * 提供申请状态常量定义（全部/待处理/已批准/已拒绝）、
+ * 按状态过滤申请记录、统计已选待处理数量、
+ * 状态归一化以及审批后工作流状态推进等能力。
+ * </p>
+ */
 public final class FlightApplicationWorkflow {
 
     public static final String FILTER_ALL = "ALL";

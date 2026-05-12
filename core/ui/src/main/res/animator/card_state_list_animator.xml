@@ -3,38 +3,52 @@
     <item android:state_pressed="true">
         <set>
             <objectAnimator
-                android:duration="120"
+                android:duration="100"
                 android:propertyName="scaleX"
-                android:valueTo="0.99"
-                android:valueType="floatType" />
+                android:valueTo="0.97"
+                android:valueType="floatType"
+                android:interpolator="@android:interpolator/accelerate_quad" />
             <objectAnimator
-                android:duration="120"
+                android:duration="100"
                 android:propertyName="scaleY"
-                android:valueTo="0.99"
+                android:valueTo="0.97"
+                android:valueType="floatType"
+                android:interpolator="@android:interpolator/accelerate_quad" />
+            <objectAnimator
+                android:duration="100"
+                android:propertyName="translationZ"
+                android:valueTo="1dp"
                 android:valueType="floatType" />
             <objectAnimator
-                android:duration="120"
-                android:propertyName="translationZ"
-                android:valueTo="2dp"
+                android:duration="100"
+                android:propertyName="alpha"
+                android:valueTo="0.92"
                 android:valueType="floatType" />
         </set>
     </item>
     <item>
         <set>
             <objectAnimator
-                android:duration="180"
+                android:duration="280"
                 android:propertyName="scaleX"
                 android:valueTo="1"
-                android:valueType="floatType" />
+                android:valueType="floatType"
+                android:interpolator="@android:interpolator/overshoot" />
             <objectAnimator
-                android:duration="180"
+                android:duration="280"
                 android:propertyName="scaleY"
                 android:valueTo="1"
-                android:valueType="floatType" />
+                android:valueType="floatType"
+                android:interpolator="@android:interpolator/overshoot" />
             <objectAnimator
-                android:duration="180"
+                android:duration="200"
                 android:propertyName="translationZ"
                 android:valueTo="0dp"
+                android:valueType="floatType" />
+            <objectAnimator
+                android:duration="200"
+                android:propertyName="alpha"
+                android:valueTo="1"
                 android:valueType="floatType" />
         </set>
     </item>

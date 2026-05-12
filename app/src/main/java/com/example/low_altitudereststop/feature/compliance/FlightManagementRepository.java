@@ -18,6 +18,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * 飞行管理本地数据仓库，负责飞行申请和禁飞区数据的持久化与查询。
+ * <p>
+ * 基于FileCache实现JSON序列化存储，提供飞行申请的增删改查、
+ * 状态批量更新、禁飞区的搜索/新增/编辑/删除、远程禁飞区数据合并，
+ * 以及操作审计日志记录。数据为空时自动填充演示种子数据。
+ * </p>
+ */
 public class FlightManagementRepository {
 
     private static final String APPLICATION_CACHE = "flight_applications_manage.json";

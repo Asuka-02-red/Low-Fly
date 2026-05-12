@@ -8,6 +8,14 @@ import androidx.core.content.ContextCompat;
 import com.example.low_altitudereststop.R;
 import com.example.low_altitudereststop.core.model.PlatformModels;
 
+/**
+ * 天气可视化工具类，提供天气图标和雷暴风险颜色的映射。
+ * <p>
+ * 根据天气类型（晴/雨/雪/雾/雷暴/多云）映射对应的图标资源，
+ * 根据雷暴风险等级（1-9级）映射对应的颜色资源，
+ * 并提供风险等级和天气标题的格式化方法。
+ * </p>
+ */
 final class WeatherVisuals {
 
     private WeatherVisuals() {

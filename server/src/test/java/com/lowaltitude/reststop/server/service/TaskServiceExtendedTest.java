@@ -53,7 +53,7 @@ public class TaskServiceExtendedTest {
 
     @Test
     public void shouldListTasksForPilot() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         TaskEntity task = buildTask(101L, 2L, "INSPECTION", "巡检任务", "重庆", "PUBLISHED");
         Mockito.when(taskMapper.selectList(ArgumentMatchers.any())).thenReturn(List.of(task));
         Mockito.when(userAccountMapper.selectBatchIds(ArgumentMatchers.any())).thenReturn(List.of(buildUser(2L, "enterprise_demo", "ENTERPRISE")));
@@ -106,7 +106,7 @@ public class TaskServiceExtendedTest {
 
     @Test
     public void shouldSubmitFlightApplication() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         ApiDtos.FlightApplicationView result = taskService.submitFlightApplication(
                 pilot,
                 new ApiDtos.FlightApplicationRequest("重庆江北区", "2026-05-01 10:00", "巡检飞行")

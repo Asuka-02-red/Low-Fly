@@ -15,6 +15,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import retrofit2.Response;
 
+/**
+ * 操作重放Worker，通过WorkManager后台执行待重放的离线操作，
+ * 支持支付订单、课程报名、飞行申请、任务创建等业务操作的重放与重试。
+ */
 public class OperationReplayWorker extends Worker {
 
     private final OperationOutboxStore outboxStore;

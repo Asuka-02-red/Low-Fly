@@ -41,7 +41,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="4d1e8d4add23fa46d8f786a309dc4a76" />
+            android:value="${amapApiKey}" />
 
         <activity
             android:name=".feature.auth.AuthActivity"

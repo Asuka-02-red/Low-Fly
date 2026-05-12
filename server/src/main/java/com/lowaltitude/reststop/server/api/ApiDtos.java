@@ -752,7 +752,7 @@ public final class ApiDtos {
 
     /**
      * 仪表盘活动项。
-     * <p>用于展示最近的平台活动动态，如"飞手张三完成了巡检任务"。</p>
+     * <p>用于展示最近的平台活动动态，如"飞手陈伶完成了巡检任务"。</p>
      *
      * @param title   活动标题
      * @param content 活动内容

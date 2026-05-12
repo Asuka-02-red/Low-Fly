@@ -23,6 +23,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 应用权限管理器，统一管理运行时权限的查询、请求和状态监听。
+ * <p>
+ * 采用单例模式，支持定位、录音等权限组的查询与请求，
+ * 处理权限说明展示、永久拒绝跳转设置页、权限状态变更通知，
+ * 以及构造系统设置和应用设置页的跳转Intent。
+ * </p>
+ */
 public final class AppPermissionManager {
 
     public static final String GROUP_RECORD_AUDIO = "record_audio";

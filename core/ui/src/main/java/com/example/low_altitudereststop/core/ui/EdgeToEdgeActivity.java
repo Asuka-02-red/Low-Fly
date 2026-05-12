@@ -13,6 +13,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+/**
+ * 边到边显示基类Activity，启用全屏沉浸式布局并自动处理系统状态栏和输入法窗口边衬，
+ * 确保内容区域不被系统栏遮挡。
+ */
 public abstract class EdgeToEdgeActivity extends AppCompatActivity {
 
     @Override

@@ -6,6 +6,10 @@ import com.example.low_altitudereststop.core.model.PlatformModels;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 告警场景仓库，根据用户角色（飞手/企业）生成模拟告警场景数据及对应的处置建议，
+ * 为告警列表和详情页提供数据支撑。
+ */
 final class AlertScenarioRepository {
 
     private AlertScenarioRepository() {

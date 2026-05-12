@@ -108,8 +108,8 @@
     <dimen name="ui_quick_action_enterprise_padding_vertical">12dp</dimen>
     <dimen name="ui_quick_action_corner_radius">28dp</dimen>
     <dimen name="ui_quick_action_elevation">6dp</dimen>
-    <dimen name="ui_card_stroke_width">1dp</dimen>
-    <dimen name="ui_card_shadow_elevation">2dp</dimen>
+    <dimen name="ui_card_stroke_width">0.5dp</dimen>
+    <dimen name="ui_card_shadow_elevation">3dp</dimen>
     <dimen name="ui_chat_safe_extra_top">4dp</dimen>
     <dimen name="ui_weather_icon_size">52dp</dimen>
     <dimen name="ui_weather_icon_detail_size">64dp</dimen>

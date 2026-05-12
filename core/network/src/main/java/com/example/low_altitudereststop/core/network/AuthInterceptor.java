@@ -6,6 +6,10 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 认证拦截器，自动为HTTP请求头添加Bearer Token授权信息，
+ * 从SessionStore中读取当前访问令牌并注入请求头。
+ */
 public class AuthInterceptor implements Interceptor {
 
     private final SessionStore sessionStore;

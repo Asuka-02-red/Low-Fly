@@ -15,22 +15,34 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 
+/**
+ * 会话存储器，安全地管理用户认证令牌、登录状态和自动登录功能，
+ * 使用AndroidKeyStore对敏感数据进行AES-GCM加密存储。
+ */
 public class SessionStore {
 
     private static final String PREF = "session_store";
     private static final String PREF_AUTO_LOGIN = "session_store_auto_login";
     private static final String KEY_ACCESS = "access_token";
     private static final String KEY_REFRESH = "refresh_token";
+    private static final String KEY_USER_ID = "user_id";
     private static final String KEY_ROLE = "role";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_REAL_NAME = "real_name";
     private static final String KEY_COMPANY = "company_name";
+    private static final String KEY_SESSION_ID = "session_id";
+    private static final String KEY_ACCESS_EXPIRES_AT = "access_expires_at";
+    private static final String KEY_REFRESH_EXPIRES_AT = "refresh_expires_at";
+    private static final String KEY_LAST_REFRESH_AT = "last_refresh_at";
     private static final String KEY_AUTO_ENABLED = "auto_login_enabled";
     private static final String KEY_AUTO_USERNAME = "auto_login_username";
     private static final String KEY_AUTO_REFRESH = "auto_login_refresh";
     private static final String KEY_AUTO_EXPIRES_AT = "auto_login_expires_at";
     private static final String KEY_ALIAS = "low_altitude_auto_login_key";
+    private static final long ACCESS_TOKEN_TTL_MILLIS = 2L * 60L * 60L * 1000L;
     private static final long AUTO_LOGIN_TTL_MILLIS = 30L * 24L * 60L * 60L * 1000L;
+    private static final long REFRESH_TOKEN_TTL_MILLIS = 30L * 24L * 60L * 60L * 1000L;
+    private static final long ACCESS_REFRESH_WINDOW_MILLIS = 5L * 60L * 1000L;
 
     private final SharedPreferences sp;
     private final SharedPreferences autoLoginSp;
@@ -51,7 +63,66 @@ public class SessionStore {
 
     public boolean isLoggedIn() {
         String token = getAccessToken();
+        return token != null && !token.trim().isEmpty() && !isAccessTokenExpired();
+    }
+
+    public boolean hasRefreshToken() {
+        String token = getRefreshToken();
         return token != null && !token.trim().isEmpty();
+    }
+
+    public long getAccessTokenExpiresAt() {
+        return sp.getLong(KEY_ACCESS_EXPIRES_AT, 0L);
+    }
+
+    public long getRefreshTokenExpiresAt() {
+        return sp.getLong(KEY_REFRESH_EXPIRES_AT, 0L);
+    }
+
+    public long getLastRefreshAt() {
+        return sp.getLong(KEY_LAST_REFRESH_AT, 0L);
+    }
+
+    public boolean isAccessTokenExpired() {
+        long expiresAt = getAccessTokenExpiresAt();
+        return expiresAt > 0L && expiresAt <= System.currentTimeMillis();
+    }
+
+    public boolean isRefreshTokenExpired() {
+        long expiresAt = getRefreshTokenExpiresAt();
+        return expiresAt > 0L && expiresAt <= System.currentTimeMillis();
+    }
+
+    public boolean shouldRefreshAccessToken() {
+        if (!hasRefreshToken() || isRefreshTokenExpired()) {
+            return false;
+        }
+        long expiresAt = getAccessTokenExpiresAt();
+        if (expiresAt <= 0L) {
+            return false;
+        }
+        return expiresAt - System.currentTimeMillis() <= ACCESS_REFRESH_WINDOW_MILLIS;
+    }
+
+    public String getSessionId() {
+        return sp.getString(KEY_SESSION_ID, "");
+    }
+
+    public SessionSnapshot getSessionSnapshot() {
+        return new SessionSnapshot(
+                getSessionId(),
+                getAccessToken(),
+                getRefreshToken(),
+                getCachedUser(),
+                getAccessTokenExpiresAt(),
+                getRefreshTokenExpiresAt(),
+                getLastRefreshAt(),
+                isLoggedIn(),
+                isAccessTokenExpired(),
+                isRefreshTokenExpired(),
+                shouldRefreshAccessToken(),
+                isDemoSession()
+        );
     }
 
     public boolean isDemoSession() {
@@ -67,10 +138,15 @@ public class SessionStore {
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(KEY_ACCESS);
         editor.remove(KEY_REFRESH);
+        editor.remove(KEY_USER_ID);
         editor.remove(KEY_ROLE);
         editor.remove(KEY_USERNAME);
         editor.remove(KEY_REAL_NAME);
         editor.remove(KEY_COMPANY);
+        editor.remove(KEY_SESSION_ID);
+        editor.remove(KEY_ACCESS_EXPIRES_AT);
+        editor.remove(KEY_REFRESH_EXPIRES_AT);
+        editor.remove(KEY_LAST_REFRESH_AT);
         editor.apply();
     }
 
@@ -134,25 +210,55 @@ public class SessionStore {
         if (payload == null) {
             return;
         }
+        long now = System.currentTimeMillis();
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(KEY_ACCESS, payload.token);
-        editor.putString(KEY_REFRESH, payload.refreshToken);
+        if (payload.token != null && !payload.token.trim().isEmpty()) {
+            editor.putString(KEY_ACCESS, payload.token);
+            editor.putLong(KEY_ACCESS_EXPIRES_AT, now + ACCESS_TOKEN_TTL_MILLIS);
+        }
+        if (payload.refreshToken != null && !payload.refreshToken.trim().isEmpty()) {
+            editor.putString(KEY_REFRESH, payload.refreshToken);
+            editor.putLong(KEY_REFRESH_EXPIRES_AT, now + REFRESH_TOKEN_TTL_MILLIS);
+        }
+        editor.putLong(KEY_LAST_REFRESH_AT, now);
         if (payload.userInfo != null) {
+            if (payload.userInfo.id != null) {
+                editor.putLong(KEY_USER_ID, payload.userInfo.id);
+            }
             editor.putString(KEY_ROLE, payload.userInfo.role);
             editor.putString(KEY_USERNAME, payload.userInfo.username);
             editor.putString(KEY_REAL_NAME, payload.userInfo.realName);
             editor.putString(KEY_COMPANY, payload.userInfo.companyName);
+            editor.putString(KEY_SESSION_ID, buildSessionId(payload.userInfo));
         }
         editor.apply();
     }
 
     public AuthModels.SessionInfo getCachedUser() {
         AuthModels.SessionInfo info = new AuthModels.SessionInfo();
+        if (sp.contains(KEY_USER_ID)) {
+            info.id = sp.getLong(KEY_USER_ID, 0L);
+        }
         info.username = sp.getString(KEY_USERNAME, null);
         info.role = sp.getString(KEY_ROLE, null);
         info.realName = sp.getString(KEY_REAL_NAME, null);
         info.companyName = sp.getString(KEY_COMPANY, null);
         return info;
+    }
+
+    private String buildSessionId(AuthModels.SessionInfo info) {
+        if (info == null) {
+            return "";
+        }
+        String username = info.username == null ? "" : info.username.trim();
+        String role = info.role == null ? "" : info.role.trim();
+        if (!username.isEmpty() || !role.isEmpty()) {
+            return username + "#" + role;
+        }
+        if (info.id != null) {
+            return "user#" + info.id;
+        }
+        return "";
     }
 
     private String encrypt(String plainText) throws GeneralSecurityException {
@@ -220,5 +326,47 @@ public class SessionStore {
             return new AutoLoginSnapshot(false, false, "", null, 0L);
         }
     }
-}
 
+    public static final class SessionSnapshot {
+        public final String sessionId;
+        public final String accessToken;
+        public final String refreshToken;
+        public final AuthModels.SessionInfo userInfo;
+        public final long accessExpiresAt;
+        public final long refreshExpiresAt;
+        public final long lastRefreshAt;
+        public final boolean loggedIn;
+        public final boolean accessExpired;
+        public final boolean refreshExpired;
+        public final boolean shouldRefresh;
+        public final boolean demoSession;
+
+        public SessionSnapshot(
+                String sessionId,
+                String accessToken,
+                String refreshToken,
+                AuthModels.SessionInfo userInfo,
+                long accessExpiresAt,
+                long refreshExpiresAt,
+                long lastRefreshAt,
+                boolean loggedIn,
+                boolean accessExpired,
+                boolean refreshExpired,
+                boolean shouldRefresh,
+                boolean demoSession
+        ) {
+            this.sessionId = sessionId == null ? "" : sessionId;
+            this.accessToken = accessToken;
+            this.refreshToken = refreshToken;
+            this.userInfo = userInfo;
+            this.accessExpiresAt = accessExpiresAt;
+            this.refreshExpiresAt = refreshExpiresAt;
+            this.lastRefreshAt = lastRefreshAt;
+            this.loggedIn = loggedIn;
+            this.accessExpired = accessExpired;
+            this.refreshExpired = refreshExpired;
+            this.shouldRefresh = shouldRefresh;
+            this.demoSession = demoSession;
+        }
+    }
+}

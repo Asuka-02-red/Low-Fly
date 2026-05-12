@@ -12,6 +12,10 @@ import retrofit2.http.Path;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 
+/**
+ * API服务接口，定义所有与后端交互的Retrofit HTTP请求方法，
+ * 涵盖认证、任务、订单、合规、消息、培训、天气等业务模块。
+ */
 public interface ApiService {
 
     @POST("auth/login")
@@ -115,19 +119,10 @@ public interface ApiService {
     @POST("training/courses/{courseId}/enroll")
     Call<ApiEnvelope<PlatformModels.EnrollmentResult>> enroll(@Path("courseId") long courseId);
 
-    @GET("https://restapi.amap.com/v3/geocode/regeo")
-    Call<AmapEnvelope> reverseGeocode(
-            @Query("key") String key,
-            @Query("location") String location,
-            @Query("extensions") String extensions
-    );
-
-    @GET("https://restapi.amap.com/v3/weather/weatherInfo")
-    Call<AmapEnvelope> getAmapWeather(
-            @Query("key") String key,
-            @Query("city") String city,
-            @Query("extensions") String extensions,
-            @Query("output") String output
+    @GET("admin/weather/realtime")
+    Call<ApiEnvelope<PlatformModels.RealtimeWeatherView>> getRealtimeWeather(
+            @Query("longitude") double longitude,
+            @Query("latitude") double latitude
     );
 }
 

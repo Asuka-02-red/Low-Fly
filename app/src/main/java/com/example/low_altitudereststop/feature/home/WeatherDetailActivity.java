@@ -7,6 +7,14 @@ import com.example.low_altitudereststop.core.ui.NavigableEdgeToEdgeActivity;
 import com.example.low_altitudereststop.R;
 import com.example.low_altitudereststop.databinding.ActivityWeatherDetailBinding;
 
+/**
+ * 天气详情展示Activity。
+ * <p>
+ * 从Intent中接收天气数据参数，展示完整的天气信息包括位置、天气状况、
+ * 飞行适宜性结论与摘要、雷暴风险等级与防护建议、温度、湿度、
+ * 风向风速、能见度和降水等详细指标。
+ * </p>
+ */
 public class WeatherDetailActivity extends NavigableEdgeToEdgeActivity {
 
     public static final String EXTRA_LOCATION = "location";

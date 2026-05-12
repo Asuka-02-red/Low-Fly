@@ -16,6 +16,14 @@ import com.example.low_altitudereststop.feature.message.local.MessageEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 消息列表基础适配器，提供消息项的通用绑定逻辑。
+ * <p>
+ * 基于ListAdapter实现消息列表的差异化更新，处理发送者身份异步解析、
+ * 已读/未读状态渲染和骨架屏加载动画，子类通过实现
+ * createCancelableRequest方法提供不同角色的身份解析策略。
+ * </p>
+ */
 abstract class BaseMessageAdapter extends ListAdapter<MessageEntity, BaseMessageAdapter.VH> {
 
     interface OnMessageClickListener {

@@ -31,7 +31,7 @@ public class FeedbackServiceTest {
 
     @Test
     public void shouldCreateFeedbackTicket() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         Mockito.when(userAccountMapper.selectById(1L)).thenReturn(buildUser(1L, "pilot_demo", "PILOT"));
         Mockito.doAnswer(invocation -> {
             FeedbackTicketEntity entity = invocation.getArgument(0);

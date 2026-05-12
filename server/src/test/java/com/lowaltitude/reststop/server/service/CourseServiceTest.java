@@ -36,7 +36,7 @@ public class CourseServiceTest {
 
     @Test
     public void shouldDecreaseCourseSeatOnEnroll() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         CourseEntity course = new CourseEntity();
         course.setId(2001L);
         course.setTitle("民航法规基础课");
@@ -59,7 +59,7 @@ public class CourseServiceTest {
 
     @Test
     public void shouldExposeEnrollmentStateInCourseDetail() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         CourseEntity course = new CourseEntity();
         course.setId(2001L);
         course.setTitle("民航法规基础课");

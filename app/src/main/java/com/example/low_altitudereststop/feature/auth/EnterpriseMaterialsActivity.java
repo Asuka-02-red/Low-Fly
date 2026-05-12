@@ -11,6 +11,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.example.low_altitudereststop.core.ui.EdgeToEdgeActivity;
 import com.example.low_altitudereststop.databinding.ActivityEnterpriseMaterialsBinding;
 
+/**
+ * 企业资质材料上传Activity。
+ * <p>
+ * 企业注册流程中的子页面，用于填写企业名称、统一信用代码、
+ * 联系人信息，并选择上传营业执照文件（图片或PDF），
+ * 填写完成后将数据通过Intent回传给注册页。
+ * </p>
+ */
 public class EnterpriseMaterialsActivity extends EdgeToEdgeActivity {
 
     public static final String EXTRA_ENTERPRISE_NAME = "extra_enterprise_name";

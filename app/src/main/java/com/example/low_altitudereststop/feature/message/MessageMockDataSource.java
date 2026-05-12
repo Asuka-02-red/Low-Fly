@@ -9,6 +9,13 @@ import com.example.low_altitudereststop.feature.message.local.PilotProfileEntity
 import com.example.low_altitudereststop.ui.UserRole;
 import java.util.List;
 
+/**
+ * 消息模拟数据源，提供演示模式下的消息数据。
+ * <p>
+ * 委托AppScenarioMapper构建会话摘要、消息实体、飞手和企业身份信息，
+ * 用于网络不可用或首次启动时的本地数据填充。
+ * </p>
+ */
 public final class MessageMockDataSource {
 
     private MessageMockDataSource() {

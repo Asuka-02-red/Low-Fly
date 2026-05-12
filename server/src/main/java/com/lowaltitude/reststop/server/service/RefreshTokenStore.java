@@ -41,12 +41,22 @@ public class RefreshTokenStore {
     }
 
     public String requireUsernameByRefreshToken(String refreshToken) {
+        AuthRefreshTokenEntity entity = requireEntityByRefreshToken(refreshToken);
+        return entity.getUsername();
+    }
+
+    public Long requireUserIdByRefreshToken(String refreshToken) {
+        AuthRefreshTokenEntity entity = requireEntityByRefreshToken(refreshToken);
+        return entity.getUserId();
+    }
+
+    private AuthRefreshTokenEntity requireEntityByRefreshToken(String refreshToken) {
         AuthRefreshTokenEntity entity = authRefreshTokenMapper.selectOne(new LambdaQueryWrapper<AuthRefreshTokenEntity>()
                 .eq(AuthRefreshTokenEntity::getRefreshToken, refreshToken)
                 .last("limit 1"));
         if (entity == null || entity.getExpiresAt() == null || entity.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new BizException(401, "刷新令牌无效或已过期");
         }
-        return entity.getUsername();
+        return entity;
     }
 }

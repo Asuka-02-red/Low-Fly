@@ -84,13 +84,13 @@ public class MessageServiceExtendedTest {
     public void shouldGetPilotProfile() {
         SessionUser user = new SessionUser(2L, "enterprise_demo", RoleType.ENTERPRISE, "李企业");
         UserAccountEntity pilot = buildUser(1L, "pilot_demo", "PILOT");
-        pilot.setRealName("张飞手");
+        pilot.setRealName("陈伶");
         Mockito.when(userAccountMapper.selectById(1L)).thenReturn(pilot);
 
         ApiDtos.PilotProfileView profile = messageService.getPilotProfile(user, "1");
 
         Assertions.assertEquals("1", profile.uid());
-        Assertions.assertEquals("张飞手", profile.name());
+        Assertions.assertEquals("陈伶", profile.name());
     }
 
     @Test
@@ -104,7 +104,7 @@ public class MessageServiceExtendedTest {
 
     @Test
     public void shouldGetEnterpriseInfo() {
-        SessionUser user = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser user = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         UserAccountEntity enterprise = buildUser(2L, "enterprise_demo", "ENTERPRISE");
         enterprise.setCompanyName("低空测试企业");
         Mockito.when(userAccountMapper.selectById(2L)).thenReturn(enterprise);
@@ -117,7 +117,7 @@ public class MessageServiceExtendedTest {
 
     @Test
     public void shouldRejectEnterpriseInfoForNonEnterprise() {
-        SessionUser user = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser user = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         UserAccountEntity pilot = buildUser(1L, "pilot_demo", "PILOT");
         Mockito.when(userAccountMapper.selectById(1L)).thenReturn(pilot);
 

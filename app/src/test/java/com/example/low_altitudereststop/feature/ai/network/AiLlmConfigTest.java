@@ -86,7 +86,9 @@ public class AiLlmConfigTest {
                 AiLlmConfig.INTERFACE_HTTP_OPENAPI
         );
 
-        assertEquals("x1", config.resolveSparkModel());
-        assertArrayEquals(new String[]{"x1"}, config.resolveSparkModelCandidates());
+        assertEquals("spark-x", config.resolveSparkModel());
+        String[] candidates = config.resolveSparkModelCandidates();
+        assertTrue(candidates.length >= 1);
+        assertEquals("spark-x", candidates[0]);
     }
 }

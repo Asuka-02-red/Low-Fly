@@ -38,7 +38,7 @@ public class MessageServiceTest {
 
     @Test
     public void shouldSendMessageBetweenEnterpriseAndPilot() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         MessageConversationEntity conversation = new MessageConversationEntity();
         conversation.setId(5001L);
         conversation.setEnterpriseId(2L);
@@ -78,7 +78,7 @@ public class MessageServiceTest {
 
     @Test
     public void shouldSyncReadReceiptsForConversationMembers() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         MessageConversationEntity conversation = new MessageConversationEntity();
         conversation.setId(5001L);
         conversation.setEnterpriseId(2L);
@@ -99,7 +99,7 @@ public class MessageServiceTest {
     @Test
     public void shouldResolvePilotAndEnterpriseProfilesByUid() {
         UserAccountEntity pilot = buildUser(1L, "pilot_demo", "PILOT");
-        pilot.setRealName("张飞手");
+        pilot.setRealName("陈伶");
         UserAccountEntity enterprise = buildUser(2L, "enterprise_demo", "ENTERPRISE");
         enterprise.setCompanyName("低空测试企业");
         Mockito.when(userAccountMapper.selectById(1L)).thenReturn(pilot);
@@ -110,12 +110,12 @@ public class MessageServiceTest {
                 "1"
         );
         ApiDtos.EnterpriseInfoView enterpriseInfo = messageService.getEnterpriseInfo(
-                new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手"),
+                new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶"),
                 "2"
         );
 
         Assertions.assertEquals("1", pilotProfile.uid());
-        Assertions.assertEquals("张飞手", pilotProfile.name());
+        Assertions.assertEquals("陈伶", pilotProfile.name());
         Assertions.assertEquals("2", enterpriseInfo.uid());
         Assertions.assertEquals("低空测试企业", enterpriseInfo.companyName());
     }

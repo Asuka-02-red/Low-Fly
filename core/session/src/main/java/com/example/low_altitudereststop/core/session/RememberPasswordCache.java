@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * 记住密码缓存，管理用户登录凭据的本地持久化存储与变更通知，
+ * 支持凭据快照读取和监听器订阅机制。
+ */
 public class RememberPasswordCache {
 
     private static final String PREF = "remember_password_cache";

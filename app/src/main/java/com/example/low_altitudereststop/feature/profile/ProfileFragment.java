@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import com.example.low_altitudereststop.R;
 import com.example.low_altitudereststop.core.model.AuthModels;
 import com.example.low_altitudereststop.core.session.SessionStore;
+import com.example.low_altitudereststop.core.session.UserSessionManager;
 import com.example.low_altitudereststop.core.storage.OperationOutboxEntity;
 import com.example.low_altitudereststop.core.storage.OperationOutboxStore;
 import com.example.low_altitudereststop.core.trace.OperationLogStore;
@@ -26,6 +27,14 @@ import com.example.low_altitudereststop.ui.UsageAnalyticsStore;
 import com.example.low_altitudereststop.ui.UserRole;
 import java.util.List;
 
+/**
+ * 个人中心Fragment，展示用户信息和功能入口列表。
+ * <p>
+ * 根据用户角色显示不同的菜单项（订单、告警、课程、帮助反馈、
+ * 消息中心、操作日志、同步队列、设置、退出登录等），
+ * 支持边到边布局适配和功能使用统计。
+ * </p>
+ */
 public class ProfileFragment extends Fragment {
 
     @Nullable
@@ -38,6 +47,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SessionStore store = new SessionStore(requireContext());
+        UserSessionManager sessionManager = new UserSessionManager(requireContext());
         AuthModels.SessionInfo user = store.getCachedUser();
 
         android.widget.TextView tvTitle = view.findViewById(R.id.tv_title);
@@ -61,7 +71,7 @@ public class ProfileFragment extends Fragment {
         btnSyncQueue.setText(serviceLabel(role, 3));
 
         view.findViewById(R.id.btn_logout).setOnClickListener(v -> {
-            store.clear();
+            sessionManager.logout();
             Snackbar.make(view, "已退出账号，自动登录已关闭", Snackbar.LENGTH_LONG).show();
             startActivity(new Intent(requireContext(), AuthActivity.class));
             requireActivity().finish();

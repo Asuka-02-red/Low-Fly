@@ -12,6 +12,14 @@ import com.example.low_altitudereststop.R;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.Map;
 
+/**
+ * 权限请求透明Activity，用于在权限被拒绝后重新请求。
+ * <p>
+ * 作为透明的中间Activity接收权限组和说明信息，
+ * 展示权限说明Snackbar后发起系统权限请求，
+ * 处理完成后通知AppPermissionManager状态变更并自动关闭。
+ * </p>
+ */
 public class PermissionRequestActivity extends FragmentActivity {
 
     public static final String EXTRA_PERMISSION_GROUP = "permission_group";

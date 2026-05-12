@@ -306,7 +306,7 @@ class AdminDashboardServiceTest {
                 buildReport(LocalDate.of(2026, 4, 16), 12, 6, BigDecimal.valueOf(60000), 1, 4)
         ));
         Mockito.when(adminProjectService.listAdminProjects()).thenReturn(List.of(
-                new ApiDtos.AdminProjectView("1", "项目A", "张三", "重庆", "执行中", 68, BigDecimal.valueOf(10000), "正常", "低", 80, "已结算", "2026-04-15"),
+                new ApiDtos.AdminProjectView("1", "项目A", "陈伶", "重庆", "执行中", 68, BigDecimal.valueOf(10000), "正常", "低", 80, "已结算", "2026-04-15"),
                 new ApiDtos.AdminProjectView("2", "项目B", "李四", "成都", "规划中", 20, BigDecimal.valueOf(20000), "待复核", "中", 60, "待结算", "2026-04-16"),
                 new ApiDtos.AdminProjectView("3", "项目C", "王五", "北京", "已完成", 100, BigDecimal.valueOf(30000), "正常", "高", 90, "已结算", "2026-04-17")
         ));
@@ -862,7 +862,7 @@ class AdminDashboardServiceTest {
                 buildReport(LocalDate.of(2026, 4, 15), 10, 5, BigDecimal.valueOf(50000), 2, 3)
         ));
         Mockito.when(adminProjectService.listAdminProjects()).thenReturn(List.of(
-                new ApiDtos.AdminProjectView("1", "项目A", "张三", "重庆", "执行中", 68, BigDecimal.valueOf(10000), "正常", "低", 80, "已结算", "2026-04-15"),
+                new ApiDtos.AdminProjectView("1", "项目A", "陈伶", "重庆", "执行中", 68, BigDecimal.valueOf(10000), "正常", "低", 80, "已结算", "2026-04-15"),
                 new ApiDtos.AdminProjectView("2", "项目B", "李四", "成都", "规划中", 20, BigDecimal.valueOf(20000), "待复核", "中", 60, "待结算", "2026-04-16"),
                 new ApiDtos.AdminProjectView("3", "项目C", "王五", "北京", "已完成", 100, BigDecimal.valueOf(30000), "正常", "高", 90, "已结算", "2026-04-17")
         ));

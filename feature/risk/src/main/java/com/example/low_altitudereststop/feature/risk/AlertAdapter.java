@@ -10,6 +10,10 @@ import com.example.low_altitudereststop.core.model.PlatformModels;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 告警列表适配器，将告警数据绑定到RecyclerView列表项视图，
+ * 支持点击事件回调以跳转至告警详情。
+ */
 public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.VH> {
 
     private final List<PlatformModels.AlertView> items = new ArrayList<>();

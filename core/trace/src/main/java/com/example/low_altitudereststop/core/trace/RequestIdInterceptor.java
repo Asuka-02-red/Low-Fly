@@ -5,6 +5,10 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 请求ID拦截器，为每个HTTP请求生成唯一标识并写入请求头，
+ * 同时将请求方法与路径记录到操作日志中以便追踪。
+ */
 public class RequestIdInterceptor implements Interceptor {
 
     private final OperationLogStore logStore;

@@ -6,6 +6,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.google.android.material.button.MaterialButton;
 
+/**
+ * 页面状态控制器，管理页面的加载中、空数据、错误和正常内容等状态视图的切换，
+ * 提供统一的状态展示与重试交互机制。
+ */
 public class PageStateController {
 
     private final View stateRoot;

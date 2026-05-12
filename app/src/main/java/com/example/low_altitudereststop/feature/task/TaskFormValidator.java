@@ -8,6 +8,14 @@ import java.time.format.DateTimeParseException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * 任务表单校验器。
+ * <p>
+ * 对创建任务表单的标题、描述、地点、截止时间、坐标、预算等字段
+ * 进行完整性和合法性校验，返回包含所有字段错误的校验结果，
+ * 并提供默认截止时间文本生成。
+ * </p>
+ */
 public final class TaskFormValidator {
 
     public static final DateTimeFormatter DEADLINE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

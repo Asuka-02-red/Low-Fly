@@ -4,6 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 
+/**
+ * 无障碍显示模式枚举，定义应用支持的视觉辅助模式。
+ * <p>
+ * 提供标准模式（STANDARD）和高对比度模式（HIGH_CONTRAST）两种选项，
+ * 高对比度模式增强文字与背景的对比度，提升视觉障碍用户的可读性。
+ * </p>
+ */
 public final class AccessibilityDisplayMode {
 
     public static final String PREF = AppThemeMode.PREF;

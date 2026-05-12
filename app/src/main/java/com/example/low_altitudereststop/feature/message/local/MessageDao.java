@@ -53,4 +53,16 @@ public interface MessageDao {
 
     @Query("DELETE FROM messages")
     void clearAll();
+
+    @Query("DELETE FROM messages WHERE conversationId = :conversationId")
+    void deleteConversation(long conversationId);
+
+    @Query("SELECT COUNT(*) FROM messages WHERE conversationId = :conversationId AND mine = 0 AND isRead = 0")
+    int countUnreadInConversation(long conversationId);
+
+    @Query("SELECT DISTINCT conversationId FROM messages ORDER BY conversationId")
+    List<Long> listConversationIds();
+
+    @Query("SELECT * FROM messages WHERE conversationId = :conversationId ORDER BY createTimeMillis DESC LIMIT 1")
+    MessageEntity findLastMessageInConversation(long conversationId);
 }

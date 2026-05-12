@@ -8,6 +8,13 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import com.example.low_altitudereststop.feature.ai.service.AiBallAccessibilityService;
 
+/**
+ * AI助手无障碍服务辅助工具类。
+ * <p>
+ * 提供查询AI助手无障碍服务是否已启用、以及跳转到系统无障碍设置页面的能力，
+ * 作为悬浮窗权限不可用时的降级方案支撑。
+ * </p>
+ */
 public final class AiBallAccessibilityHelper {
 
     private AiBallAccessibilityHelper() {

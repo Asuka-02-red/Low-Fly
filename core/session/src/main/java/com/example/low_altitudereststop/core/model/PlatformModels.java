@@ -2,6 +2,9 @@ package com.example.low_altitudereststop.core.model;
 
 import java.math.BigDecimal;
 
+/**
+ * 平台业务数据模型集合，包含任务、订单、合规、消息、培训、天气等所有业务模块的请求和响应数据结构。
+ */
 public final class PlatformModels {
 
     private PlatformModels() {
@@ -209,6 +212,7 @@ public final class PlatformModels {
         public Long id;
         public String title;
         public String summary;
+        public String category;
         public String learningMode;
         public String institutionName;
         public int seatAvailable;
@@ -216,6 +220,7 @@ public final class PlatformModels {
         public int enrollCount;
         public BigDecimal price;
         public String status;
+        public boolean enrolled;
     }
 
     public static class CourseDetailView {
@@ -223,6 +228,7 @@ public final class PlatformModels {
         public String title;
         public String summary;
         public String content;
+        public String category;
         public String learningMode;
         public String institutionName;
         public int seatTotal;

@@ -1,5 +1,6 @@
 package com.example.low_altitudereststop.feature.demo;
 
+import androidx.annotation.NonNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -7,21 +8,41 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 应用演示场景数据仓库，构建预置的业务场景数据集。
+ * <p>
+ * 提供四套完整场景：园区巡检、桥梁建模、活动保障和训练场复检，
+ * 每套场景包含对应的飞手、企业、任务、订单、课程、飞行申请、
+ * 禁飞区、天气锚点和消息对话数据，供演示模式和离线降级使用。
+ * </p>
+ */
 public final class AppScenarioRepository {
 
     private static final DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    private static volatile List<AppScenarioModels.ScenarioBundle> cachedScenarios;
+
     private AppScenarioRepository() {
     }
 
+    @NonNull
     public static List<AppScenarioModels.ScenarioBundle> buildScenarios() {
-        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
-        List<AppScenarioModels.ScenarioBundle> items = new ArrayList<>();
-        items.add(buildInspectionScenario(now));
-        items.add(buildMappingScenario(now));
-        items.add(buildEventScenario(now));
-        items.add(buildPolicyScenario(now));
-        return Collections.unmodifiableList(items);
+        if (cachedScenarios != null) {
+            return cachedScenarios;
+        }
+        synchronized (AppScenarioRepository.class) {
+            if (cachedScenarios != null) {
+                return cachedScenarios;
+            }
+            LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+            List<AppScenarioModels.ScenarioBundle> items = new ArrayList<>();
+            items.add(buildInspectionScenario(now));
+            items.add(buildMappingScenario(now));
+            items.add(buildEventScenario(now));
+            items.add(buildPolicyScenario(now));
+            cachedScenarios = Collections.unmodifiableList(items);
+            return cachedScenarios;
+        }
     }
 
     private static AppScenarioModels.ScenarioBundle buildInspectionScenario(LocalDateTime now) {
@@ -57,6 +78,7 @@ public final class AppScenarioRepository {
                 "低空巡检任务标准化实操",
                 "围绕园区巡检任务的航前检查、异常上报和图传回传，形成可直接上手的执行路径。",
                 "课程大纲\n1. 航前电池与图传链路检查\n2. 标准化巡检航线与取景规范\n3. 异常缺陷拍照与消息回执模板\n4. 弱网环境下的回传与补传策略\n\n配套场景\n- 对应任务：两江新区智慧园区日常巡检\n- 对应消息：企业调度中心的当日巡检安排",
+                "巡检规划",
                 "OFFLINE",
                 "低空驿站飞行学院",
                 24,
@@ -116,6 +138,7 @@ public final class AppScenarioRepository {
                 "桥梁建模航线规划与应急处置",
                 "结合临江桥区的风场和遮挡情况，梳理建模采集航线、控制点命名与异常返航策略。",
                 "课程内容\n1. 桥梁建模的控制点布设\n2. 临江区域风场识别与返航策略\n3. 建模照片命名规范与素材归档\n4. 与企业项目调度协同的消息模板\n\n关联说明\n- 对应项目：江北嘴桥梁三维建模采集",
+                "测绘建模",
                 "ARTICLE",
                 "城轨智航建模中心",
                 999,
@@ -175,6 +198,7 @@ public final class AppScenarioRepository {
                 "低空法规与活动保障政策更新",
                 "聚焦临时管制、活动保障和现场协同消息处理，适合活动保障飞手快速复训。",
                 "章节安排\n1. 临时活动管制区判读\n2. 活动保障任务的飞手报备要求\n3. 政策更新消息的快速处理方式\n4. 现场广播、返航与应急口令\n\n配套说明\n- 对应场景：礼嘉会展活动保障巡航",
+                "法规合规",
                 "ARTICLE",
                 "低空驿站法规中心",
                 999,
@@ -212,7 +236,7 @@ public final class AppScenarioRepository {
         item.orderNo = "ORD-20260423-004";
         item.applicationNo = "FLY-20260420-008";
 
-        item.pilot = person("pilot_self", "张晨飞", "飞手", "13900001204");
+        item.pilot = person("pilot_self", "陈伶", "飞手", "13900001204");
         item.company = company("enterprise_sys", "平台服务助手", "平台服务助手", "平台值班", "023-6700-0000");
         item.task = task(
                 "航前设备维护与训练场复检",
@@ -234,6 +258,7 @@ public final class AppScenarioRepository {
                 "设备维护与航前检查实操",
                 "面向训练场和复训任务的电池、图传和返航设置检查，适合准备阶段学习。",
                 "课程内容\n- 电池循环检查\n- 图传链路自检\n- 起飞前返航点与失联策略复核\n\n学习说明\n- 适合训练场复训\n- 完成后可直接对应训练场复检任务",
+                "运维保障",
                 "OFFLINE",
                 "低空驿站设备中心",
                 20,
@@ -251,11 +276,11 @@ public final class AppScenarioRepository {
         item.weatherAnchor = weather("照母山训练场空域", "CQ-ZMS-TRAIN", "上午能见度较稳，适合训练与复检");
 
         addMessage(item.pilotMessages, 90041L, "平台服务助手", "系统", false, true, "你的训练场复检任务已生成，建议先完成设备维护课程。", now.minusDays(1).withHour(18).withMinute(25));
-        addMessage(item.pilotMessages, 90042L, "张晨飞", "飞手", true, true, "收到，我会先检查电池循环和返航点配置。", now.minusDays(1).withHour(18).withMinute(42));
+        addMessage(item.pilotMessages, 90042L, "陈伶", "飞手", true, true, "收到，我会先检查电池循环和返航点配置。", now.minusDays(1).withHour(18).withMinute(42));
         addMessage(item.pilotMessages, 90043L, "平台服务助手", "系统", false, false, "提醒：完成课程后可直接提交设备检查清单，训练场任务将自动进入待确认。", now.minusHours(2));
 
         addMessage(item.enterpriseMessages, 91041L, "系统通知", "系统", false, true, "训练场复检任务已派发，待飞手完成设备维护课程后可继续推进。", now.minusDays(1).withHour(18).withMinute(20));
-        addMessage(item.enterpriseMessages, 91042L, "张晨飞", "飞手", false, true, "我会先完成设备课程，再提交检查清单。", now.minusHours(12));
+        addMessage(item.enterpriseMessages, 91042L, "陈伶", "飞手", false, true, "我会先完成设备课程，再提交检查清单。", now.minusHours(12));
         addMessage(item.enterpriseMessages, 91043L, "平台服务助手", "系统", true, true, "已记录飞手反馈，后续将自动同步课程完成状态。", now.minusHours(2).minusMinutes(15));
         return item;
     }
@@ -335,6 +360,7 @@ public final class AppScenarioRepository {
             String title,
             String summary,
             String content,
+            String category,
             String learningMode,
             String institution,
             int seatTotal,
@@ -351,6 +377,7 @@ public final class AppScenarioRepository {
         item.title = title;
         item.summary = summary;
         item.content = content;
+        item.category = category;
         item.learningMode = learningMode;
         item.institutionName = institution;
         item.seatTotal = seatTotal;

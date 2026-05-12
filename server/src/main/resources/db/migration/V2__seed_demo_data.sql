@@ -1,6 +1,6 @@
 INSERT INTO user_account (username, password_hash, phone, email, role, real_name, company_name)
 VALUES
-('pilot_demo', '{noop}demo123', '13800138000', 'pilot@example.com', 'PILOT', '张飞手', NULL),
+('pilot_demo', '{noop}demo123', '13800138000', 'pilot@example.com', 'PILOT', '陈伶', NULL),
 ('enterprise_demo', '{noop}demo123', '13800138001', 'enterprise@example.com', 'ENTERPRISE', '李企业', '低空运维科技'),
 ('institution_demo', '{noop}demo123', '13800138002', 'org@example.com', 'INSTITUTION', '王机构', '飞行培训中心'),
 ('admin', '{noop}Admin123456', '13800138003', 'admin@example.com', 'ADMIN', '管理员', '平台运营中心')

@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="Low-altitude_Rest_Stop.feature.auth" target="21" />
+      <module name="Low-altitude_Rest_Stop.feature.compliance" target="21" />
+      <module name="Low-altitude_Rest_Stop.feature.home" target="21" />
+      <module name="Low-altitude_Rest_Stop.feature.order" target="21" />
+      <module name="Low-altitude_Rest_Stop.feature.profile" target="21" />
+      <module name="Low-altitude_Rest_Stop.feature.task" target="21" />
+      <module name="Low-altitude_Rest_Stop.feature.training" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Low-altitude_Rest_Stop.server" options="-parameters" />
-      <module name="Low-altitude_Rest_Stop.server.main" options="-parameters" />
-      <module name="Low-altitude_Rest_Stop.server.test" options="-parameters" />
+      <module name="Low-altitude_Rest_Stop.server" options="-parameters -Xlint:all" />
+      <module name="Low-altitude_Rest_Stop.server.main" options="-parameters -Xlint:all -Werror" />
+      <module name="Low-altitude_Rest_Stop.server.test" options="-parameters -Xlint:all" />
     </option>
   </component>
 </project>

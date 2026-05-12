@@ -33,7 +33,7 @@ public class FeedbackServiceExtendedTest {
 
     @Test
     public void shouldListMyFeedbackTickets() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         FeedbackTicketEntity ticket = new FeedbackTicketEntity();
         ticket.setId(1L);
         ticket.setTicketNo("FBK123");
@@ -99,7 +99,7 @@ public class FeedbackServiceExtendedTest {
 
     @Test
     public void shouldRejectNonAdminReply() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         Assertions.assertThrows(BizException.class, () -> feedbackService.replyFeedbackTicket(
                 pilot,
                 1L,

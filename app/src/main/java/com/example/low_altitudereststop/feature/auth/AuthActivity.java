@@ -22,6 +22,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 登录与注册Activity，处理用户身份认证流程。
+ * <p>
+ * 支持飞手和企业两种角色的登录与注册，包含表单校验、
+ * 记住密码、自动登录、企业材料上传、网络不可用时的演示模式降级，
+ * 以及登录成功后跳转主界面。
+ * </p>
+ */
 public class AuthActivity extends EdgeToEdgeActivity {
 
     private static final String TAG = "AuthActivity";

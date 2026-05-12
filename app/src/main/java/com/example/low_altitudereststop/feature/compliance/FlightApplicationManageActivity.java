@@ -15,6 +15,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 飞行申请管理Activity（企业端）。
+ * <p>
+ * 企业用户查看所有飞行申请，支持按状态筛选（全部/待处理/已批准/已拒绝）、
+ * 单条审批（批准/驳回并填写意见）和批量审批操作，
+ * 实时显示网络状态和申请统计摘要。
+ * </p>
+ */
 public class FlightApplicationManageActivity extends NavigableEdgeToEdgeActivity
         implements FlightApplicationManageAdapter.ActionListener {
 

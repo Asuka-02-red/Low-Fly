@@ -19,6 +19,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 禁飞区地图渲染工具类。
+ * <p>
+ * 封装高德地图上禁飞区的绘制逻辑，包括基础地图配置、
+ * 远程禁飞区数据缓存与读取、本地/远程禁飞区的圆形区域和标记点渲染，
+ * 区分禁飞（红色）和限飞（蓝色）两种类型的视觉样式。
+ * </p>
+ */
 public final class NoFlyZoneMapRenderer {
 
     public static final String ZONE_REMOTE_CACHE = "zones.json";

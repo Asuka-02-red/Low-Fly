@@ -39,6 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/** 培训页入口 Fragment。 */
 public class TrainingFragment extends Fragment {
 
     private static final String PILOT_COURSE_CACHE_NAME = "pilot_courses.json";
@@ -103,10 +104,41 @@ public class TrainingFragment extends Fragment {
         loadCourses();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadIfEmpty();
+    }
+
+    private void reloadIfEmpty() {
+        if (!isAdded()) return;
+        UserRole role = UserRole.from(new SessionStore(requireContext()).getCachedUser().role);
+        if (role == UserRole.PILOT) {
+            if (pilotAdapter != null && pilotAdapter.getItemCount() == 0) {
+                loadPilotCourses();
+            }
+        } else {
+            if (adapter != null && adapter.getItemCount() == 0) {
+                loadCourses();
+            }
+        }
+    }
+
     private void bindPilotTrainingPage(@NonNull android.view.View view, @NonNull androidx.recyclerview.widget.RecyclerView recycler) {
+        // 飞手端只保留浏览与报名能力，隐藏课程管理入口。
         view.findViewById(R.id.btn_add_course).setVisibility(android.view.View.GONE);
         tvTitle.setText("我的课程");
-        pilotAdapter = new CourseAdapter(this::openPilotCourse);
+        pilotAdapter = new CourseAdapter(new CourseAdapter.OnCourseClickListener() {
+            @Override
+            public void onOpenCourse(PlatformModels.CourseView course) {
+                openPilotCourse(course);
+            }
+
+            @Override
+            public void onEnrollCourse(PlatformModels.CourseView course) {
+                enrollPilotCourse(course);
+            }
+        });
         recycler.setAdapter(pilotAdapter);
         swipe.setOnRefreshListener(this::loadPilotCourses);
         swipe.setRefreshing(true);
@@ -115,6 +147,12 @@ public class TrainingFragment extends Fragment {
 
     private void loadPilotCourses() {
         FileCache cache = new FileCache(requireContext());
+        List<PlatformModels.CourseView> cached = readPilotCache(cache);
+        if (cached != null && !cached.isEmpty()) {
+            renderPilotCourses(DemoCourseCatalog.mergeWithDemo(cached));
+        } else {
+            renderPilotCourses(DemoCourseCatalog.mergeWithDemo(null));
+        }
         ApiClient.getAuthedService(requireContext()).listCourses().enqueue(new Callback<ApiEnvelope<List<PlatformModels.CourseView>>>() {
             @Override
             public void onResponse(Call<ApiEnvelope<List<PlatformModels.CourseView>>> call, Response<ApiEnvelope<List<PlatformModels.CourseView>>> response) {
@@ -128,7 +166,7 @@ public class TrainingFragment extends Fragment {
                     }
                 }
                 if (courses == null) {
-                    courses = readPilotCache(cache);
+                    courses = cached;
                 }
                 renderPilotCourses(DemoCourseCatalog.mergeWithDemo(courses));
             }
@@ -197,7 +235,32 @@ public class TrainingFragment extends Fragment {
         }
         Intent intent = new Intent(requireContext(), CourseDetailActivity.class);
         intent.putExtra(CourseDetailActivity.EXTRA_COURSE_ID, course.id);
+        CourseDetailActivity.putCoursePreview(intent, course);
         startActivity(intent);
+    }
+
+    private void enrollPilotCourse(@Nullable PlatformModels.CourseView course) {
+        if (course == null || course.id == null) {
+            toast("课程ID无效");
+            return;
+        }
+        ApiClient.getAuthedService(requireContext()).enroll(course.id).enqueue(new Callback<ApiEnvelope<PlatformModels.EnrollmentResult>>() {
+            @Override
+            public void onResponse(Call<ApiEnvelope<PlatformModels.EnrollmentResult>> call, Response<ApiEnvelope<PlatformModels.EnrollmentResult>> response) {
+                ApiEnvelope<PlatformModels.EnrollmentResult> envelope = response.body();
+                if (!response.isSuccessful() || envelope == null || envelope.code != 200 || envelope.data == null) {
+                    toast(resolveMessage(envelope, "订阅失败"));
+                    return;
+                }
+                toast("订阅成功");
+                loadPilotCourses();
+            }
+
+            @Override
+            public void onFailure(Call<ApiEnvelope<PlatformModels.EnrollmentResult>> call, Throwable t) {
+                toast("网络异常：" + t.getMessage());
+            }
+        });
     }
 
     private void openEditor(@Nullable PlatformModels.CourseManageView course) {
@@ -220,6 +283,10 @@ public class TrainingFragment extends Fragment {
         if (cached != null && !cached.isEmpty()) {
             adapter.submit(cached);
             renderMetrics(cached);
+        } else {
+            List<PlatformModels.CourseManageView> fallback = DemoCourseCatalog.buildManagedFallback(null);
+            adapter.submit(fallback);
+            renderMetrics(fallback);
         }
         ApiClient.getAuthedService(requireContext()).listManagedCourses().enqueue(new Callback<ApiEnvelope<List<PlatformModels.CourseManageView>>>() {
             @Override
@@ -228,6 +295,7 @@ public class TrainingFragment extends Fragment {
                 ApiEnvelope<List<PlatformModels.CourseManageView>> envelope = response.body();
                 if (!response.isSuccessful() || envelope == null || envelope.code != 200 || envelope.data == null) {
                     if (cached == null || cached.isEmpty()) {
+                        // 无缓存时回退演示课程，避免企业端出现空白管理页。
                         List<PlatformModels.CourseManageView> fallback = DemoCourseCatalog.buildManagedFallback(null);
                         adapter.submit(fallback);
                         renderMetrics(fallback);
@@ -301,6 +369,7 @@ public class TrainingFragment extends Fragment {
     }
 
     private void renderMetrics(@Nullable List<PlatformModels.CourseManageView> items) {
+        // 顶部统计卡和柱状图都基于同一批列表数据聚合，保持口径一致。
         int totalCourses = items == null ? 0 : items.size();
         int totalViews = 0;
         int totalEnrolls = 0;
@@ -320,6 +389,7 @@ public class TrainingFragment extends Fragment {
         if (chartTraining == null) {
             return;
         }
+        // 图表只保留三项核心指标，便于在移动端卡片内快速对比。
         List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0f, totalCourses));
         entries.add(new BarEntry(1f, totalViews));
@@ -366,6 +436,7 @@ public class TrainingFragment extends Fragment {
     }
 
     private void applyNotchPadding(@NonNull android.view.View view) {
+        // 仅补顶部安全区，底部交由页面自身滚动与刷新控件处理。
         final int baseTop = view.getPaddingTop();
         final int start = view.getPaddingStart();
         final int end = view.getPaddingEnd();

@@ -10,6 +10,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * API客户端单例工厂，负责创建和提供已认证与未认证的Retrofit服务实例，
+ * 统一配置OkHttpClient的超时、重试、日志、认证拦截器等参数。
+ */
 public final class ApiClient {
 
     private static volatile ApiService publicService;
@@ -80,7 +84,7 @@ public final class ApiClient {
     }
 
     private static OkHttpClient buildPublicClient(Context context) {
-        OkHttpClient.Builder builder = baseBuilder(context, 5, 8, 5, 8)
+        OkHttpClient.Builder builder = baseBuilder(context, 8, 15, 8, 20)
                 .addInterceptor(new RetryInterceptor());
         if (MockInterceptor.isEnabled()) {
             builder.addInterceptor(new MockInterceptor());

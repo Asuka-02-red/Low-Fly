@@ -12,6 +12,14 @@ import com.google.android.material.color.DynamicColors;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * 应用程序入口Application类，负责全局初始化工作。
+ * <p>
+ * 在应用启动时完成以下初始化：崩溃日志记录、Material动态颜色、应用主题、
+ * 高德地图SDK隐私合规、API配置、AI助手服务上下文绑定、
+ * 消息网络监听器注册以及全局网络状态监听。
+ * </p>
+ */
 public class LowAltitudeApp extends Application {
 
     private static final String TAG = "LowAltitudeApp";
@@ -22,6 +30,7 @@ public class LowAltitudeApp extends Application {
         installCrashLogger();
         DynamicColors.applyToActivitiesIfAvailable(this);
         AppThemeMode.applyFromPreferences(this);
+        initAmapSdk();
         ApiConfig.init(BuildConfig.API_BASE_URL, BuildConfig.LLM_BASE_URL, BuildConfig.LLM_MODEL_NAME);
         runSafeInit("AiBallServiceFacade.attachContext", () ->
                 AiBallServiceFacade.getInstance().attachContext(this));
@@ -29,6 +38,16 @@ public class LowAltitudeApp extends Application {
                 MessageNetworkMonitor.register(this));
         runSafeInit("NetworkMonitor.register", () ->
                 NetworkMonitor.register(this));
+    }
+
+    private void initAmapSdk() {
+        try {
+            com.amap.api.location.AMapLocationClient.updatePrivacyShow(this, true, true);
+            com.amap.api.location.AMapLocationClient.updatePrivacyAgree(this, true);
+            Log.i(TAG, "AMap SDK privacy agreement initialized");
+        } catch (Throwable exception) {
+            Log.e(TAG, "AMap SDK init failed", exception);
+        }
     }
 
     private void runSafeInit(String step, Runnable action) {

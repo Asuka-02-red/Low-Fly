@@ -8,39 +8,78 @@
     android:foreground="?attr/selectableItemBackground"
     app:cardUseCompatPadding="false">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/ui_card_padding_compact">
 
+        <FrameLayout
+            android:id="@+id/layout_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_home_metric_icon_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/ui_icon_large"
+            android:layout_height="@dimen/ui_icon_large"
+            android:src="@drawable/ic_stat_task"
+            app:layout_constraintStart_toStartOf="@id/layout_icon"
+            app:layout_constraintEnd_toEndOf="@id/layout_icon"
+            app:layout_constraintTop_toTopOf="@id/layout_icon"
+            app:layout_constraintBottom_toBottomOf="@id/layout_icon" />
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:text="@string/placeholder_dash"
-            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title" />
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title"
+            app:layout_constraintStart_toEndOf="@id/layout_icon"
+            app:layout_constraintEnd_toStartOf="@id/tv_status"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp" />
 
         <TextView
             android:id="@+id/tv_subtitle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:text="@string/placeholder_dash"
-            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body" />
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
         <TextView
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:background="@drawable/bg_metric_chip"
-            android:paddingHorizontal="7dp"
+            android:background="@drawable/bg_badge_info"
+            android:paddingHorizontal="10dp"
             android:paddingVertical="3dp"
             android:text="@string/placeholder_dash"
             android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption"
-            android:textColor="@color/ui_light_on_surface" />
-    </LinearLayout>
+            android:textColor="@color/ui_info"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_metric_chip"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+            android:text="@string/placeholder_dash"
+            android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Caption"
+            android:textColor="@color/ui_light_on_surface"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

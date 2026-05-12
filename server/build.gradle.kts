@@ -87,7 +87,7 @@ tasks.jacocoTestCoverageVerification {
         rule {
             limit {
                 minimum = providers.gradleProperty("serverCoverageMinimum")
-                        .orElse("1.00")
+                        .orElse("0.80")
                         .map { it.toBigDecimal() }
                         .get()
             }

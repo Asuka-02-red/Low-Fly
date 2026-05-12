@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Base.Theme.LowaltitudeRestStop" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.LowaltitudeRestStop" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/ui_light_primary</item>
         <item name="colorOnPrimary">@color/ui_light_on_primary</item>
         <item name="colorPrimaryContainer">@color/ui_light_primary_container</item>
@@ -26,7 +26,7 @@
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="fontFamily">sans-serif</item>
         <item name="materialButtonStyle">@style/Widget.LowAltitudeRestStop.Button</item>
@@ -35,6 +35,6 @@
         <item name="bottomAppBarStyle">@style/Widget.LowAltitudeRestStop.BottomAppBar</item>
         <item name="bottomNavigationStyle">@style/Widget.LowAltitudeRestStop.BottomNavigation.App</item>
         <item name="textInputOutlinedStyle">@style/Widget.LowAltitudeRestStop.TextInputLayout</item>
-        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>

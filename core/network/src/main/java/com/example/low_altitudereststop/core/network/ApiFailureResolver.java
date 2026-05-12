@@ -1,5 +1,8 @@
 package com.example.low_altitudereststop.core.network;
 
+/**
+ * API失败信息解析器，将HTTP状态码和异常转换为用户可读的中文提示信息。
+ */
 public final class ApiFailureResolver {
 
     private ApiFailureResolver() {

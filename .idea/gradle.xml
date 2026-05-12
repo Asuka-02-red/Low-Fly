@@ -17,14 +17,7 @@
             <option value="$PROJECT_DIR$/core/trace" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/auth" />
-            <option value="$PROJECT_DIR$/feature/compliance" />
-            <option value="$PROJECT_DIR$/feature/home" />
-            <option value="$PROJECT_DIR$/feature/order" />
-            <option value="$PROJECT_DIR$/feature/profile" />
             <option value="$PROJECT_DIR$/feature/risk" />
-            <option value="$PROJECT_DIR$/feature/task" />
-            <option value="$PROJECT_DIR$/feature/training" />
             <option value="$PROJECT_DIR$/server" />
           </set>
         </option>

@@ -5,6 +5,13 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Build;
 
+/**
+ * 消息网络状态监听器，在应用启动时注册全局网络回调。
+ * <p>
+ * 通过ConnectivityManager注册默认网络回调，监听网络可用性变化，
+ * 供消息模块判断是否需要切换离线模式或触发数据同步。
+ * </p>
+ */
 public final class MessageNetworkMonitor {
 
     private static volatile boolean registered;

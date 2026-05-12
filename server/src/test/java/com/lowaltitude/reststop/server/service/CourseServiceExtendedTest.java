@@ -54,7 +54,7 @@ public class CourseServiceExtendedTest {
 
     @Test
     public void shouldRejectEnrollForNonOpenCourse() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         CourseEntity course = buildCourse(1L, "草稿课程", "DRAFT");
         Mockito.when(courseMapper.selectById(1L)).thenReturn(course);
 
@@ -63,7 +63,7 @@ public class CourseServiceExtendedTest {
 
     @Test
     public void shouldRejectDuplicateEnrollment() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         CourseEntity course = buildCourse(1L, "测试课程", "OPEN");
         Mockito.when(courseMapper.selectById(1L)).thenReturn(course);
         Mockito.when(courseEnrollmentMapper.selectCount(ArgumentMatchers.any())).thenReturn(1L);
@@ -73,7 +73,7 @@ public class CourseServiceExtendedTest {
 
     @Test
     public void shouldRejectEnrollWhenNoSeats() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         CourseEntity course = buildCourse(1L, "满员课程", "OPEN");
         course.setCourseType("OFFLINE");
         course.setSeatAvailable(0);
@@ -107,7 +107,7 @@ public class CourseServiceExtendedTest {
 
     @Test
     public void shouldRejectNonManagerCreatingCourse() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         Assertions.assertThrows(BizException.class, () -> courseService.createCourse(
                 pilot,
                 new ApiDtos.CourseManageRequest("课程", "摘要", "内容", "OFFLINE", 30, BigDecimal.ZERO, "DRAFT")
@@ -128,7 +128,7 @@ public class CourseServiceExtendedTest {
 
     @Test
     public void shouldRejectViewUnpublishedCourseForNonManager() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         CourseEntity course = buildCourse(1L, "草稿课程", "DRAFT");
         course.setPublishUserId(3L);
         Mockito.when(courseMapper.selectById(1L)).thenReturn(course);

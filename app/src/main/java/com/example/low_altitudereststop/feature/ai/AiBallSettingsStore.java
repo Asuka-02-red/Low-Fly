@@ -4,6 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 
+/**
+ * AI助手用户偏好设置存储类。
+ * <p>
+ * 基于SharedPreferences持久化存储AI助手功能的启用/禁用状态，
+ * 供主界面和设置页读写用户开关偏好。
+ * </p>
+ */
 public final class AiBallSettingsStore {
 
     private static final String PREF = "ai_ball_settings";

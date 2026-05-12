@@ -22,7 +22,7 @@
             <item>
                 <shape android:shape="rectangle">
                     <gradient
-                        android:angle="0"
+                        android:angle="135"
                         android:startColor="@color/ui_quick_action_primary_pressed_start"
                         android:endColor="@color/ui_quick_action_primary_pressed_end" />
                     <corners android:radius="@dimen/ui_quick_action_corner_radius" />
@@ -39,7 +39,7 @@
             <item>
                 <shape android:shape="rectangle">
                     <gradient
-                        android:angle="0"
+                        android:angle="135"
                         android:startColor="@color/ui_quick_action_primary_start"
                         android:endColor="@color/ui_quick_action_primary_end" />
                     <corners android:radius="@dimen/ui_quick_action_corner_radius" />

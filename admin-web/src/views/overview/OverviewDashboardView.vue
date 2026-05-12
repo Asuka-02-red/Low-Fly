@@ -1,5 +1,5 @@
 <script setup lang="ts">
-/** 总览看板页面：展示基于定位的实时天气与飞行适宜性判断、核心指标卡片、项目区域分布饼图、进度趋势图、设备终端态势和系统通知 */
+/** 总览看板页。 */
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { EChartsOption } from 'echarts'
@@ -21,6 +21,7 @@ interface Coordinates {
   latitude: number
 }
 
+// 看板主状态与天气刷新状态分开，便于局部 loading 呈现。
 const loading = ref(false)
 const weatherLoading = ref(false)
 const weatherRefreshing = ref(false)
@@ -38,6 +39,7 @@ const overview = ref<OverviewPayload>({
   progressTrend: [],
 })
 
+// 天气卡片的展示字段在这里集中派生，模板层只负责渲染。
 const isSuitableToFly = computed(() => weather.value?.suitability.result === '适宜飞行')
 
 const weatherEmoji = computed(() => {
@@ -173,6 +175,7 @@ function resolveLocationErrorMessage(error: GeolocationPositionError) {
 }
 
 function locateCurrentPosition(force = false): Promise<Coordinates> {
+  // 非强制刷新时复用最近一次定位，避免频繁触发浏览器权限弹窗。
   if (coordinates.value && !force) {
     return Promise.resolve(coordinates.value)
   }
@@ -212,6 +215,7 @@ async function loadWeather(options: { relocate?: boolean; silent?: boolean } = {
   }
 
   try {
+    // 天气请求依赖定位结果，定位失败时统一走同一套错误提示。
     const currentCoordinates = await locateCurrentPosition(relocate)
     const payload = await fetchAdminRealtimeWeather(currentCoordinates)
     if (!payload) {
@@ -235,6 +239,7 @@ function refreshDashboard() {
 onMounted(() => {
   void loadData()
   void loadWeather()
+  // 天气卡片单独轮询，避免看板其他模块也跟着重复请求。
   weatherTimer = window.setInterval(() => {
     void loadWeather({ silent: true })
   }, 15 * 60 * 1000)
@@ -415,6 +420,7 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
+/* 天气卡片整体布局 */
 .weather-card {
   :deep(.el-card__body) {
     display: flex;
@@ -454,7 +460,9 @@ onBeforeUnmount(() => {
 }
 
 .weather-hero {
+/* 顶部摘要与飞行判断 */
   display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr);
   grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr);
   gap: 20px;
   align-items: stretch;
@@ -542,6 +550,7 @@ onBeforeUnmount(() => {
   line-height: 1.1;
 }
 
+/* 气象指标与适飞检查 */
 .weather-metrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -624,6 +633,7 @@ onBeforeUnmount(() => {
   font-size: var(--font-medium);
 }
 
+/* 条件说明与下方通用看板区域 */
 .weather-guidance {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

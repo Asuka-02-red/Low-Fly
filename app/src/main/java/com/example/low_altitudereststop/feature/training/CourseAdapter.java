@@ -1,10 +1,12 @@
 package com.example.low_altitudereststop.feature.training;
 
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.low_altitudereststop.R;
 import com.example.low_altitudereststop.core.model.PlatformModels;
@@ -12,10 +14,19 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 课程列表适配器（飞手端）。
+ * <p>
+ * 展示课程的标题、类型、时长、难度和进度信息，
+ * 支持点击回调跳转到课程详情，用于飞手浏览可选课程。
+ * </p>
+ */
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.VH> {
 
     public interface OnCourseClickListener {
         void onOpenCourse(PlatformModels.CourseView course);
+
+        void onEnrollCourse(PlatformModels.CourseView course);
     }
 
     private final List<PlatformModels.CourseView> items = new ArrayList<>();
@@ -47,17 +58,23 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.VH> {
         holder.tvTitle.setText(c.title == null ? "-" : c.title);
         holder.tvSubtitle.setText(c.summary == null || c.summary.trim().isEmpty() ? "暂无课程简介" : c.summary);
         holder.tvStatus.setText(statusLabel(c.status));
-        holder.tvMetaPrimary.setText(displayMode(c.learningMode));
-        holder.tvMetaSecondary.setText("主办方：" + safe(c.institutionName));
+        holder.tvMetaPrimary.setText(safe(c.category));
+        holder.tvMetaSecondary.setText(displayMode(c.learningMode));
         holder.tvMetrics.setText("进度 " + progressLabel(c.status)
                 + "  ·  余位 " + c.seatAvailable
                 + "  ·  浏览 " + c.browseCount
-                + "  ·  报名 " + c.enrollCount);
-        holder.btnEnroll.setText("OFFLINE".equalsIgnoreCase(c.learningMode) ? "查看并报名" : "查看文章");
+                + "  ·  订阅 " + c.enrollCount
+                + "  ·  主办方 " + safe(c.institutionName));
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onOpenCourse(c);
+            }
+        });
+        bindButtonState(holder.btnEnroll, c);
         holder.btnEnroll.setEnabled(true);
         holder.btnEnroll.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onOpenCourse(c);
+                listener.onEnrollCourse(c);
             }
         });
     }
@@ -101,7 +118,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.VH> {
     private String statusLabel(String status) {
         String value = safe(status);
         if ("OPEN".equalsIgnoreCase(value)) {
-            return "报名中";
+            return "可订阅";
         }
         if ("DRAFT".equalsIgnoreCase(value)) {
             return "草稿";
@@ -127,6 +144,25 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.VH> {
             return "20%";
         }
         return "-";
+    }
+
+    private void bindButtonState(@NonNull MaterialButton button, @NonNull PlatformModels.CourseView course) {
+        int background = ContextCompat.getColor(
+                button.getContext(),
+                course.enrolled ? R.color.ui_success : R.color.ui_info
+        );
+        int textColor = ContextCompat.getColor(button.getContext(), R.color.white);
+        button.setBackgroundTintList(ColorStateList.valueOf(background));
+        button.setTextColor(textColor);
+        button.setStrokeWidth(0);
+        button.setText(course.enrolled ? "查看详情" : pendingLabel(course.learningMode));
+    }
+
+    private String pendingLabel(String learningMode) {
+        if ("OFFLINE".equalsIgnoreCase(learningMode)) {
+            return "查看并订阅";
+        }
+        return "查看详情";
     }
 
     static class VH extends RecyclerView.ViewHolder {

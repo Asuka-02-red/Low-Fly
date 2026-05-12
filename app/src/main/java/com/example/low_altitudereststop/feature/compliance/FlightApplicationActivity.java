@@ -13,6 +13,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 飞行申请提交Activity（飞手端）。
+ * <p>
+ * 飞手用户填写飞行地点、时间和用途后提交飞行申请，
+ * 网络不可用时自动将申请加入离线同步队列，确保数据不丢失。
+ * </p>
+ */
 public class FlightApplicationActivity extends NavigableEdgeToEdgeActivity {
 
     private ActivityFlightApplicationBinding binding;

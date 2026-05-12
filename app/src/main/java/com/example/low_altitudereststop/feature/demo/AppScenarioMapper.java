@@ -19,6 +19,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * 应用演示场景数据映射器，将场景数据转换为各业务模块所需的数据模型。
+ * <p>
+ * 负责将AppScenarioRepository中的场景数据映射为消息会话、消息实体、
+ * 飞手/企业身份、课程、飞行申请、禁飞区、订单、告警、任务等视图模型，
+ * 作为演示模式和离线降级时的数据来源。
+ * </p>
+ */
 public final class AppScenarioMapper {
 
     private static final DateTimeFormatter HOUR_MINUTE = DateTimeFormatter.ofPattern("HH:mm", Locale.CHINA);
@@ -163,6 +171,15 @@ public final class AppScenarioMapper {
         return null;
     }
 
+    @Nullable
+    public static PlatformModels.CourseDetailView findFirstCourseDetail() {
+        List<AppScenarioModels.ScenarioBundle> scenarios = AppScenarioRepository.buildScenarios();
+        if (!scenarios.isEmpty()) {
+            return toCourseDetailView(scenarios.get(0));
+        }
+        return null;
+    }
+
     @NonNull
     public static List<FlightManagementModels.FlightApplicationRecord> buildFlightApplications() {
         List<FlightManagementModels.FlightApplicationRecord> items = new ArrayList<>();
@@ -219,6 +236,33 @@ public final class AppScenarioMapper {
             item.taskId = scenario.taskId;
             item.amount = scenario.order.amount;
             item.status = scenario.order.status;
+            items.add(item);
+        }
+        return items;
+    }
+
+    @NonNull
+    public static List<PlatformModels.OrderDetailView> buildAllOrderDetails() {
+        List<PlatformModels.OrderDetailView> items = new ArrayList<>();
+        for (AppScenarioModels.ScenarioBundle scenario : AppScenarioRepository.buildScenarios()) {
+            PlatformModels.OrderDetailView item = new PlatformModels.OrderDetailView();
+            item.id = scenario.orderId;
+            item.orderNo = scenario.orderNo;
+            item.status = scenario.order.status;
+            item.amount = scenario.order.amount;
+            item.taskId = scenario.taskId;
+            item.taskTitle = scenario.task.title;
+            item.taskType = scenario.task.taskType;
+            item.location = scenario.task.location;
+            item.pilotName = scenario.pilot.name;
+            item.enterpriseName = scenario.company.name;
+            item.contactName = scenario.company.contactName;
+            item.contactPhone = scenario.company.contactPhone;
+            item.paymentChannel = scenario.order.paymentChannel;
+            item.paymentStatus = scenario.order.paymentStatus;
+            item.createdAt = scenario.order.createdAt;
+            item.appointmentTime = scenario.order.appointmentTime;
+            item.remark = scenario.order.remark;
             items.add(item);
         }
         return items;
@@ -492,6 +536,7 @@ public final class AppScenarioMapper {
         item.id = scenario.courseId;
         item.title = scenario.course.title;
         item.summary = scenario.course.summary;
+        item.category = scenario.course.category;
         item.learningMode = scenario.course.learningMode;
         item.institutionName = scenario.course.institutionName;
         item.seatAvailable = scenario.course.seatAvailable;
@@ -499,6 +544,7 @@ public final class AppScenarioMapper {
         item.enrollCount = scenario.course.enrollCount;
         item.price = scenario.course.price;
         item.status = scenario.course.status;
+        item.enrolled = scenario.course.enrolled;
         return item;
     }
 

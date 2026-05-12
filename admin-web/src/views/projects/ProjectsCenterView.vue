@@ -63,6 +63,7 @@ void loadData()
     <template #actions>
       <el-input v-model="keyword" placeholder="搜索项目/区域/负责人" clearable class="toolbar-search" prefix-icon="Search" />
       <el-button type="primary" :loading="loading" @click="loadData">刷新</el-button>
+      <el-button type="primary" :loading="loading" @click="createProject">新增项目</el-button>
     </template>
 
     <div class="metrics-grid">

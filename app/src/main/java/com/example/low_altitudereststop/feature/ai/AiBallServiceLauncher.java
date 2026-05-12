@@ -9,6 +9,13 @@ import androidx.annotation.NonNull;
 import com.example.low_altitudereststop.BuildConfig;
 import com.example.low_altitudereststop.feature.ai.service.AiBallBinderService;
 
+/**
+ * AI助手后台服务启动器。
+ * <p>
+ * 负责安全地启动AI助手绑定服务（AiBallBinderService），
+ * 处理Android 12+后台启动限制场景下的异常捕获与日志记录。
+ * </p>
+ */
 public final class AiBallServiceLauncher {
 
     private static final String TAG = "AiBallServiceLauncher";

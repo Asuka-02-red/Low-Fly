@@ -6,6 +6,10 @@ import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+/**
+ * 操作日志存储器，记录HTTP请求、崩溃和审计日志到本地文件，
+ * 为每个请求生成唯一标识，用于问题追踪和运行时诊断。
+ */
 public class OperationLogStore {
 
     private static final String FILE_NAME = "operation_log.txt";

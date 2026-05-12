@@ -34,6 +34,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 禁飞区列表Activity，展示禁飞区列表与地图联动视图。
+ * <p>
+ * 集成高德地图渲染禁飞区圆形区域，支持关键词搜索、下拉刷新同步远程数据、
+ * 企业角色可新增/编辑/删除禁飞区，飞手角色仅可查看，
+ * 点击列表项可定位到地图对应位置。
+ * </p>
+ */
 public class NoFlyZoneListActivity extends NavigableEdgeToEdgeActivity implements ZoneAdapter.OnZoneClickListener {
 
     private ActivityNoFlyZoneListBinding binding;

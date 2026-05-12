@@ -42,9 +42,9 @@ public class PlatformUtilsTest {
     @Test
     public void shouldDisplayName() {
         UserAccountEntity user = new UserAccountEntity();
-        user.setRealName("张三");
+        user.setRealName("陈伶");
         user.setUsername("zhangsan");
-        Assertions.assertEquals("张三", PlatformUtils.displayName(user));
+        Assertions.assertEquals("陈伶", PlatformUtils.displayName(user));
     }
 
     @Test

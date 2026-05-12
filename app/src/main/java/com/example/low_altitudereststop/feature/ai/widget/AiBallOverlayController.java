@@ -231,6 +231,7 @@ public final class AiBallOverlayController implements AiBallServiceFacade.Listen
         );
     }
 
+    @SuppressWarnings("deprecation")
     private void refreshBounds() {
         WindowManager wm = windowManager;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

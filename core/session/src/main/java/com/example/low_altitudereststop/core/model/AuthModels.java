@@ -1,5 +1,8 @@
 package com.example.low_altitudereststop.core.model;
 
+/**
+ * 认证相关数据模型集合，包含登录、注册、令牌刷新等请求和响应的数据结构。
+ */
 public final class AuthModels {
 
     private AuthModels() {

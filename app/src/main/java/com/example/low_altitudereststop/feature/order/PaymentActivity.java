@@ -14,6 +14,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 支付Activity，处理订单支付流程。
+ * <p>
+ * 展示订单金额和支付渠道选择，提交支付请求到服务端，
+ * 网络不可用时将支付操作加入离线同步队列，支持支付成功消息回传。
+ * </p>
+ */
 public class PaymentActivity extends NavigableEdgeToEdgeActivity {
 
     public static final String EXTRA_ORDER_ID = "order_id";

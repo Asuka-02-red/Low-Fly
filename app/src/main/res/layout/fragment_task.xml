@@ -20,49 +20,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-                android:padding="@dimen/ui_card_padding">
+            android:padding="@dimen/ui_card_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TASK CENTER"
-                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Eyebrow" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_eyebrow"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:text="TASK CENTER"
+                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Eyebrow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/task_center_title"
-                    android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/task_center_title"
+                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Title"
+                app:layout_constraintTop_toBottomOf="@id/tv_eyebrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_create_task" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_create_task"
-                    style="@style/Widget.LowAltitudeRestStop.Button.Outlined.Compact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/task_center_publish" />
-            </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_create_task"
+                style="@style/Widget.LowAltitudeRestStop.Button.Outlined.Compact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/task_center_publish"
+                app:layout_constraintTop_toTopOf="@id/tv_title"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/tv_hint"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/task_center_hint"
-                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body" />
-        </LinearLayout>
+                android:textAppearance="@style/TextAppearance.LowAltitudeRestStop.Body"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
 

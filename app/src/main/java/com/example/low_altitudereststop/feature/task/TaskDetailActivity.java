@@ -40,6 +40,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 任务详情Activity，展示任务的完整信息与地图视图。
+ * <p>
+ * 从API或演示数据源获取任务详情，展示任务描述、坐标、作业半径、
+ * 航线、禁飞区叠加层，支持接单/取消操作和全屏地图查看，
+ * 企业用户可查看和管理任务状态。
+ * </p>
+ */
 public class TaskDetailActivity extends NavigableEdgeToEdgeActivity {
 
     private static final LatLng DEFAULT_CENTER = new LatLng(29.56301, 106.55156);
@@ -444,16 +452,14 @@ public class TaskDetailActivity extends NavigableEdgeToEdgeActivity {
             if (zone == null || zone.centerLat == null || zone.centerLng == null) {
                 continue;
             }
-            float[] distance = new float[1];
-            android.location.Location.distanceBetween(
+            double distance = TaskMapSnapshot.haversineDistance(
                     snapshot.target.latitude,
                     snapshot.target.longitude,
                     zone.centerLat.doubleValue(),
-                    zone.centerLng.doubleValue(),
-                    distance
+                    zone.centerLng.doubleValue()
             );
             int threshold = Math.max(8000, snapshot.radiusMeters + zone.radius + 3000);
-            if (distance[0] <= threshold) {
+            if (distance <= threshold) {
                 nearby.add(zone);
             }
         }
@@ -687,9 +693,19 @@ public class TaskDetailActivity extends NavigableEdgeToEdgeActivity {
         }
 
         String distanceLabel() {
-            float[] result = new float[1];
-            android.location.Location.distanceBetween(routeStart.latitude, routeStart.longitude, target.latitude, target.longitude, result);
-            return String.format(Locale.US, "%.1f km", result[0] / 1000f);
+            double distanceMeters = haversineDistance(routeStart.latitude, routeStart.longitude, target.latitude, target.longitude);
+            return String.format(Locale.US, "%.1f km", distanceMeters / 1000.0);
+        }
+
+        static double haversineDistance(double lat1, double lng1, double lat2, double lng2) {
+            double r = 6371000.0;
+            double dLat = Math.toRadians(lat2 - lat1);
+            double dLng = Math.toRadians(lng2 - lng1);
+            double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                    + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                    * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return r * c;
         }
 
         private static List<LatLng> buildRoutePoints(LatLng routeStart, LatLng target, String taskType) {

@@ -8,6 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.low_altitudereststop.R;
 import com.example.low_altitudereststop.core.model.PlatformModels;
 import com.example.low_altitudereststop.core.network.ApiClient;
@@ -17,9 +21,9 @@ import com.example.low_altitudereststop.core.session.SessionStore;
 import com.example.low_altitudereststop.feature.message.local.MessageEntity;
 import com.example.low_altitudereststop.ui.UserRole;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,8 +31,33 @@ import retrofit2.Response;
 public class MessageFragment extends Fragment {
 
     private PageStateController stateController;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
+    private View emptyState;
+    private View loadingMoreView;
+    private TextView tvUnreadNotifications;
+    private TextView tvUnreadChats;
+    private ChatListAdapter adapter;
+    private MessageRepository repository;
+    private MessageIdentityRepository identityRepository;
     private boolean hasShownLocalData;
+    private boolean isLoadingMore;
+    private int currentPage;
+    private static final int PAGE_SIZE = 20;
     private Observer<List<MessageEntity>> localObserver;
+
+    private final MessageRealtimeHub.Listener realtimeListener = (msgId, isRead) -> {
+        if (repository != null) {
+            repository.updateReadStatus(msgId, isRead);
+        }
+    };
+
+    private final MessageRealtimeHub.NewMessageListener newMessageListener = (conversationId, msgId) -> {
+        if (repository != null) {
+            repository.refreshMessages();
+        }
+        scrollToTop();
+    };
 
     public MessageFragment() {
         super(R.layout.fragment_message);
@@ -39,153 +68,308 @@ public class MessageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         stateController = new PageStateController(
                 view.findViewById(R.id.layout_message_state),
-                view.findViewById(R.id.layout_message_content),
+                view.findViewById(R.id.card_message_header),
                 view.findViewById(com.example.low_altitudereststop.core.ui.R.id.progress_page_state),
                 view.findViewById(com.example.low_altitudereststop.core.ui.R.id.tv_page_state_title),
                 view.findViewById(com.example.low_altitudereststop.core.ui.R.id.tv_page_state_desc),
                 view.findViewById(com.example.low_altitudereststop.core.ui.R.id.btn_page_state_retry)
         );
+
+        repository = MessageRepository.get(requireContext());
+        identityRepository = MessageIdentityRepository.get(requireContext());
+
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+        recyclerView = view.findViewById(R.id.recycler_chat_list);
+        emptyState = view.findViewById(R.id.layout_empty_state);
+        loadingMoreView = view.findViewById(R.id.layout_loading_more);
+        tvUnreadNotifications = view.findViewById(R.id.tv_unread_notifications);
+        tvUnreadChats = view.findViewById(R.id.tv_unread_chats);
+
+        setupRecyclerView();
+        setupSwipeRefresh();
+        setupLoadMore();
         hasShownLocalData = false;
-        loadLocalThenRemote(view);
+        currentPage = 0;
+        loadLocalThenRemote();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MessageRealtimeHub.getInstance().connect(requireContext());
+        MessageRealtimeHub.getInstance().addListener(realtimeListener);
+        MessageRealtimeHub.getInstance().addNewMessageListener(newMessageListener);
+        if (repository != null) {
+            repository.syncPendingReadReceipts();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        MessageRealtimeHub.getInstance().removeListener(realtimeListener);
+        MessageRealtimeHub.getInstance().removeNewMessageListener(newMessageListener);
+        super.onPause();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (localObserver != null) {
-            MessageRepository.get(requireContext()).observeAllMessages().removeObserver(localObserver);
+        if (localObserver != null && repository != null) {
+            repository.observeAllMessages().removeObserver(localObserver);
         }
     }
 
-    private void loadLocalThenRemote(@NonNull View view) {
-        MessageRepository repository = MessageRepository.get(requireContext());
-        localObserver = messages -> {
-            if (messages != null && !messages.isEmpty() && !hasShownLocalData) {
-                hasShownLocalData = true;
-                renderFromLocalCache(view, messages);
-            }
-        };
-        repository.observeAllMessages().observe(getViewLifecycleOwner(), localObserver);
-        if (!hasShownLocalData) {
-            stateController.showLoading("正在同步消息", "正在汇总企业与飞手的协同会话，请稍候。");
-        }
-        loadConversations(view);
-    }
+    private void setupRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
 
-    private void renderFromLocalCache(@NonNull View view, @NonNull List<MessageEntity> messages) {
-        UserRole role = UserRole.from(new SessionStore(requireContext()).getCachedUser().role);
-        Set<Long> conversationIds = new HashSet<>();
-        List<PlatformModels.MessageConversationView> conversations = new ArrayList<>();
-        for (MessageEntity msg : messages) {
-            if (!conversationIds.contains(msg.conversationId)) {
-                conversationIds.add(msg.conversationId);
-                PlatformModels.MessageConversationView conv = new PlatformModels.MessageConversationView();
-                conv.id = msg.conversationId;
-                conv.title = msg.counterpartTitle;
-                conv.lastMessagePreview = msg.content;
-                conv.counterpartRole = msg.senderRole;
-                conv.lastMessageTime = msg.createTime;
-                conversations.add(conv);
-            }
-        }
-        int unreadCount = 0;
-        for (MessageEntity msg : messages) {
-            if (!msg.mine && !msg.isRead) {
-                unreadCount++;
-            }
-        }
-        if (!conversations.isEmpty()) {
-            ((TextView) view.findViewById(R.id.tv_title)).setText(role == UserRole.ENTERPRISE ? "企业协同消息" : "飞手协同消息");
-            ((TextView) view.findViewById(R.id.tv_hint)).setText(role == UserRole.ENTERPRISE
-                    ? "查看飞手回执、执行沟通与项目安排，支持实时双向发送。"
-                    : "查看企业派单、执行沟通与回执消息，支持实时双向发送。");
-            ((TextView) view.findViewById(R.id.tv_unread_notifications)).setText(String.valueOf(unreadCount));
-            ((TextView) view.findViewById(R.id.tv_unread_chats)).setText(String.valueOf(conversations.size()));
-            bindConversation(view, R.id.card_thread_one, conversations, 0);
-            bindConversation(view, R.id.card_thread_two, conversations, 1);
-            bindConversation(view, R.id.card_thread_three, conversations, 2);
-            stateController.showContent();
-        }
-    }
+        adapter = new ChatListAdapter(identityRepository, this::openChatDetail);
+        recyclerView.setAdapter(adapter);
 
-    private void loadConversations(@NonNull View view) {
-        ApiClient.getAuthedService(requireContext()).listMessageConversations().enqueue(new Callback<ApiEnvelope<List<PlatformModels.MessageConversationView>>>() {
+        ChatSwipeCallback swipeCallback = new ChatSwipeCallback(adapter, new ChatListAdapter.OnSwipeActionListener() {
             @Override
-            public void onResponse(Call<ApiEnvelope<List<PlatformModels.MessageConversationView>>> call, Response<ApiEnvelope<List<PlatformModels.MessageConversationView>>> response) {
-                ApiEnvelope<List<PlatformModels.MessageConversationView>> envelope = response.body();
-                if (!response.isSuccessful() || envelope == null) {
-                    if (!hasShownLocalData) {
-                        showMockMessages(view);
-                    }
-                    return;
-                }
-                if (envelope.code != 200 || envelope.data == null) {
-                    if (!hasShownLocalData) {
-                        showMockMessages(view);
-                    }
-                    return;
-                }
-                if (envelope.data.isEmpty()) {
-                    if (!hasShownLocalData) {
-                        showMockMessages(view);
-                    }
-                    return;
-                }
-                renderDashboard(view, envelope.data);
+            public void onMarkAsRead(@NonNull ChatConversationItem item, int position) {
+                repository.markConversationRead(item.conversationId);
             }
 
             @Override
-            public void onFailure(Call<ApiEnvelope<List<PlatformModels.MessageConversationView>>> call, Throwable t) {
-                if (!hasShownLocalData) {
-                    showMockMessages(view);
+            public void onDelete(@NonNull ChatConversationItem item, int position) {
+                repository.deleteConversation(item.conversationId);
+            }
+        });
+        new ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView);
+    }
+
+    private void setupSwipeRefresh() {
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.ui_info,
+                R.color.ui_status_unread
+        );
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            currentPage = 0;
+            repository.refreshMessages();
+            swipeRefreshLayout.setRefreshing(false);
+        });
+    }
+
+    private void setupLoadMore() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy <= 0) return;
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (layoutManager == null) return;
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                if (!isLoadingMore
+                        && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount - 3
+                        && firstVisibleItemPosition >= 0) {
+                    loadMoreConversations();
                 }
             }
         });
     }
 
-    private void renderDashboard(@NonNull View view, @NonNull List<PlatformModels.MessageConversationView> conversations) {
-        UserRole role = UserRole.from(new SessionStore(requireContext()).getCachedUser().role);
-        if (conversations.isEmpty()) {
-            stateController.showEmpty("暂无会话", "当前还没有可用的企业与飞手沟通记录。", "重新加载", () -> loadConversations(view));
-            return;
+    private void loadLocalThenRemote() {
+        localObserver = messages -> {
+            if (messages != null && !messages.isEmpty() && !hasShownLocalData) {
+                hasShownLocalData = true;
+                renderConversations(messages);
+            }
+        };
+        repository.observeAllMessages().observe(getViewLifecycleOwner(), localObserver);
+
+        if (!hasShownLocalData) {
+            stateController.showLoading("\u6b63\u5728\u540c\u6b65\u6d88\u606f", "\u6b63\u5728\u6c47\u603b\u4f01\u4e1a\u4e0e\u98de\u624b\u7684\u534f\u540c\u4f1a\u8bdd\uff0c\u8bf7\u7a0d\u5019\u3002");
         }
-        int unreadCount = conversations.stream().mapToInt(item -> item.unreadCount).sum();
-        ((TextView) view.findViewById(R.id.tv_title)).setText(role == UserRole.ENTERPRISE ? "企业协同消息" : "飞手协同消息");
-        ((TextView) view.findViewById(R.id.tv_hint)).setText(role == UserRole.ENTERPRISE
-                ? "查看飞手回执、执行沟通与项目安排，支持实时双向发送。"
-                : "查看企业派单、执行沟通与回执消息，支持实时双向发送。");
-        ((TextView) view.findViewById(R.id.tv_unread_notifications)).setText(String.valueOf(unreadCount));
-        ((TextView) view.findViewById(R.id.tv_unread_chats)).setText(String.valueOf(conversations.size()));
-
-        bindConversation(view, R.id.card_thread_one, conversations, 0);
-        bindConversation(view, R.id.card_thread_two, conversations, 1);
-        bindConversation(view, R.id.card_thread_three, conversations, 2);
-        stateController.showContent();
+        loadConversationsFromNetwork();
     }
 
-    private void showMockMessages(@NonNull View view) {
+    private void loadConversationsFromNetwork() {
+        if (!isAdded() || getContext() == null) return;
+        ApiClient.getAuthedService(requireContext()).listMessageConversations().enqueue(
+                new Callback<ApiEnvelope<List<PlatformModels.MessageConversationView>>>() {
+                    @Override
+                    public void onResponse(
+                            Call<ApiEnvelope<List<PlatformModels.MessageConversationView>>> call,
+                            Response<ApiEnvelope<List<PlatformModels.MessageConversationView>>> response
+                    ) {
+                        if (!isAdded()) return;
+                        ApiEnvelope<List<PlatformModels.MessageConversationView>> envelope = response.body();
+                        if (!response.isSuccessful() || envelope == null || envelope.code != 200 || envelope.data == null) {
+                            if (!hasShownLocalData) {
+                                showMockConversations();
+                            }
+                            return;
+                        }
+                        if (envelope.data.isEmpty()) {
+                            if (!hasShownLocalData) {
+                                showMockConversations();
+                            }
+                            return;
+                        }
+                        repository.refreshMessages();
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<ApiEnvelope<List<PlatformModels.MessageConversationView>>> call,
+                            Throwable t
+                    ) {
+                        if (!isAdded()) return;
+                        if (!hasShownLocalData) {
+                            showMockConversations();
+                        }
+                    }
+                }
+        );
+    }
+
+    private void renderConversations(@NonNull List<MessageEntity> messages) {
+        if (!isAdded() || getContext() == null) return;
         UserRole role = UserRole.from(new SessionStore(requireContext()).getCachedUser().role);
-        renderDashboard(view, MessageMockDataSource.buildConversationSummaries(role));
-    }
 
-    private void bindConversation(@NonNull View root, int cardId, @NonNull List<PlatformModels.MessageConversationView> items, int index) {
-        View card = root.findViewById(cardId);
-        if (index >= items.size()) {
-            card.setVisibility(View.GONE);
-            return;
+        Map<Long, ConversationBuilder> builderMap = new HashMap<>();
+        for (MessageEntity msg : messages) {
+            ConversationBuilder builder = builderMap.get(msg.conversationId);
+            if (builder == null) {
+                builder = new ConversationBuilder(msg.conversationId);
+                builderMap.put(msg.conversationId, builder);
+            }
+            builder.addMessage(msg);
         }
-        card.setVisibility(View.VISIBLE);
-        PlatformModels.MessageConversationView summary = items.get(index);
-        ((TextView) card.findViewById(R.id.tv_thread_title)).setText(summary.title);
-        ((TextView) card.findViewById(R.id.tv_thread_preview)).setText(summary.lastMessagePreview);
-        ((TextView) card.findViewById(R.id.tv_thread_badge)).setText(summary.counterpartRole + " · " + summary.unreadCount + " 条对方消息");
-        ((TextView) card.findViewById(R.id.tv_thread_time)).setText(summary.lastMessageTime);
-        card.setOnClickListener(v -> openThread(summary.id));
+
+        List<ChatConversationItem> items = new ArrayList<>();
+        int totalUnread = 0;
+        for (ConversationBuilder builder : builderMap.values()) {
+            ChatConversationItem item = builder.build(role);
+            items.add(item);
+            totalUnread += item.unreadCount;
+        }
+
+        items.sort((a, b) -> Long.compare(b.lastMessageTimeMillis, a.lastMessageTimeMillis));
+
+        updateHeaderStats(role, totalUnread, items.size());
+        adapter.submitList(items);
+
+        emptyState.setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(items.isEmpty() ? View.GONE : View.VISIBLE);
+
+        if (!items.isEmpty()) {
+            stateController.showContent();
+        } else {
+            stateController.showEmpty("\u6682\u65e0\u4f1a\u8bdd", "\u5f53\u524d\u8fd8\u6ca1\u6709\u53ef\u7528\u7684\u4f01\u4e1a\u4e0e\u98de\u624b\u6c9f\u901a\u8bb0\u5f55\u3002", "\u91cd\u65b0\u52a0\u8f7d", () -> loadConversationsFromNetwork());
+        }
     }
 
-    private void openThread(@NonNull Long conversationId) {
-        Intent intent = new Intent(requireContext(), MessageListActivity.class);
-        intent.putExtra(MessageDetailActivity.EXTRA_CONVERSATION_ID, conversationId);
+    private void updateHeaderStats(UserRole role, int totalUnread, int conversationCount) {
+        if (!isAdded() || getView() == null) return;
+        ((TextView) requireView().findViewById(R.id.tv_title)).setText(
+                role == UserRole.ENTERPRISE ? "\u4f01\u4e1a\u534f\u540c\u6d88\u606f" : "\u98de\u624b\u534f\u540c\u6d88\u606f");
+        tvUnreadNotifications.setText(String.valueOf(totalUnread));
+        tvUnreadChats.setText(String.valueOf(conversationCount));
+    }
+
+    private void showMockConversations() {
+        if (!isAdded() || getContext() == null) return;
+        UserRole role = UserRole.from(new SessionStore(requireContext()).getCachedUser().role);
+        List<MessageEntity> mockMessages = MessageMockDataSource.buildMessageEntities(role);
+        if (!mockMessages.isEmpty()) {
+            repository.replaceAllForTesting(mockMessages);
+        }
+        renderConversations(mockMessages);
+    }
+
+    private void loadMoreConversations() {
+        if (isLoadingMore) return;
+        isLoadingMore = true;
+        loadingMoreView.setVisibility(View.VISIBLE);
+        currentPage++;
+        recyclerView.postDelayed(() -> {
+            loadingMoreView.setVisibility(View.GONE);
+            isLoadingMore = false;
+        }, 800);
+    }
+
+    private void openChatDetail(@NonNull ChatConversationItem item) {
+        if (!isAdded() || getContext() == null) return;
+        Intent intent = new Intent(requireContext(), MessageDetailActivity.class);
+        intent.putExtra(MessageDetailActivity.EXTRA_CONVERSATION_ID, item.conversationId);
         startActivity(intent);
+    }
+
+    private void scrollToTop() {
+        if (recyclerView != null) {
+            recyclerView.post(() -> {
+                if (recyclerView != null) {
+                    recyclerView.smoothScrollToPosition(0);
+                }
+            });
+        }
+    }
+
+    private static class ConversationBuilder {
+        final long conversationId;
+        String lastMessagePreview = "";
+        String lastMessageTime = "";
+        long lastMessageTimeMillis = 0;
+        int unreadCount = 0;
+        boolean allRead = true;
+        String pilotUid = "";
+        String enterpriseUid = "";
+        String counterpartTitle = "";
+
+        ConversationBuilder(long conversationId) {
+            this.conversationId = conversationId;
+        }
+
+        void addMessage(@NonNull MessageEntity msg) {
+            if (msg.createTimeMillis > lastMessageTimeMillis) {
+                lastMessageTimeMillis = msg.createTimeMillis;
+                lastMessagePreview = msg.content;
+                lastMessageTime = msg.createTime;
+            }
+            if (!msg.counterpartTitle.isEmpty()) {
+                counterpartTitle = msg.counterpartTitle;
+            }
+            if (!msg.pilotUid.isEmpty()) {
+                pilotUid = msg.pilotUid;
+            }
+            if (!msg.enterpriseUid.isEmpty()) {
+                enterpriseUid = msg.enterpriseUid;
+            }
+            if (!msg.mine && !msg.isRead) {
+                unreadCount++;
+                allRead = false;
+            }
+        }
+
+        ChatConversationItem build(UserRole role) {
+            String resolvedUid;
+            String resolvedRole;
+            if (role == UserRole.ENTERPRISE) {
+                resolvedUid = pilotUid;
+                resolvedRole = "pilot";
+            } else {
+                resolvedUid = enterpriseUid;
+                resolvedRole = "enterprise";
+            }
+            return new ChatConversationItem(
+                    conversationId,
+                    counterpartTitle,
+                    resolvedUid,
+                    resolvedRole,
+                    lastMessagePreview.isEmpty() ? "\u6682\u65e0\u6d88\u606f" : lastMessagePreview,
+                    lastMessageTime.isEmpty() ? "\u521a\u521a" : lastMessageTime,
+                    unreadCount,
+                    lastMessageTimeMillis,
+                    allRead
+            );
+        }
     }
 }

@@ -23,6 +23,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 消息身份解析仓库，负责异步解析消息发送者的显示名称。
+ * <p>
+ * 维护飞手和企业身份的内存缓存与本地数据库缓存，
+ * 缓存未命中时通过API查询并持久化，支持可取消的异步回调机制，
+ * 供消息列表适配器按角色解析对话方名称。
+ * </p>
+ */
 public class MessageIdentityRepository {
 
     public interface NameCallback {

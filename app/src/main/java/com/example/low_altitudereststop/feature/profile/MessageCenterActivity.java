@@ -11,6 +11,13 @@ import com.example.low_altitudereststop.feature.demo.AppScenarioMapper;
 import com.example.low_altitudereststop.ui.UserRole;
 import java.util.List;
 
+/**
+ * 消息中心Activity，展示系统通知和告警消息列表。
+ * <p>
+ * 根据用户角色加载对应的告警数据，支持一键全部标记已读，
+ * 展示消息级别、状态和内容摘要。
+ * </p>
+ */
 public class MessageCenterActivity extends NavigableEdgeToEdgeActivity {
 
     private ActivityMessageCenterBinding binding;

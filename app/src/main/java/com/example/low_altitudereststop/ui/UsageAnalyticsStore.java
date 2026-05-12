@@ -4,6 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 
+/**
+ * 功能使用统计存储类，记录用户对各功能模块的访问次数。
+ * <p>
+ * 基于SharedPreferences持久化存储各功能页面的访问计数，
+ * 支持递增访问次数、查询访问次数和重置统计数据，
+ * 供个人中心展示功能使用频率和排序推荐。
+ * </p>
+ */
 public class UsageAnalyticsStore {
 
     private static final String PREF = "usage_analytics";

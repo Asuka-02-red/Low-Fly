@@ -167,7 +167,8 @@ public class DemoPlatformService {
     }
 
     public ApiDtos.AuthPayload refresh(ApiDtos.RefreshTokenRequest request) {
-        UserAccountEntity user = getUserByUsername(refreshTokenStore.requireUsernameByRefreshToken(request.refreshToken()));
+        Long userId = refreshTokenStore.requireUserIdByRefreshToken(request.refreshToken());
+        UserAccountEntity user = getUserById(userId);
         SessionUser sessionUser = toSessionUser(user);
         return new ApiDtos.AuthPayload(
                 tokenService.createToken(sessionUser),
@@ -177,7 +178,7 @@ public class DemoPlatformService {
     }
 
     public ApiDtos.SessionInfo currentUser(SessionUser user) {
-        return toSessionInfo(getUserByUsername(user.username()));
+        return toSessionInfo(getUserById(user.id()));
     }
 
     public List<ApiDtos.TaskView> listTasks(SessionUser user) {

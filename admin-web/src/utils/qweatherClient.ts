@@ -1,4 +1,4 @@
-/** 和风天气API客户端，直接调用和风天气开放接口获取实时天气数据，与 Android 端 QWeatherClient.java 完全对齐。 */
+/** 和风天气直连客户端。 */
 import type { RealtimeWeatherPayload } from '@/types'
 import { resolveWeatherIconType } from '@/utils/weatherVisuals'
 import { deriveFromServerData, buildSuitabilityView } from '@/utils/weatherFlightEvaluator'
@@ -41,6 +41,7 @@ export class QWeatherClient {
 
         const locationParam = `${longitude.toFixed(2)},${latitude.toFixed(2)}`
 
+        // 城市名称与实时天气分开获取，定位文案失败时也不影响主流程。
         const locationName = await this.resolveLocationName(locationParam)
 
         const weatherRoot = await this.requestJson('/v7/weather/now', {
@@ -81,6 +82,7 @@ export class QWeatherClient {
 
         const realtimePrecip = this.parseDouble(this.getAsString(now, 'precip'))
 
+        // 分钟级降水用于修正实时天气里较粗粒度的降水风险判断。
         const minutelyRoot = await this.requestJson('/v7/minutely/5m', {
             location: locationParam,
             lang: 'zh',
@@ -193,6 +195,7 @@ export class QWeatherClient {
                 url.searchParams.set(key, value)
             }
 
+            // 显式超时控制，避免浏览器请求长时间挂起影响看板刷新体验。
             const controller = new AbortController()
             const timeoutId = setTimeout(() => controller.abort(), CALL_TIMEOUT_MS)
 
@@ -257,6 +260,7 @@ export class QWeatherClient {
         return Math.round(value * 10) / 10
     }
 
+    // 风力等级文本优先取区间上限，便于保守估算飞行风险。
     private parseWindSpeed(windPowerText: string): number {
         if (!windPowerText?.trim()) return 0.0
         const normalized = windPowerText.replace('≤', '').replace('级', '').trim()
@@ -282,6 +286,7 @@ export class QWeatherClient {
         return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`
     }
 
+    // 当接口缺少能见度或降水字段时，按天气现象回推一个可展示的保守值。
     private deriveVisibility(weather: string): number {
         if (this.containsAny(weather, '暴雨', '大暴雨')) return 1.0
         if (this.containsAny(weather, '大雨')) return 2.0

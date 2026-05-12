@@ -6,6 +6,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * 文件缓存工具，提供基于本地文件的字符串缓存读写功能，
+ * 支持过期时间检测、按前缀批量删除等操作。
+ */
 public class FileCache {
 
     private static final String META_SUFFIX = ".meta";
@@ -97,6 +101,38 @@ public class FileCache {
             return new String(buf, StandardCharsets.UTF_8);
         } catch (Exception ignored) {
             return null;
+        }
+    }
+
+    public void delete(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return;
+        }
+        try {
+            File file = new File(appContext.getFilesDir(), name);
+            if (file.exists()) {
+                file.delete();
+            }
+            File metaFile = new File(appContext.getFilesDir(), name + META_SUFFIX);
+            if (metaFile.exists()) {
+                metaFile.delete();
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    public void deleteByPrefix(String prefix) {
+        if (prefix == null || prefix.trim().isEmpty()) {
+            return;
+        }
+        try {
+            File[] files = appContext.getFilesDir().listFiles((dir, name) -> name != null && name.startsWith(prefix));
+            if (files != null) {
+                for (File file : files) {
+                    file.delete();
+                }
+            }
+        } catch (Exception ignored) {
         }
     }
 }

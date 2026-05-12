@@ -31,6 +31,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 任务地图全屏展示Activity。
+ * <p>
+ * 以全屏模式展示高德地图，加载任务详情中的坐标、作业半径、
+ * 航线多段线和禁飞区叠加层，支持安全模式降级。
+ * </p>
+ */
 public class TaskMapFullScreenActivity extends NavigableEdgeToEdgeActivity {
 
     public static final String EXTRA_TASK_ID = "task_id";

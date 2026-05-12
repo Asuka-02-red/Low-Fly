@@ -1,5 +1,8 @@
 package com.example.low_altitudereststop.core.network;
 
+/**
+ * API全局配置类，管理后端服务基础URL和大模型服务地址等配置参数。
+ */
 public final class ApiConfig {
 
     private static volatile String baseUrl;

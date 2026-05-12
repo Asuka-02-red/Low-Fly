@@ -7,6 +7,10 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 请求重试拦截器，在网络超时、连接失败或服务端5xx错误时自动重试请求，
+ * 采用指数退避策略避免频繁重试。
+ */
 public class RetryInterceptor implements Interceptor {
 
     private static final int MAX_RETRY_COUNT = 2;

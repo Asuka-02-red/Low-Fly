@@ -13,6 +13,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * 输入法感知滚动辅助工具，当EditText获得焦点时自动滚动到可见区域，
+ * 避免输入框被软键盘遮挡，支持多种滚动容器。
+ */
 final class ImeAwareScrollHelper {
 
     private static final long FOCUS_SCROLL_DELAY_MS = 120L;

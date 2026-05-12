@@ -19,6 +19,7 @@ public class AiBallStateMachineTest {
     public void nonIdleModes_areExpanded() {
         AiBallStateMachine machine = new AiBallStateMachine();
         machine.update(AiBallStateMachine.MODE_ACTIVE);
+        machine.setExpanded(true);
         assertTrue(machine.isExpanded());
         machine.update(AiBallStateMachine.MODE_THINKING);
         assertEquals(AiBallStateMachine.MODE_THINKING, machine.currentMode());

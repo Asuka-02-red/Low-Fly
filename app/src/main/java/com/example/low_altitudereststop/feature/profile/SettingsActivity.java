@@ -19,6 +19,13 @@ import com.example.low_altitudereststop.ui.AccessibilityDisplayMode;
 import com.example.low_altitudereststop.ui.AppThemeMode;
 import java.io.File;
 
+/**
+ * 设置Activity，提供应用偏好配置功能。
+ * <p>
+ * 支持通知开关、深色模式切换、高对比度显示模式、AI助手开关，
+ * 以及缓存清理、日志导出等维护操作，设置变更后实时生效。
+ * </p>
+ */
 public class SettingsActivity extends NavigableEdgeToEdgeActivity {
 
     private static final String PREF = AppThemeMode.PREF;
@@ -36,7 +43,8 @@ public class SettingsActivity extends NavigableEdgeToEdgeActivity {
 
         SharedPreferences preferences = getSharedPreferences(PREF, MODE_PRIVATE);
         binding.switchNotifications.setChecked(preferences.getBoolean(KEY_NOTIFICATION, true));
-        binding.switchDarkMode.setChecked(preferences.getBoolean(KEY_DARK_MODE, true));
+        binding.switchDarkMode.setChecked(false);
+        binding.switchDarkMode.setEnabled(false);
         binding.switchHighContrast.setChecked(AccessibilityDisplayMode.isHighContrastEnabled(this));
         binding.switchAiBall.setChecked(aiBallSettingsStore.isEnabled());
         renderCacheStatus();
@@ -44,8 +52,7 @@ public class SettingsActivity extends NavigableEdgeToEdgeActivity {
 
         binding.btnSave.setOnClickListener(v -> {
             boolean shouldRefresh =
-                    binding.switchDarkMode.isChecked() != preferences.getBoolean(KEY_DARK_MODE, true)
-                            || binding.switchHighContrast.isChecked()
+                    binding.switchHighContrast.isChecked()
                             != AccessibilityDisplayMode.isHighContrastEnabled(this);
             preferences.edit()
                     .putBoolean(KEY_NOTIFICATION, binding.switchNotifications.isChecked())
@@ -65,10 +72,10 @@ public class SettingsActivity extends NavigableEdgeToEdgeActivity {
         binding.btnClearCache.setOnClickListener(v -> {
             preferences.edit().remove(KEY_NOTIFICATION).remove(KEY_DARK_MODE).apply();
             binding.switchNotifications.setChecked(true);
-            binding.switchDarkMode.setChecked(true);
+            binding.switchDarkMode.setChecked(false);
             binding.switchHighContrast.setChecked(false);
             binding.switchAiBall.setChecked(false);
-            AppThemeMode.apply(true);
+            AppThemeMode.apply(false);
             AccessibilityDisplayMode.persistHighContrast(this, false);
             aiBallSettingsStore.setEnabled(false);
             syncAiBallVisibility();

@@ -13,6 +13,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 创建任务Activity，供企业用户发布新任务。
+ * <p>
+ * 提供任务标题、类型、描述、地点、截止时间、坐标、预算等字段的表单录入，
+ * 提交前通过TaskFormValidator进行校验，网络不可用时加入离线同步队列。
+ * </p>
+ */
 public class CreateTaskActivity extends NavigableEdgeToEdgeActivity {
 
     private ActivityCreateTaskBinding binding;

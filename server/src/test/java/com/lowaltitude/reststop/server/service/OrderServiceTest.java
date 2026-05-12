@@ -37,7 +37,7 @@ public class OrderServiceTest {
 
     @Test
     public void shouldCreateOrderForPilot() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         TaskEntity task = new TaskEntity();
         task.setId(101L);
         task.setEnterpriseId(2L);
@@ -59,7 +59,7 @@ public class OrderServiceTest {
 
     @Test
     public void shouldPayOrder() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         BizOrderEntity order = new BizOrderEntity();
         order.setId(501L);
         order.setOrderNo("ORD123");
@@ -82,7 +82,7 @@ public class OrderServiceTest {
 
     @Test
     public void shouldListOrdersForPilot() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         BizOrderEntity order = new BizOrderEntity();
         order.setId(501L);
         order.setOrderNo("ORD123");
@@ -101,7 +101,7 @@ public class OrderServiceTest {
 
     @Test
     public void shouldGetOrderDetail() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         BizOrderEntity order = new BizOrderEntity();
         order.setId(501L);
         order.setOrderNo("ORD123");

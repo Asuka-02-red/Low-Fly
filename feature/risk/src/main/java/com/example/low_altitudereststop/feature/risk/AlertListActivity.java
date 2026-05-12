@@ -21,6 +21,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 告警列表页面，加载并展示当前用户的告警信息列表，
+ * 支持下拉刷新、离线缓存降级和告警详情跳转。
+ */
 public class AlertListActivity extends NavigableEdgeToEdgeActivity {
 
     private static final String PREF_RISK_ANALYTICS = "risk_analytics";

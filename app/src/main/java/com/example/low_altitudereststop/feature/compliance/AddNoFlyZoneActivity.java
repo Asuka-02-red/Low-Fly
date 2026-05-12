@@ -8,6 +8,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import java.math.BigDecimal;
 
+/**
+ * 新增/编辑禁飞区Activity。
+ * <p>
+ * 提供禁飞区名称、类型、中心坐标、管控半径、生效时段、原因等字段的表单录入，
+ * 支持新建和编辑两种模式，提交前通过NoFlyZoneFormValidator进行校验。
+ * </p>
+ */
 public class AddNoFlyZoneActivity extends NavigableEdgeToEdgeActivity {
 
     public static final String EXTRA_ZONE_ID = "zone_id";

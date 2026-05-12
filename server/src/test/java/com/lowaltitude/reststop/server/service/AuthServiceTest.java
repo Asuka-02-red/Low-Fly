@@ -83,7 +83,7 @@ class AuthServiceTest {
         Mockito.when(refreshTokenStore.issueToken(ArgumentMatchers.any())).thenReturn("refresh-token");
         Mockito.when(tokenService.createToken(ArgumentMatchers.any())).thenReturn("jwt-token");
 
-        ApiDtos.AuthPayload payload = authService.register(new ApiDtos.RegisterRequest("newuser", "password123", "13900139000", "PILOT", "张三", "测试公司"));
+        ApiDtos.AuthPayload payload = authService.register(new ApiDtos.RegisterRequest("newuser", "password123", "13900139000", "PILOT", "陈伶", "测试公司"));
 
         Assertions.assertEquals("jwt-token", payload.token());
         Assertions.assertEquals("PILOT", payload.userInfo().role());
@@ -109,7 +109,7 @@ class AuthServiceTest {
     void shouldRejectRegisterWithExistingUsername() {
         Mockito.when(userAccountMapper.selectOne(ArgumentMatchers.any())).thenReturn(buildUser(1L, "existing", "PILOT"));
 
-        Assertions.assertThrows(BizException.class, () -> authService.register(new ApiDtos.RegisterRequest("existing", "password123", "13900139000", "PILOT", "张三", null)));
+        Assertions.assertThrows(BizException.class, () -> authService.register(new ApiDtos.RegisterRequest("existing", "password123", "13900139000", "PILOT", "陈伶", null)));
     }
 
     @Test
@@ -119,14 +119,14 @@ class AuthServiceTest {
             return buildUser(1L, "other_user", "PILOT");
         });
 
-        Assertions.assertThrows(BizException.class, () -> authService.register(new ApiDtos.RegisterRequest("newuser", "password123", "13800138000", "PILOT", "张三", null)));
+        Assertions.assertThrows(BizException.class, () -> authService.register(new ApiDtos.RegisterRequest("newuser", "password123", "13800138000", "PILOT", "陈伶", null)));
     }
 
     @Test
     void shouldRefreshToken() {
         UserAccountEntity user = buildUser(1L, "pilot_demo", "PILOT");
-        Mockito.when(refreshTokenStore.requireUsernameByRefreshToken("refresh-token")).thenReturn("pilot_demo");
-        Mockito.when(userAccountMapper.selectOne(ArgumentMatchers.any())).thenReturn(user);
+        Mockito.when(refreshTokenStore.requireUserIdByRefreshToken("refresh-token")).thenReturn(1L);
+        Mockito.when(userAccountMapper.selectById(1L)).thenReturn(user);
         Mockito.when(tokenService.createToken(ArgumentMatchers.any())).thenReturn("jwt-refresh");
 
         ApiDtos.AuthPayload payload = authService.refresh(new ApiDtos.RefreshTokenRequest("refresh-token"));
@@ -139,7 +139,7 @@ class AuthServiceTest {
     void shouldGetCurrentUser() {
         UserAccountEntity user = buildUser(1L, "pilot_demo", "PILOT");
         SessionUser sessionUser = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "测试用户");
-        Mockito.when(userAccountMapper.selectOne(ArgumentMatchers.any())).thenReturn(user);
+        Mockito.when(userAccountMapper.selectById(1L)).thenReturn(user);
 
         ApiDtos.SessionInfo info = authService.currentUser(sessionUser);
 

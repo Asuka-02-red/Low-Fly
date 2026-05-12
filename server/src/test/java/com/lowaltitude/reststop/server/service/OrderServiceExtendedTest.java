@@ -57,7 +57,7 @@ public class OrderServiceExtendedTest {
 
     @Test
     public void shouldRejectPayForAlreadyPaidOrder() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         BizOrderEntity order = new BizOrderEntity();
         order.setId(501L);
         order.setPilotId(1L);
@@ -72,7 +72,7 @@ public class OrderServiceExtendedTest {
 
     @Test
     public void shouldRejectPayForNonExistentOrder() {
-        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "张飞手");
+        SessionUser pilot = new SessionUser(1L, "pilot_demo", RoleType.PILOT, "陈伶");
         Mockito.when(bizOrderMapper.selectById(999L)).thenReturn(null);
 
         Assertions.assertThrows(BizException.class, () -> orderService.payOrder(

@@ -16,6 +16,13 @@ import com.example.low_altitudereststop.ui.RoleUiConfig;
 import com.example.low_altitudereststop.ui.UsageAnalyticsStore;
 import com.example.low_altitudereststop.ui.UserRole;
 
+/**
+ * 合规管理Fragment，作为合规功能模块的入口页。
+ * <p>
+ * 根据当前用户角色（飞手/企业）展示不同的合规功能入口描述和按钮标签，
+ * 引导用户进入禁飞区列表或飞行申请管理页面。
+ * </p>
+ */
 public class ComplianceFragment extends Fragment {
 
     @Nullable

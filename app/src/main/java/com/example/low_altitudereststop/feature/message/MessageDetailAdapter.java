@@ -17,6 +17,13 @@ import com.example.low_altitudereststop.feature.message.local.MessageEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 消息详情聊天适配器，以气泡样式展示会话中的消息列表。
+ * <p>
+ * 区分自己发送和对方发送的消息，分别使用不同的气泡样式和对齐方式，
+ * 展示发送者、内容、时间和已读状态，支持差异化更新。
+ * </p>
+ */
 public class MessageDetailAdapter extends ListAdapter<MessageEntity, MessageDetailAdapter.VH> {
 
     public MessageDetailAdapter() {
